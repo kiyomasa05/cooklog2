@@ -60,9 +60,14 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    autoprefixer-rails (10.2.4.0)
+      execjs
     bcrypt (3.1.16)
     bootsnap (1.7.3)
       msgpack (~> 1.0)
+    bootstrap-sass (3.4.1)
+      autoprefixer-rails (>= 5.2.1)
+      sassc (>= 2.0.0)
     builder (3.2.4)
     byebug (11.1.3)
     childprocess (3.0.0)
@@ -76,6 +81,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.4.4)
     erubi (1.10.0)
+    execjs (2.7.0)
     ffi (1.15.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -160,6 +166,8 @@ GEM
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
     rubyzip (2.3.0)
+    sassc (2.4.0)
+      ffi (~> 1.9)
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -192,6 +200,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.4.4)
+  bootstrap-sass
   byebug
   devise
   listen (~> 3.3)
