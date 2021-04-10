@@ -20,6 +20,7 @@ gem 'puma', '~> 5.0'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+
 gem 'bootsnap', '>= 1.4.4', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
@@ -31,11 +32,17 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.0.beta2' 
 end
 
+group :test do
+  gem 'webdrivers'
+end
+gem 'devise'
+
 group :development do
   gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec' 
+  gem 'rails-controller-testing' 
 end
 
 group :production do # 本番環境
