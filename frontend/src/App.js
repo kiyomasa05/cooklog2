@@ -1,24 +1,41 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+
+// components
+import { Home } from './containers/static_page.jsx';
+import { Login } from './containers/Login.jsx';
+import { Logout } from './containers/Logout.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Router>
+      <Switch>
+        // ホーム
+        <Route
+          exact
+          path="/">
+          <Home />
+        </Route>
+        // ログインページ
+        <Route
+          exact
+          path="/login"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <Login />
+        </Route>
+        // ログアウトページ
+        <Route
+          exact
+          path="/logout">
+          <Logout />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
