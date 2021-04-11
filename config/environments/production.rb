@@ -111,5 +111,5 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
   config.assets.compile = true
-config.assets.initialize_on_precompile=false
+  config.assets.initialize_on_precompile=false
 end

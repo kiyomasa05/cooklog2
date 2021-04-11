@@ -12,7 +12,7 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
-# require "sprockets/railtie"
+require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -25,7 +25,7 @@ module Cooklog
     config.load_defaults 6.1
 
     config.generators do |g|
-      g.assets false          # CSS, JavaScriptファイルは生成しない
+      #g.assets false          # CSS, JavaScriptファイルは生成しない
       g.test_framework :rspec,
       controller_specs: false,
       view_specs: false,

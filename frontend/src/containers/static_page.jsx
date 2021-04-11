@@ -1,10 +1,6 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
-// apis
-import { fetchlogin } from '../apis/login';
-
-
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
