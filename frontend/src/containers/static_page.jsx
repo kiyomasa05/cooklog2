@@ -1,5 +1,8 @@
-import React, { Fragment } from 'react';
+import React, { Fragment,useEffect } from 'react';
 import styled from 'styled-components';
+
+//apis
+import { home } from '../apis/home';
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -22,6 +25,12 @@ const MainCover = styled.div`
 `;
 
 export const Home = () => {
+  useEffect(() => {
+    home()
+    .then((data) =>
+      console.log(data)
+    )
+  }, [])
   return (
     <Fragment>
       <HeaderWrapper>
