@@ -1,3 +1,30 @@
+/* reset_css */
+*{
+  margin: 0;
+  padding:0;
+  box-sizing:border-box;
+}
+html{
+  margin:0;
+}
+body{
+  min-height: 100vh;
+  color:rgb(1,1,1);
+}
+h1{
+  text-align: center;
+  margin-bottom:15px;
+  font-size:5rem;
+}
+a{
+  text-decoration: none;
+  color:rgb(1,1,1);
+}
+
+input:focus{
+  outline: 0;
+}
+
 .App {
   text-align: center;
 }

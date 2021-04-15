@@ -1,38 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
+import '../../../src/App.css'
 
 //component
-import {HeaderMenu} from './Header_Menu'
+import { HeaderMenu } from './Header_Menu'
 
 
-const AppHeader = styled.div`
-    background-color: #FFFFCC	;
-    min-height: 7vh;
+const Navbar = styled.nav`
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-size: calc(10px + 2vmin);
-    width:100%
-    position:fixed;
+    justify-content: space-around;
+    min-height:8vh;
+    align-items:center;
+    background-color: #FFFFCC	;
+    // position:fixed;
+    // top:0
+    width:100%;
     z-index:99;
 `
+
 const Headerlogo = styled.div`
-    color: black;
+    font-weight:bold;
     margin-left:20px;
     font-size:36px;
     padding:10px;
+    letter-spacing:3px;
 `
 
 
 export const Header = () => {
   return (
     <div>
-      <AppHeader>
+      <Navbar>
         <Headerlogo>
           cooklog
         </Headerlogo>
-        <HeaderMenu/>
-      </AppHeader>
+        <HeaderMenu />
+      </Navbar>
     </div>
   )
 }

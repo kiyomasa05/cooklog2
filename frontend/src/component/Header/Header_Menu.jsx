@@ -1,14 +1,19 @@
 import React from "react";
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import '../../../src/App.css'
 
-const Headermenu = styled.div`
-    display: flex;
-    justify-content: space-between;
-    width:30%;
+
+
+const Navitems = styled.ul`
+  display:flex;
+  width:400px;
+  max-width:40%;
+  justify-content: space-around;
+  list-style:none;
 `
 
-export const Btn1 = styled.a`
-  position: relative;
+const Navitem = styled.li`
   display: inline-block;
   font-weight: bold;
   padding: 10px 20px;
@@ -28,21 +33,20 @@ export const Btn1 = styled.a`
 
 export const HeaderMenu = () => {
   return (
-    <div>
-      <Headermenu>
-        <Btn1
-          href="#"
-        >
-          <span>新規登録</span>
-        </Btn1>
-
-        <Btn1
-          href="#"
-        >
-          <span>ログイン</span>
-        </Btn1>
-      </Headermenu>
-    </div>
+    <>
+        <Navitems>
+          <Navitem>
+            <Link to="/signup">
+              新規登録
+            </Link>
+          </Navitem>
+          <Navitem>
+            <Link to="/login">
+              ログイン
+            </Link>
+          </Navitem>
+        </Navitems>
+    </>
   )
 }
 
