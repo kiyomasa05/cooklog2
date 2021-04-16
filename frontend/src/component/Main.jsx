@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const Wrapper = styled.div`
   width:100%;
   height:800px;
-  background:rgb(0,120,175)  url(${MainImg});
+  background:rgb(200,140,100)  url(${MainImg});
   background-blend-mode: screen;
   background-size: cover;
 `

@@ -8,7 +8,7 @@ import {
 
 // components
 import { Home } from './containers/static_page.jsx';
-import { Login } from './containers/Login.jsx';
+import { Login }  from './containers/Login.jsx';
 import { Logout } from './containers/Logout.jsx';
 
 function App() {

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import '../../../src/App.css'
+import { Link } from 'react-router-dom';
 
 //component
 import { HeaderMenu } from './Header_Menu'
@@ -10,11 +11,12 @@ const Navbar = styled.nav`
     display: flex;
     justify-content: space-around;
     min-height:8vh;
+    max-height:8vh;
     align-items:center;
-    background-color: #FFFFCC	;
-    // position:fixed;
-    // top:0
+    background-color: #BAD3FF	;
+    position:fixed;
     width:100%;
+    box-shadow:2px 2px 2px 1px rgba(0,0,255,.2);
     z-index:99;
 `
 
@@ -32,7 +34,9 @@ export const Header = () => {
     <div>
       <Navbar>
         <Headerlogo>
-          cooklog
+          <Link to="/">
+            Cooklog
+          </Link>
         </Headerlogo>
         <HeaderMenu />
       </Navbar>

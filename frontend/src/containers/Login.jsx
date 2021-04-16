@@ -1,8 +1,9 @@
-import React, { Fragment,useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import '../App.css';
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 
+//部品
 import { Header } from '../component/Header/Header'
 import { Container } from '../component/wrapper/Login_Wrapper'
 
@@ -13,64 +14,58 @@ const Title = styled.h2`
   letter-spacing:3px;
 `
 
-export const Login = () => {
-  const { register, handleSubmit, watch, reset, errors} = useForm()
-  // useFormを呼び出して使いたいメソッドを書く
-  // const onSubmitData = () => console.log(handleSubmit)
-  //submitボタンを押した時、入力内容確認画面を表示させる
+const Input = styled.input`
+  width: 70%;
+  max-width: 100%;
+  font-size:20px;
+  border: none;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  background: darken(#f9f9f9, 10%);
+  color: darken(#f9f9f9, 50%);
+`
 
-  const Name = watch('name')
-  const Email = watch('email')
-  //watchに各フォーム部品のnameの値を引数で渡すとでタイムリーで入力状態を監視してる
-
-  return(
-    <>
-      <Fragment>
-      <Header />
-        <Container>
-          <Title>ログイン</Title>
-          {/* <form onSubmit={handleSubmit(onSubmitData)}> */}
-          <form>
-          {/* onSubmit(入力フォームの送信ボタンがクリックされた時に発生するイベント)で入力された値をhandleSubmitで取り出す  */}
-            <label htmlFor='name'>Name
-              <span className={`requiredIcon ${Name ? 'is-ok' : 'is-required'}`}>{/*nameが入力されてたらtrue*/}
-                {Name ? 'OK' :'必須'}
-              </span>
-            </label>
-            <input
-              name='name'
-              placeholder='nameを入力'
-              ref={register({required: true})} />
-              {errors.name && <p className='formError'>名字を入力して下さい</p>}
-            <label htmlFor='email'>メールアドレス
-              <span className={`requiredIcon ${Email && !errors.email ? 'is-ok': 'is-required'}`}>
-                {Email && !errors.email ? 'OK' :'必須' }
-              </span>
-            </label>
-            <input
-              type='email'
-              name='email'
-              placeholder='メールアドレスを入力'
-              ref={register({
-              required: true,
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
-              })}
-            />
-            {errors.email && <p className='formError'>メールアドレスを正しく入力して下さい</p>}
-              <div className='btnBox'>
-                <input
-                  type='button'
-                  onClick={reset}//入力内容もstateもクリア
-                  value='クリア'
-                  className='button'/>
-                <input
-                  type='submit'
-                  value='ログイン'
-                  className='button'/>
-              </div>
-            </form>
-      </Container>
-      </Fragment>
-   </>   
-  )
+const Submit = styled.input`
+  width: 70%;
+  max-width: 100%;
+  font-size:20px;
+  font-weight:bold;
+  border: none;
+  margin: 3rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  background: #79EE69;
+  color: darken(#f9f9f9, 50%);
+  box-shadow:2px 2px grey;
+  transition: .4s;
+  &:hover {
+    background: #3CC12A;
+    color: #FFF;
 }
+`
+
+export function Login() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const onSubmit = data => console.log(data);
+  // 送信先をバックエンドに持っていく
+  console.log(errors);
+
+  return (
+    <>
+      <Header />
+      <Container>
+        <Title>ログイン</Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 80 })} />
+          {errors.name && <p>"正しく入力してください"</p>}
+          <Input type="text" placeholder="Email" {...register("Email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })} />
+          {errors.Email && <p>"正しく入力してください"</p>}
+          <Submit type="submit" value="ログイン" />
+        </form>
+      </Container>
+    </>
+  );
+}
+
+

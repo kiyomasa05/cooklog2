@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import styled from 'styled-components';
 
 //apis
 import { home } from '../apis/home';
