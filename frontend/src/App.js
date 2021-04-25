@@ -9,7 +9,7 @@ import {
 // components
 import { Home } from './containers/static_page.jsx';
 import { Login }  from './containers/Login.jsx';
-import { Logout } from './containers/Logout.jsx';
+import { Signup } from './containers/Signup.jsx';
 
 function App() {
   return (
@@ -28,11 +28,11 @@ function App() {
         >
           <Login />
         </Route>
-        // ログアウトページ
+        // 新規登録ページ
         <Route
           exact
-          path="/logout">
-          <Logout />
+          path="/signup">
+          <Signup />
         </Route>
       </Switch>
     </Router>

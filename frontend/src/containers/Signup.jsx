@@ -48,8 +48,7 @@ const Submit = styled.input`
 
 export function Signup() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  // const onSubmit = data => console.log(data);
-  const onSubmit = data => fetchSignup(data);
+  const onSubmit = (data) => fetchSignup(data);
   // 送信先をバックエンドに持っていく
   console.log(errors);
 
@@ -69,7 +68,7 @@ export function Signup() {
           <Input type="password" placeholder="password" {...register("password", { required: true, minLength: 4 })} />
           {errors.password && <p>"正しく入力してください"</p>}
 
-          <Input type="password" placeholder="password_cofirm" {...register("password_confirm", { required: true, })} />
+          <Input type="password" placeholder="password_cofirmation" {...register("password_confirmation", { required: true, })} />
           {errors.password && <p>"正しく入力してください"</p>}
           <Submit type="submit" value="新規登録" />
         </form>
