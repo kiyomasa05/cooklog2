@@ -11,9 +11,11 @@ export const fetchSignup = (data) => {
         password_confirmation:data.password_confirmation,
       }
     },
-    { withCredentials: false }
+    { withCredentials: true }
   ).then(response => {
-    console.log("registration res", response)
+    if (response.data.status === 'created') {
+      this.props.handleSuccessfulAuth(response.data);
+    }
   }).catch(error => {
     console.log("registration error", error)
   })

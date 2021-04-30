@@ -1,7 +1,6 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 
-//apis
-import { home } from '../apis/home';
+
 
 //component
 import { Header } from '../component/Header/Header'
@@ -12,12 +11,6 @@ import { Footer } from '../component/Footer'
 
 
 export const Home = () => {
-  useEffect(() => {
-    home()
-      .then((data) =>
-        console.log(data)
-      )
-  }, [])
   return (
     <Fragment>
       <Header />

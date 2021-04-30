@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 //部品
 import { Header } from '../component/Header/Header'
 import { Container } from '../component/wrapper/Login_Wrapper'
+import { fetchLogin } from '../apis/login';
 
 const Title = styled.h2`
   margin:20px auto;
@@ -45,11 +46,17 @@ const Submit = styled.input`
 }
 `
 
-export function Login() {
+export default function Login(props) {
+
+
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => console.log(data);
-  // 送信先をバックエンドに持っていく
-  console.log(errors);
+  const onSubmit = data => {
+    fetchLogin(data)
+    // 送信先をバックエンドに持っていく
+    props.handleLogin(data);
+    props.history.push("/mypage");
+    console.log(errors);
+  }
 
   return (
     <>
@@ -57,10 +64,10 @@ export function Login() {
       <Container>
         <Title>ログイン</Title>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 80 })} />
-          {errors.name && <p>"正しく入力してください"</p>}
-          <Input type="text" placeholder="Email" {...register("Email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })} />
-          {errors.Email && <p>"正しく入力してください"</p>}
+          <Input type="text" placeholder="email" {...register("email", { required: true,  pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i  })} />
+          {errors.email && <p>"正しく入力してください"</p>}
+          <Input type="password" placeholder="password" {...register("password", { required: true, minLength:4 })} />
+          {errors.password && <p>"正しく入力してください"</p>}
           <Submit type="submit" value="ログイン" />
         </form>
       </Container>

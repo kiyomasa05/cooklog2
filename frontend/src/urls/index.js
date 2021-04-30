@@ -5,3 +5,5 @@ export const login = `${DEFAULT_API_LOCALHOST}/login`
 //   `${DEFAULT_API_LOCALHOST}/restaurants/${restaurantId}/foods`
 export const root = `${DEFAULT_API_LOCALHOST}/`
 export const signup = `${DEFAULT_API_LOCALHOST}/signup`
+export const mypage = (userId) =>
+  `${DEFAULT_API_LOCALHOST}/${userId}`

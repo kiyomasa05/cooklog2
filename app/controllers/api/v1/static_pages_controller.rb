@@ -1,6 +1,5 @@
 class StaticPagesController < ApplicationController
   def home
-    render json: {
-    }, status: :ok
+    render json:{status:200}
   end
 end
