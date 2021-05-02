@@ -65,6 +65,8 @@ export default function Login(props) {
     ).then(response => {
       if (response.data.logged_in) {
         props.handleSuccessfulAuth(response.data);
+        props.history.push("/mypage");
+        // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する
       }
     }).catch(error => {
       console.log("registration error", error)

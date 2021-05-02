@@ -9,7 +9,6 @@ import axios from 'axios'
 
 // components
 import { Home } from './containers/static_page.jsx';
-import Home1 from './containers/Home.jsx';
 import Login from './containers/Login.jsx';
 import Signup from './containers/Signup.jsx';
 import Mypage from './containers/Mypage.jsx';
@@ -29,13 +28,18 @@ export default function App() {
     setUser({})
     // 実行後、ステータスとユーザーを空にする
   }
-  
-//ログイン状態を確認する機能(@current_userがnilになってしまうエラー発生中)
+
+  const handleSuccessfulAuth = (data) => {
+    handleLogin(data)
+    // handleLogin関数をここで再利用する
+  }
+
+  //ログイン状態を確認する機能(@current_userがnilになってしまうエラー発生中)
   // useEffect(() => {
   //   checkLoginStatus()
   // })
-//   useEffect()は、ページがリロードされるたびに毎回呼び出されるuseEffect()にcheckLoginStatus()関数を渡すことで、毎回この関数を呼び出す
-// 例えば、/logged_inへGETリクエストを送信すると、Sessionsコントローラのlogged_in?アクションへデータが送信される。ここでは@current_userの存在をチェックし、trueなら{logged_in: true, user: @current_user}というJSONオブジェクト、falseなら{logged_in: false}を返す
+  //   useEffect()は、ページがリロードされるたびに毎回呼び出されるuseEffect()にcheckLoginStatus()関数を渡すことで、毎回この関数を呼び出す
+  // 例えば、/logged_inへGETリクエストを送信すると、Sessionsコントローラのlogged_in?アクションへデータが送信される。ここでは@current_userの存在をチェックし、trueなら{logged_in: true, user: @current_user}というJSONオブジェクト、falseなら{logged_in: false}を返す
 
   // 別コンポーネントに後でする
   const checkLoginStatus = () => {
@@ -50,9 +54,9 @@ export default function App() {
           setUser({})
           // logged_inフィールドがfalseなのに、loggedInStatusが"ログイン中"になってしまっている場合に、loggedInStatusオブジェクトを空にし、userオブジェクトも空に
         }
-    }).catch(error => {
-      console.log("ログインエラー", error)
-    })
+      }).catch(error => {
+        console.log("ログインエラー", error)
+      })
   }
 
   return (
@@ -64,31 +68,33 @@ export default function App() {
           path="/">
           <Home />
         </Route>
-        <Route
-          exact
-          path="/home"
-          render={props => (
-            <Home1 {...props}
-              handleLogin={handleLogin}
-              //ログイン情報、user情報を渡す
-              handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus} />
-            // ログインステータスをhomeコンポに渡す
-            // Home.js内のloggedInStatusという変数に、App.jsのloggedInStatus変数を代入
-          )}>
-        </Route>
         // ログインページ
         <Route
           exact
           path="/login"
-        >
-          <Login/>
+          render={props => (
+            <Login {...props}
+              handleLogin={handleLogin}
+              //ログイン情報、user情報を渡す
+              handleLogout={handleLogout}
+              loggedInStatus={loggedInStatus}
+              handleSuccessfulAuth={
+                handleSuccessfulAuth}/>
+          )}>
         </Route>
         // 新規登録ページ
         <Route
           exact
-          path="/signup">
-          <Signup />
+          path="/signup"
+          render={props => (
+            <Signup {...props}
+              handleLogin={handleLogin}
+              //ログイン情報、user情報を渡す
+              handleLogout={handleLogout}
+              loggedInStatus={loggedInStatus}
+              handleSuccessfulAuth={
+                handleSuccessfulAuth}/>
+          )}>
         </Route>
         <Route
           exact
@@ -97,6 +103,11 @@ export default function App() {
             <Mypage {...props}
               loggedInStatus={loggedInStatus}
               user={user}
+              handleSuccessfulAuth={
+                handleSuccessfulAuth}
+              handleLogin={handleLogin}
+              //ログイン情報、user情報を渡す
+              handleLogout={handleLogout}
             // ログインステータスをmypageコンポに渡す
             // loggedInStatusという変数に、App.jsのloggedInStatus変数を代入
             />

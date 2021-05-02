@@ -48,7 +48,7 @@ const Submit = styled.input`
 }
 `
 
-export default function Signup(props){
+export default function Signup(props) {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
   // const onSubmit = (data) => fetchSignup(data);
@@ -57,19 +57,20 @@ export default function Signup(props){
     axios.post(signup,
       {
         user: {
-          name:data.name,
-          email:data.email,
-          password:data.password,
-          password_confirmation:data.password_confirmation,
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          password_confirmation: data.password_confirmation,
         }
       },
       { withCredentials: true }
     ).then(response => {
       if (response.data.status === 'created') {
         props.handleSuccessfulAuth(response.data);
-  //propsからhandleSuccessfulAuthentication()イベントハンドラを取得、そこにresponseで受け取ったデータのdataフィールドを渡す
-  
-  // イベントハンドラはpropsから取り出しているので、イベントハンドラは別のコンポーネントで定義
+        props.history.push("/mypage");
+        //propsからhandleSuccessfulAuthentication()イベントハンドラを取得、そこにresponseで受け取ったデータのdataフィールドを渡す
+
+        // イベントハンドラはpropsから取り出しているので、イベントハンドラは別のコンポーネントで定義
       }
     }).catch(error => {
       console.log("registration error", error)
@@ -77,27 +78,27 @@ export default function Signup(props){
   }
 
 
-    return (
-      <>
-        <Header />
-        <Container>
-          <Title>新規登録</Title>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* 要バリデート作成＆反映 */}
-            <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 80 })} />
-            {errors.name && <p>"正しく入力してください"</p>}
+  return (
+    <>
+      <Header />
+      <Container>
+        <Title>新規登録</Title>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* 要バリデート作成＆反映 */}
+          <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 80 })} />
+          {errors.name && <p>"正しく入力してください"</p>}
 
-            <Input type="text" placeholder="email" {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })} />
-            {errors.email && <p>"正しく入力してください"</p>}
+          <Input type="text" placeholder="email" {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i })} />
+          {errors.email && <p>"正しく入力してください"</p>}
 
-            <Input type="password" placeholder="password" {...register("password", { required: true, minLength: 4 })} />
-            {errors.password && <p>"正しく入力してください"</p>}
+          <Input type="password" placeholder="password" {...register("password", { required: true, minLength: 4 })} />
+          {errors.password && <p>"正しく入力してください"</p>}
 
-            <Input type="password" placeholder="password_cofirmation" {...register("password_confirmation", { required: true, })} />
-            {errors.password && <p>"正しく入力してください"</p>}
-            <Submit type="submit" value="新規登録" />
-          </form>
-        </Container>
-      </>
-    );
-  }
+          <Input type="password" placeholder="password_cofirmation" {...register("password_confirmation", { required: true, })} />
+          {errors.password && <p>"正しく入力してください"</p>}
+          <Submit type="submit" value="新規登録" />
+        </form>
+      </Container>
+    </>
+  );
+}
