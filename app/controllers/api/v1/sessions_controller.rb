@@ -1,6 +1,7 @@
 module Api
   module V1
     class SessionsController < ApplicationController
+      before_action :current_user, only: [:logged_in?]
 
       def login
           @user = User.find_by(email: session_params[:email])
@@ -8,7 +9,6 @@ module Api
           if @user && @user.authenticate(session_params[:password])
               login!
               render json: { 
-                status: :created,
                 logged_in: true, 
                 user: @user }
           else
@@ -22,8 +22,9 @@ module Api
       end
 
       def logged_in?
-          if @current_user
-              render json: { logged_in: true, user: current_user }
+        # binding.pry
+          if  @current_user
+              render json: { logged_in: true, user: @current_user }
           else
               render json: { logged_in: false, message: 'ユーザーが存在しません' }
           end
@@ -34,7 +35,6 @@ module Api
           def session_params
               params.require(:user).permit(:email, :password)
           end
-
     end
   end
 end

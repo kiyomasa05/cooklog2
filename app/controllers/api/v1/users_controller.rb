@@ -9,7 +9,6 @@ module Api
           login!
           render json: {
             status: :created,
-            logged_in: true, 
             user: @user }
           
         else

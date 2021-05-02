@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import '../App.css';
 import { useForm } from 'react-hook-form';
-import { fetchSignup } from '../apis/signup'
+// import { fetchSignup } from '../apis/signup'
+import axios from 'axios';
+import { signup } from '../urls/index'
 
 //部品
 import { Header } from '../component/Header/Header'
@@ -45,22 +47,35 @@ const Submit = styled.input`
     color: #FFF;
 }
 `
+
 export default function Signup(props){
 
-  const handleSuccessfulAuth=(data)=>{
-    this.props.handleLogin(data);
-    this.props.history.push("/mypage");
-  }
-
-    const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  // const onSubmit = (data) => fetchSignup(data);
+  // 後でapiを叩く場所を固定したい
   const onSubmit = (data) => {
-    fetchSignup(data);
-    // 送信先をバックエンドに持っていく
-    props.handleLogin(data);
-    props.history.push("/mypage");
-    console.log(errors);
-
+    axios.post(signup,
+      {
+        user: {
+          name:data.name,
+          email:data.email,
+          password:data.password,
+          password_confirmation:data.password_confirmation,
+        }
+      },
+      { withCredentials: true }
+    ).then(response => {
+      if (response.data.status === 'created') {
+        props.handleSuccessfulAuth(response.data);
+  //propsからhandleSuccessfulAuthentication()イベントハンドラを取得、そこにresponseで受け取ったデータのdataフィールドを渡す
+  
+  // イベントハンドラはpropsから取り出しているので、イベントハンドラは別のコンポーネントで定義
+      }
+    }).catch(error => {
+      console.log("registration error", error)
+    })
   }
+
 
     return (
       <>

@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import '../App.css';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { login } from '../urls/index'
 
 //部品
 import { Header } from '../component/Header/Header'
 import { Container } from '../component/wrapper/Login_Wrapper'
-import { fetchLogin } from '../apis/login';
+// import { fetchLogin } from '../apis/login';
 
 const Title = styled.h2`
   margin:20px auto;
@@ -48,16 +50,26 @@ const Submit = styled.input`
 
 export default function Login(props) {
 
-
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => {
-    fetchLogin(data)
-    // 送信先をバックエンドに持っていく
-    props.handleLogin(data);
-    props.history.push("/mypage");
-    console.log(errors);
+  // const onSubmit = data => fetchLogin(data);
+  //後でapiを叩く場所を統一したい
+  const onSubmit = (data) => {
+    axios.post(login,
+      {
+        user: {
+          email: data.email,
+          password: data.password,
+        }
+      },
+      { withCredentials: true }
+    ).then(response => {
+      if (response.data.logged_in) {
+        props.handleSuccessfulAuth(response.data);
+      }
+    }).catch(error => {
+      console.log("registration error", error)
+    })
   }
-
   return (
     <>
       <Header />
@@ -74,5 +86,3 @@ export default function Login(props) {
     </>
   );
 }
-
-
