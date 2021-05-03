@@ -79,7 +79,7 @@ export default function App() {
               handleLogout={handleLogout}
               loggedInStatus={loggedInStatus}
               handleSuccessfulAuth={
-                handleSuccessfulAuth}/>
+                handleSuccessfulAuth} />
           )}>
         </Route>
         // 新規登録ページ
@@ -93,7 +93,7 @@ export default function App() {
               handleLogout={handleLogout}
               loggedInStatus={loggedInStatus}
               handleSuccessfulAuth={
-                handleSuccessfulAuth}/>
+                handleSuccessfulAuth} />
           )}>
         </Route>
         <Route
