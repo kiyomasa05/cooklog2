@@ -15,5 +15,5 @@ export const Container = styled.div`
   transform: translate(-50%,-50%);
   background:#DDFFFF;
   border:1px solid grey;
-  height:50vh;
+  height:60vh;
   `

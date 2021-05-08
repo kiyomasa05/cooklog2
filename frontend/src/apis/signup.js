@@ -1,18 +1,19 @@
 // import axios from 'axios';
-// import { login } from '../urls/index'
+// import { signup } from '../urls/index'
 
-
-// export const fetchLogin = (data) => {
-//   return axios.post(login,
+// export const fetchSignup = (data) => {
+//   return axios.post(signup,
 //     {
 //       user: {
+//         name:data.name,
 //         email:data.email,
 //         password:data.password,
+//         password_confirmation:data.password_confirmation,
 //       }
 //     },
 //     { withCredentials: true }
 //   ).then(response => {
-//     if (response.data.logged_in) {
+//     if (response.data.status === 'created') {
 //       props.handleSuccessfulAuth(response.data);
 //     }
 //   }).catch(error => {
