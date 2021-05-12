@@ -122,6 +122,7 @@ export default function App() {
             <Post {...props}
               handleLogin={handleLogin}
               //ログイン情報、user情報を渡す
+              // user={user}
               user={user}
               handleLogout={handleLogout}
               loggedInStatus={loggedInStatus}
