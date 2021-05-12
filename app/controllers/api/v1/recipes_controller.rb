@@ -9,9 +9,11 @@ module Api
           render json: {
             status: :created
             }
-          
         else
-          render json:{status:500}
+          render json:{
+            status:500,
+            errors: '登録に失敗しました。再度ログインしなおしてからご登録ください'
+          }
         end
       end
 
@@ -20,7 +22,7 @@ module Api
       private
 
         def post_params
-            params.require(:recipe).permit(:user_id,:title, :time_required, :food,:process)
+            params.require(:recipe).permit(:user_id,:title, :time_required, :food,:process,:image)
             
         end
     end

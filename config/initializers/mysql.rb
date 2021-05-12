@@ -2,12 +2,12 @@
 # への対策。メアドをプライマリーキーとした場合DBのサイズが超えてしまうため
 
 
-# require 'active_record/connection_adapters/abstract_mysql_adapter'
+require 'active_record/connection_adapters/abstract_mysql_adapter'
 
-# module ActiveRecord
-#   module ConnectionAdapters
-#     class AbstractMysqlAdapter
-#       NATIVE_DATABASE_TYPES[:string] = { :email => "varchar", :limit => 100 }
-#     end
-#   end
-# end
+module ActiveRecord
+  module ConnectionAdapters
+    class AbstractMysqlAdapter
+      NATIVE_DATABASE_TYPES[:string] = { :name => "varchar", :limit => 100 }
+    end
+  end
+end
