@@ -8,7 +8,8 @@ Rails.application.routes.draw do
       get '/logged_in', to: 'sessions#logged_in?'
       delete '/logout',to:'sessions#logout'
       
-      resources :users
+      resources :users 
+      resources :recipes
       # resources :restaurants do
       #   resources :foods, only: %i[index]
       # end
