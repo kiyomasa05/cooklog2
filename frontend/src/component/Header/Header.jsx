@@ -15,6 +15,7 @@ const Navbar = styled.nav`
     align-items:center;
     background-color: #BAD3FF	;
     position:fixed;
+    top:0;
     width:100%;
     box-shadow:2px 2px 2px 1px rgba(0,0,255,.2);
     z-index:99;

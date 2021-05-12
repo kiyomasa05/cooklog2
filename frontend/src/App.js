@@ -12,6 +12,7 @@ import { Home } from './containers/static_page.jsx';
 import Login from './containers/Login.jsx';
 import Signup from './containers/Signup.jsx';
 import Mypage from './containers/Mypage.jsx';
+import Post from './containers/Post.jsx';
 
 export default function App() {
   const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
@@ -113,6 +114,19 @@ export default function App() {
             />
           )}
         >
+        </Route>
+        <Route
+          exact
+          path="/post"
+          render={props => (
+            <Post {...props}
+              handleLogin={handleLogin}
+              //ログイン情報、user情報を渡す
+              handleLogout={handleLogout}
+              loggedInStatus={loggedInStatus}
+              handleSuccessfulAuth={
+                handleSuccessfulAuth} />
+          )}>
         </Route>
       </Switch>
     </Router>

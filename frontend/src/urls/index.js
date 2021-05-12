@@ -7,3 +7,4 @@ export const root = `${DEFAULT_API_LOCALHOST}/`
 export const signup = `${DEFAULT_API_LOCALHOST}/signup`
 export const mypage = (userId) =>
   `${DEFAULT_API_LOCALHOST}/${userId}`
+export const post = `${DEFAULT_API_LOCALHOST}/post`
