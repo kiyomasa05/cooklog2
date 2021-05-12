@@ -34,18 +34,23 @@ const Navitem = styled.li`
 export const HeaderMenu = () => {
   return (
     <>
-        <Navitems>
-          <Navitem>
-            <Link to="/signup">
-              新規登録
+      <Navitems>
+        <Navitem>
+          <Link to="/signup">
+            新規登録
             </Link>
-          </Navitem>
-          <Navitem>
-            <Link to="/login">
-              ログイン
+        </Navitem>
+        <Navitem>
+          <Link to="/login">
+            ログイン
             </Link>
-          </Navitem>
-        </Navitems>
+        </Navitem>
+        <Navitem>
+          <Link to="/index">
+            レシピ一覧
+            </Link>
+        </Navitem>
+      </Navitems>
     </>
   )
 }
