@@ -101,7 +101,9 @@ export default function Post(props) {
         }
       }
     ).then(response => {
-      console.log(response)
+      if (response.data.created) {
+        props.history.push("/index");
+      }
     }).catch(error => {
       console.log("registration error", error)
     })

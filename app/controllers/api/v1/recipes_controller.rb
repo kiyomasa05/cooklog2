@@ -17,7 +17,16 @@ module Api
         end
       end
 
-      
+      def index
+        @recipes = Recipe.order(created_at: :desc)
+        
+        # 画面遷移によりjsonデータがループしている？
+        # 前の画面でjsonを呼び出していてそのままだからおかしくなっている？
+        render json:{
+          status: :OK, 
+          data: @recipes
+        }
+      end
 
       private
 

@@ -13,6 +13,7 @@ import Login from './containers/Login.jsx';
 import Signup from './containers/Signup.jsx';
 import Mypage from './containers/Mypage.jsx';
 import Post from './containers/Post.jsx';
+import Index from './containers/Index.jsx';
 
 export default function App() {
   const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
@@ -122,7 +123,20 @@ export default function App() {
             <Post {...props}
               handleLogin={handleLogin}
               //ログイン情報、user情報を渡す
-              // user={user}
+              user={user}
+              handleLogout={handleLogout}
+              loggedInStatus={loggedInStatus}
+              handleSuccessfulAuth={
+                handleSuccessfulAuth} />
+          )}>
+        </Route>
+        <Route
+          exact
+          path="/index"
+          render={props => (
+            <Index {...props}
+              handleLogin={handleLogin}
+              //ログイン情報、user情報を渡す
               user={user}
               handleLogout={handleLogout}
               loggedInStatus={loggedInStatus}
