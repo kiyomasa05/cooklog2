@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_12_064427) do
+ActiveRecord::Schema.define(version: 2021_05_14_003224) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", force: :cascade do |t|
     t.string "name", null: false
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2021_05_12_064427) do
   create_table "recipes", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title", limit: 255, null: false
-    t.string "image", limit: 255
     t.integer "time_required", null: false
     t.text "food", null: false
     t.text "process", null: false

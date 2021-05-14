@@ -97,7 +97,7 @@ export default function Post(props) {
           time_required: data.time_required,
           food: data.food,
           process: data.process,
-          image:data.image
+          image: data.image
         }
       }
     ).then(response => {
@@ -144,7 +144,7 @@ export default function Post(props) {
             {errors.process && <p>"正しく入力してください"</p>}
           </Block>
           <Block>
-          <Input type="file" placeholder="画像アップロード" {...register("image", {  })} />
+            <Input type="file" placeholder="画像アップロード" {...register("image", {})} />
             {errors.process && <p>"正しく入力してください"</p>}
           </Block>
           <Submit type="submit" value="レシピ登録" />
