@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import '../../../src/App.css'
-
 
 export const Container = styled.div`
   width:700px;

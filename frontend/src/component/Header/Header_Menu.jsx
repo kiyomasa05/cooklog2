@@ -1,11 +1,11 @@
 import React from "react";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import '../../../src/App.css'
+import { PrimaryBtn } from '../btn/PrimaryBtn'
 
 
 
-const Navitems = styled.ul`
+const Navitems = styled.div`
   display:flex;
   width:400px;
   max-width:40%;
@@ -13,43 +13,27 @@ const Navitems = styled.ul`
   list-style:none;
 `
 
-const Navitem = styled.li`
-  display: inline-block;
-  font-weight: bold;
-  padding: 10px 20px;
-  font-size:16px;
-  text-decoration: none;
-  border-left: solid 4px #668ad8;
-  border-right: solid 4px #668ad8;
-  color: #668ad8;
-  background: #e1f3ff;
-  transition: .4s;
-  &:hover {
-    background: #668ad8;
-    color: #FFF;
-}
-`
 
 
 export const HeaderMenu = () => {
   return (
     <>
       <Navitems>
-        <Navitem>
-          <Link to="/signup">
+        <Link to="/signup">
+          <PrimaryBtn>
             新規登録
-            </Link>
-        </Navitem>
-        <Navitem>
-          <Link to="/login">
+        </PrimaryBtn>
+        </Link>
+        <Link to="/login">
+          <PrimaryBtn>
             ログイン
-            </Link>
-        </Navitem>
-        <Navitem>
-          <Link to="/index">
+        </PrimaryBtn>
+        </Link>
+        <Link to="/index">
+          <PrimaryBtn>
             レシピ一覧
-            </Link>
-        </Navitem>
+          </PrimaryBtn>
+        </Link>
       </Navitems>
     </>
   )

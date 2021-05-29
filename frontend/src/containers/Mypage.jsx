@@ -5,6 +5,9 @@ import { Link } from "react-router-dom";
 
 //apis
 // import { fetchMypage }from '../apis/mypage'
+import Skeleton from '@material-ui/lab/Skeleton';
+
+
 
 //部品
 import { Header } from '../component/Header/Header'

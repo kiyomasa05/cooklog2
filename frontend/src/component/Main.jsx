@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import '../App.css';
 import MainImg from '../images/TOP.jpg';
 import { Link } from 'react-router-dom'
+import { BaseBtn } from './btn/BaseBtn';
 
 const Wrapper = styled.div`
   width:100%;
-  height:800px;
+  height:97vh;
   background:rgb(200,140,100)  url(${MainImg});
   background-blend-mode: screen;
   background-size: cover;
@@ -27,33 +27,29 @@ const Inside = styled.div`
   transform: translate(-50%,-50%);
 `
 
-const Regist = styled.ul`
-  display:flex;
+const Regist = styled.div`
+  padding-top:70vh;
   width:50vw;
-  justify-content: space-around;
-  list-style:none;
   margin:0 auto;
 `
 
-const RegistBtn = styled.li`
-  margin-top:60vh;
-  display: inline-block;
-  font-weight: bold;
-  padding: 16px 40px;
-  font-size:24px;
-  text-decoration: none;
+const RegistBtn = styled(BaseBtn)`
+  width:60%;
+  height:65px;
+  font-size:1.5rem;
+  margin-top:24px;
   border-radius:20px;
   border: solid 3px #668ad8;
   color: black;
   background: transparent;
-  transition: .4s;
+  box-shadow: 0 5px 0 #668ad8;
   &:hover {
     background: #668ad8;
     color: #FFF;
+    transform: translate(0, 3px);
+    box-shadow: 0 2px 0 #668ad8;
 }
 `
-
-
 export const Main = () => {
   return (
     <div>
@@ -63,16 +59,16 @@ export const Main = () => {
             <h1>お気に入りのレシピを投稿しよう</h1>
           </Inside>
           <Regist>
-            <RegistBtn>
-              <Link to="/signup">
+            <Link to="/signup">
+              <RegistBtn>
                 新規登録
-              </Link>
-            </RegistBtn>
-            <RegistBtn>
-              <Link to="/login">
+              </RegistBtn>
+            </Link>
+            <Link to="/login">
+              <RegistBtn>
                 ログイン
-              </Link>
-            </RegistBtn>
+              </RegistBtn>
+            </Link>
           </Regist>
         </Container>
       </Wrapper>

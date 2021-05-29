@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import '../App.css';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { post } from '../urls/index'
 
+
 //部品
 import { Header } from '../component/Header/Header'
+import { Footer } from '../component/Footer'
 
 const Title = styled.h2`
   margin:100px auto;
@@ -86,8 +87,23 @@ const Time_Input = styled(Input)`
 
 export default function Post(props) {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  // const onSubmit = (data) => fetchSignup(data);
-  // 後でapiを叩く場所を固定したい
+  const [image, setImage] = useState({ data: "", name: "" })
+  
+  const handleImageSelect = (e) => {
+    const reader = new FileReader()
+    const files = (e.target).files
+    if (files) {
+      reader.onload = () => {
+        setImage({
+          data: reader.result,
+          name: files[0] ? files[0].name : "unknownfile"
+        })
+      }
+      reader.readAsDataURL(files[0])
+    }
+    
+  }
+
   const onSubmit = (data) => {
     axios.post(post,
       {
@@ -97,20 +113,21 @@ export default function Post(props) {
           time_required: data.time_required,
           food: data.food,
           process: data.process,
-          image: data.image
+          image
         }
       }
     ).then(response => {
       if (response.data.created) {
-        props.history.push("/index");
+        props.history("/index");
       }
     }).catch(error => {
-      console.log("registration error", error)
+      alert(error)
     })
   }
   // ここにログインユーザーのidをセットでpostする必要がある
   // まずはpostできるようにする　デザインは後　写真のアップロードも必要
   //バックエンドでルーティングとアクションも必要
+
 
   return (
     <>
@@ -134,7 +151,7 @@ export default function Post(props) {
           </Block>
           <Block>
             <Label>材料</Label>
-            <Textarea type="tex" placeholder="材料" {...register("food", { required: true, minLength: 4 })} />
+            <Textarea type="text" placeholder="材料" {...register("food", { required: true, minLength: 4 })} />
             {errors.food && <p>"正しく入力してください"</p>}
 
           </Block>
@@ -144,12 +161,14 @@ export default function Post(props) {
             {errors.process && <p>"正しく入力してください"</p>}
           </Block>
           <Block>
-            <Input type="file" placeholder="画像アップロード" {...register("image", {})} />
-            {errors.process && <p>"正しく入力してください"</p>}
+            {/* usestateを利用してプレビューの表示可能 */}
+            <Input type="file" placeholder="画像アップロード" name="image" accept="image/png,image/jpeg" onChange={handleImageSelect} />
+            {/* {errors.image && <p>"正しく入力してください"</p>} */}
           </Block>
           <Submit type="submit" value="レシピ登録" />
         </form>
       </Container>
+      <Footer />
     </>
   );
 }
