@@ -40,7 +40,7 @@ module Api
 
         def post_params
             params.require(:recipe).permit(
-                :user_id,:title, :time_required, :food,:process,:image
+                :user_id,:title, :time_required, :food,:process,image:[]
               )
         end
 
