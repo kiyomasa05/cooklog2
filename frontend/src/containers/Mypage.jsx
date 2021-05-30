@@ -10,7 +10,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 
 //部品
-import { Header } from '../component/Header/Header'
+import { Header } from '../organism/Header/Header'
 import { Container } from '../component/wrapper/Login_Wrapper'
 
 export default function Mypage(props) {

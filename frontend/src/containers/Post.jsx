@@ -6,7 +6,7 @@ import { post } from '../urls/index'
 
 
 //部品
-import { Header } from '../component/Header/Header'
+import { Header } from '../organism/Header/Header'
 import { Footer } from '../component/Footer'
 
 const Title = styled.h2`

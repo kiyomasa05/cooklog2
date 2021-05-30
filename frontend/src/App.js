@@ -6,6 +6,10 @@ import {
   Route,
 } from "react-router-dom";
 import axios from 'axios'
+import { ChakraProvider } from "@chakra-ui/react"
+
+//theme
+import theme from "./theme/theme"
 
 // components
 import { Home } from './containers/static_page.jsx';
@@ -62,90 +66,92 @@ export default function App() {
   }
 
   return (
-    <Router>
-      <Switch>
-        // ホーム
+    <ChakraProvider theme={theme}>
+      <Router>
+        <Switch>
+          // ホーム
         <Route
-          exact
-          path="/">
-          <Home />
-        </Route>
+            exact
+            path="/">
+            <Home />
+          </Route>
         // ログインページ
         <Route
-          exact
-          path="/login"
-          render={props => (
-            <Login {...props}
-              handleLogin={handleLogin}
-              //ログイン情報、user情報を渡す
-              handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus}
-              handleSuccessfulAuth={
-                handleSuccessfulAuth} />
-          )}>
-        </Route>
+            exact
+            path="/login"
+            render={props => (
+              <Login {...props}
+                handleLogin={handleLogin}
+                //ログイン情報、user情報を渡す
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+                handleSuccessfulAuth={
+                  handleSuccessfulAuth} />
+            )}>
+          </Route>
         // 新規登録ページ
         <Route
-          exact
-          path="/signup"
-          render={props => (
-            <Signup {...props}
-              handleLogin={handleLogin}
-              //ログイン情報、user情報を渡す
-              handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus}
-              handleSuccessfulAuth={
-                handleSuccessfulAuth} />
-          )}>
-        </Route>
-        <Route
-          exact
-          path="/mypage"
-          render={props => (
-            <Mypage {...props}
-              loggedInStatus={loggedInStatus}
-              user={user}
-              handleSuccessfulAuth={
-                handleSuccessfulAuth}
-              handleLogin={handleLogin}
-              //ログイン情報、user情報を渡す
-              handleLogout={handleLogout}
-            // ログインステータスをmypageコンポに渡す
-            // loggedInStatusという変数に、App.jsのloggedInStatus変数を代入
-            />
-          )}
-        >
-        </Route>
-        <Route
-          exact
-          path="/post"
-          render={props => (
-            <Post {...props}
-              handleLogin={handleLogin}
-              //ログイン情報、user情報を渡す
-              user={user}
-              handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus}
-              handleSuccessfulAuth={
-                handleSuccessfulAuth} />
-          )}>
-        </Route>
-        <Route
-          exact
-          path="/index"
-          render={props => (
-            <Index {...props}
-              handleLogin={handleLogin}
-              //ログイン情報、user情報を渡す
-              user={user}
-              handleLogout={handleLogout}
-              loggedInStatus={loggedInStatus}
-              handleSuccessfulAuth={
-                handleSuccessfulAuth} />
-          )}>
-        </Route>
-      </Switch>
-    </Router>
+            exact
+            path="/signup"
+            render={props => (
+              <Signup {...props}
+                handleLogin={handleLogin}
+                //ログイン情報、user情報を渡す
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+                handleSuccessfulAuth={
+                  handleSuccessfulAuth} />
+            )}>
+          </Route>
+          <Route
+            exact
+            path="/mypage"
+            render={props => (
+              <Mypage {...props}
+                loggedInStatus={loggedInStatus}
+                user={user}
+                handleSuccessfulAuth={
+                  handleSuccessfulAuth}
+                handleLogin={handleLogin}
+                //ログイン情報、user情報を渡す
+                handleLogout={handleLogout}
+              // ログインステータスをmypageコンポに渡す
+              // loggedInStatusという変数に、App.jsのloggedInStatus変数を代入
+              />
+            )}
+          >
+          </Route>
+          <Route
+            exact
+            path="/post"
+            render={props => (
+              <Post {...props}
+                handleLogin={handleLogin}
+                //ログイン情報、user情報を渡す
+                user={user}
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+                handleSuccessfulAuth={
+                  handleSuccessfulAuth} />
+            )}>
+          </Route>
+          <Route
+            exact
+            path="/index"
+            render={props => (
+              <Index {...props}
+                handleLogin={handleLogin}
+                //ログイン情報、user情報を渡す
+                user={user}
+                handleLogout={handleLogout}
+                loggedInStatus={loggedInStatus}
+                handleSuccessfulAuth={
+                  handleSuccessfulAuth} />
+            )}>
+          </Route>
+        </Switch>
+      </Router>
+    </ChakraProvider>
   );
 }
 

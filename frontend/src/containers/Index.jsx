@@ -10,7 +10,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 //api
 import { fetchIndex } from '../apis/index'
 //部品
-import { Header } from '../component/Header/Header'
+import { Header } from '../organism/Header/Header'
 //画像
 import NoImage from '../images/no-image.png'
 

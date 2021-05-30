@@ -6,7 +6,7 @@ import axios from 'axios';
 import { signup } from '../urls/index'
 
 //部品
-import { Header } from '../component/Header/Header'
+import { Header } from '../organism/Header/Header'
 import { Container } from '../component/wrapper/Login_Wrapper'
 import {Input} from '../component/SubmitParts/Input'
 import {Submit} from '../component/SubmitParts/Submit'

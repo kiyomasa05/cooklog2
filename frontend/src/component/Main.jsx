@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import MainImg from '../images/TOP.jpg';
 import { Link } from 'react-router-dom'
-import { BaseBtn } from './btn/BaseBtn';
+import { BaseBtn } from '../atom/btn/BaseBtn';
 
 const Wrapper = styled.div`
   width:100%;
@@ -60,6 +60,7 @@ export const Main = () => {
           </Inside>
           <Regist>
             <Link to="/signup">
+            
               <RegistBtn>
                 新規登録
               </RegistBtn>
