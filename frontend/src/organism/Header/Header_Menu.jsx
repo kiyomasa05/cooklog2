@@ -14,9 +14,9 @@ export const HeaderMenu = memo(() => {
   const btnRef = React.useRef()
   const history = useHistory();
 
-  const onClickHome = useCallback(() => history.push("/"), []);
-  const onClickLogin = useCallback(() => history.push("/login"), []);
-  const onClickSignup = useCallback(() => history.push("/signup"), []);
+  const onClickHome = useCallback(() => history.push("/"), [history]);
+  const onClickLogin = useCallback(() => history.push("/login"), [history]);
+  const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   return (
     <>
       <Flex
@@ -25,7 +25,7 @@ export const HeaderMenu = memo(() => {
         align="center"
         justify="space-between"
         padding={{ base: 3, md: 5 }}
-        pos="fixed" w="100%" zIndex={2}
+        pos="fixed" top="0" w="100%" zIndex={2}
       >
         <Flex align="center" as="a" mr={8} _hover={{ cursor: "pointer" }} onClick={onClickHome}>
           <Heading as="h1" fontSize={{ base: "lg", md: "xl" }} ><Text fontSize={{ base: "24px", md: "30px" }} color="tomato">COOKLOG</Text>
@@ -43,7 +43,7 @@ export const HeaderMenu = memo(() => {
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />
       </Flex>
-      <MenuDrawer onClose={onClose} isOpen={isOpen} btnRef={btnRef} />
+      <MenuDrawer onClose={onClose} isOpen={isOpen} btnRef={btnRef} onClickHome={onClickHome} onClickSignup={onClickSignup} onClickLogin={onClickLogin} />
     </>
   )
 });

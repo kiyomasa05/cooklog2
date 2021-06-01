@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect ,useCallback} from 'react';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -13,7 +13,7 @@ import theme from "./theme/theme"
 
 // components
 import { Home } from './containers/static_page.jsx';
-import Login from './containers/Login.jsx';
+import { Login } from './containers/Login.jsx';
 import Signup from './containers/Signup.jsx';
 import Mypage from './containers/Mypage.jsx';
 import Post from './containers/Post.jsx';
@@ -23,22 +23,23 @@ export default function App() {
   const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
   const [user, setUser] = useState({})
 
-  const handleLogin = (data) => {
+  const handleLogin =  useCallback((data) => {
     setLoggedInStatus("ログイン中")
     setUser(data.user)
     // ログインステータスを変更する関数
-  }
+  },[user])
 
-  const handleLogout = () => {
+
+  const handleLogout = useCallback(() => {
     setLoggedInStatus("未ログイン")
     setUser({})
     // 実行後、ステータスとユーザーを空にする
-  }
+  },[user])
 
-  const handleSuccessfulAuth = (data) => {
+  const handleSuccessfulAuth = useCallback((data) => {
     handleLogin(data)
     // handleLogin関数をここで再利用する
-  }
+  },[])
 
   //ログイン状態を確認する機能(@current_userがnilになってしまうエラー発生中)
   // useEffect(() => {
@@ -81,9 +82,6 @@ export default function App() {
             path="/login"
             render={props => (
               <Login {...props}
-                handleLogin={handleLogin}
-                //ログイン情報、user情報を渡す
-                handleLogout={handleLogout}
                 loggedInStatus={loggedInStatus}
                 handleSuccessfulAuth={
                   handleSuccessfulAuth} />
@@ -95,10 +93,6 @@ export default function App() {
             path="/signup"
             render={props => (
               <Signup {...props}
-                handleLogin={handleLogin}
-                //ログイン情報、user情報を渡す
-                handleLogout={handleLogout}
-                loggedInStatus={loggedInStatus}
                 handleSuccessfulAuth={
                   handleSuccessfulAuth} />
             )}>

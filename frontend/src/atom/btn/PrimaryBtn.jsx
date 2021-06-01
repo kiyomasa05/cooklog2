@@ -1,13 +1,16 @@
-import styled from "styled-components"
-import {BaseBtn} from './BaseBtn'
+import { memo } from "react"
+import { Button } from "@chakra-ui/react"
 
-export const PrimaryBtn = (props) => {
-  const { children } = props;
-  return <SBtn>{children}</SBtn>;
-};
 
-const SBtn = styled(BaseBtn)`
-  width:100%;
-  background:#ffa;
-  color:black;
-`
+export const PrimaryBtn = memo((props) => {
+  const {
+    children,
+    isFullWidth = false,
+    disabled = false,
+    isLoading = false,
+    onClick
+  } = props;
+  return (
+    <Button bg="green.300" color="white" _hover={{ opacity: 0.8 }}>{children}</Button>);
+});
+

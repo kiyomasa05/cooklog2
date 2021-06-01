@@ -10,6 +10,7 @@ import { Header } from '../organism/Header/Header'
 import { Container } from '../component/wrapper/Login_Wrapper'
 import {Input} from '../component/SubmitParts/Input'
 import {Submit} from '../component/SubmitParts/Submit'
+import { useHistory } from 'react-router-dom';
 
 const Title = styled.h2`
   margin:20px auto;
@@ -19,7 +20,8 @@ const Title = styled.h2`
 `
 
 export default function Signup(props) {
-
+  const { handleSuccessfulAuth } = props;
+  const history = useHistory();
   const { register, handleSubmit, formState: { errors } } = useForm();
   // const onSubmit = (data) => fetchSignup(data);
   // 後でapiを叩く場所を固定したい
@@ -36,8 +38,8 @@ export default function Signup(props) {
       { withCredentials: true }
     ).then(response => {
       if (response.data.status === 'created') {
-        props.handleSuccessfulAuth(response.data);
-        props.history.push("/mypage");
+        handleSuccessfulAuth(response.data);
+        history.push("/mypage");
         //propsからhandleSuccessfulAuthentication()イベントハンドラを取得、そこにresponseで受け取ったデータのdataフィールドを渡す
 
         // イベントハンドラはpropsから取り出しているので、イベントハンドラは別のコンポーネントで定義

@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react"
 
 export const MenuDrawer = memo((props) => {
-  const { isOpen, onClose, btnRef } = props;
+  const { isOpen, onClose, btnRef,onClickHome, onClickSignup,onClickLogin} = props;
   return (
     <Drawer
       isOpen={isOpen}
@@ -24,7 +24,9 @@ export const MenuDrawer = memo((props) => {
           <DrawerCloseButton onClick={onClose} />
           <DrawerHeader align="center">メニュー</DrawerHeader>
           <DrawerBody p={0} bg="grey.100">
-            <Button w="100%">レシピ</Button>
+            <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
+            <Button onClick={onClickSignup} onClose={onClose} w="100%">新規登録</Button>
+            <Button onClick={onClickLogin} onClose={onClose} w="100%">ログイン</Button>
           </DrawerBody>
         </DrawerContent>
       </DrawerOverlay>
