@@ -1,18 +1,29 @@
-import React, { Fragment, useReducer, useEffect } from 'react';
+import React, { Fragment, useReducer, useEffect, memo } from 'react';
+import {
+  Center,
+  Spinner,
+  useDisclosure,
+  Wrap,
+  WrapItem,
+  Skeleton
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
-import '../App.css';
 import axios from 'axios';
 import { post } from '../urls/index'
 // components
-import Skeleton from '@material-ui/lab/Skeleton';
-
 //api
-import { fetchIndex } from '../apis/index'
-//部品
+import { useGetRecipe } from '../hooks/useGetRecipe'
 import { Header } from '../organism/Header/Header'
 //画像
 import NoImage from '../images/no-image.png'
+
+
+import { RecipeCard } from "../organism/RecipeCard";
+// import { useAllUsers } from "../../../hooks/useAllUsers";
+// // import { UserDetailModal } from "../../organisms/modal/UserDetailModal";
+// import { useSelectUser } from "../../../hooks/useSelectUser";
+// import { useLoginUser } from "../../../hooks/providers/useLoginUserProvider";
 
 // reducers
 import {
@@ -23,7 +34,6 @@ import {
 
 import { REQUEST_STATE } from '../constants';
 
-import moment from 'moment'
 
 const Title = styled.h2`
   margin:100px auto;
@@ -31,90 +41,71 @@ const Title = styled.h2`
   font-weight:700;
   letter-spacing:3px;
 `
-const RecipeList = styled.div`
-  margin:10px;
-  display:grid;
-  grid-auto-rows: 250px;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 20px;
-  row-gap: 1em;
-`
-const RecipesContentWrapper = styled.div`
-  cursor:pointer;
-  background:pink;
-  width:100%;
-  height:100%;
-  text-align:center;
-`
-const RecipeTitle = styled.h4`
-  margin:3px;
-  font-size:20px;
-  color:#666666	;
-`
-const RecipeImageNode = styled.img`
-  width:60%;
-  height:60%;
-  display:block;
-  margin:0 auto;
-`
 
-const Food = styled.div`
-  
-`
+export const Index = memo(() => {
 
+  const { getRecipe } = useGetRecipe();
 
-export default function Index(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  // const { getUsers, loading, users } = useAllUsers();
+  // const { onSelectUser, selectedUser } = useSelectUser();
+  // const { loginUser } = useLoginUser();
+
+  // useEffect(() => getUsers(), [getUsers]);
+
+  // const onClickUser = useCallback(
+  //   (id) => {
+  //     onSelectUser({ id, users, onOpen });
+  //   },
+  //   [users, onSelectUser, onOpen]
+  // );
 
   const [state, dispatch] = useReducer(recipeReducer, initialState);
 
   useEffect(() => {
     dispatch({ type: ActionTypes.FETCHING });
-    fetchIndex()
+    getRecipe()
       .then((data) =>
         dispatch({
           type: ActionTypes.FETCH_SUCCESS,
           payload: {
-            recipes: data.recipes,
+            recipeList: data.recipes,
             // image_url: data.methods,
           }
         })
       )
   }, [])
-  // const onSubmit = (data) => fetchSignup(data);
-  // 後でapiを叩く場所を固定したい
 
 
   return (
     <>
       <Header />
       <Title>index</Title>
-      <h2>ログイン状態: {props.loggedInStatus}</h2>
-      <h2>ユーザー: {props.user.name}さん</h2>
-      <RecipeList>
-        {
-          state.fetchState === REQUEST_STATE.LOADING ?
-            <Fragment>
-              <Skeleton variant="rect" width={450} height={300} />
-              <Skeleton variant="rect" width={450} height={300} />
-              <Skeleton variant="rect" width={450} height={300} />
-            </Fragment>
-            :
-            state.recipeList.map((item, index) =>
-              <Link to={`/recipe/${item.id}`} key={index} style={{ textDecoration: 'none' }}>
-                <RecipesContentWrapper>
-                  <RecipeTitle>{item.title}</RecipeTitle>
-                  <RecipeImageNode src={"image_url" ? "image_url" : NoImage} />
-                  {/* imageがレスポンスとしてまだ返ってきてない。
-                  どうやって返すのか */}
-                  <time>{`${item.time_required}分`}</time>
-                  <Food>{`食材：${item.food}`}</Food>
-                  <time>{`レシピ作成日${moment(item.created_at).format('YYYY-MM-DD')}`}</time>
-                </RecipesContentWrapper>
-              </Link>
-            )
-        }
-      </RecipeList>
+
+      {
+        state.fetchState === REQUEST_STATE.LOADING ?
+          <Fragment>
+            <Skeleton width="450" height="300" />
+            <Skeleton width="450" height="300" />
+            <Skeleton width="450" height="300" />
+          </Fragment>
+          :
+          <Wrap p={{ base: 4, md: 10 }}>
+            {state.recipeList.map((item, index) =>
+              <WrapItem key={index.id} mx="auto">
+                <RecipeCard
+                  id={item.id}
+                  imageUrl={"image_url" ? "image_url" : NoImage}
+                  title={item.title}
+                  time_required={item.time_required}
+                  food={item.food}
+                  created_at={item.created_at}
+                />
+              </WrapItem>
+            )}
+          </Wrap>
+      }
 
     </>
   );
-}
+})

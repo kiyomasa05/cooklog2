@@ -13,7 +13,11 @@ module Api
             user: @user }
           
         else
-          render json:{status:500}
+          render json:{
+            status:500,
+            # エラーメッセージを全て取得し、返す
+            errors: ['登録できませんでした。']
+          }
         end
       end
 
@@ -29,7 +33,6 @@ module Api
           errors: ['user not found']
         }
         end
-
       end
 
 

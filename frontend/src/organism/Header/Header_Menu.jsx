@@ -8,7 +8,6 @@ import { MenuIconButton } from '../../atom/btn/MenuIconButton'
 import { MenuDrawer } from '../../molcules/MenuDrawer'
 
 
-
 export const HeaderMenu = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef()
@@ -17,6 +16,7 @@ export const HeaderMenu = memo(() => {
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
+  const onClickIndex = useCallback(() => history.push("/index"), [history]);
   return (
     <>
       <Flex
@@ -40,10 +40,11 @@ export const HeaderMenu = memo(() => {
             <Link onClick={onClickSignup}>新規登録</Link>
           </Box>
           <Link onClick={onClickLogin}>ログイン</Link>
+          <Link onClick={onClickIndex}>投稿一覧</Link>
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />
       </Flex>
-      <MenuDrawer onClose={onClose} isOpen={isOpen} btnRef={btnRef} onClickHome={onClickHome} onClickSignup={onClickSignup} onClickLogin={onClickLogin} />
+      <MenuDrawer onClose={onClose} isOpen={isOpen} btnRef={btnRef} onClickHome={onClickHome} onClickSignup={onClickSignup} onClickLogin={onClickLogin} onClickIndex={onClickIndex} />
     </>
   )
 });
