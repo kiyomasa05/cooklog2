@@ -1,16 +1,12 @@
 import React, { Fragment, useReducer, useEffect, memo } from 'react';
 import {
-  Center,
-  Spinner,
   useDisclosure,
   Wrap,
   WrapItem,
   Skeleton
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import styled from 'styled-components';
-import axios from 'axios';
-import { post } from '../urls/index'
+
 // components
 //api
 import { useGetRecipe } from '../hooks/useGetRecipe'
@@ -44,7 +40,7 @@ const Title = styled.h2`
 
 export const Index = memo(() => {
 
-  const { getRecipe } = useGetRecipe();
+  const { getRecipe, recipes, loading } = useGetRecipe();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const { getUsers, loading, users } = useAllUsers();
@@ -62,18 +58,20 @@ export const Index = memo(() => {
 
   const [state, dispatch] = useReducer(recipeReducer, initialState);
 
-  useEffect(() => {
-    dispatch({ type: ActionTypes.FETCHING });
-    getRecipe()
-      .then((data) =>
-        dispatch({
-          type: ActionTypes.FETCH_SUCCESS,
-          payload: {
-            recipeList: data.recipes,
-            // image_url: data.methods,
-          }
-        })
-      )
+  // useEffect(() => {
+  //   dispatch({ type: ActionTypes.FETCHING });
+  //   getRecipe()
+  //     .then((data) =>
+  //       dispatch({
+  //         type: ActionTypes.FETCH_SUCCESS,
+  //         payload: {
+  //           recipeList: data.recipes,
+  //           // image_url: data.methods,
+  //         }
+  //       })
+  //     )
+  // }, [])
+  useEffect(() => getRecipe(), {
   }, [])
 
 
@@ -83,7 +81,8 @@ export const Index = memo(() => {
       <Title>index</Title>
 
       {
-        state.fetchState === REQUEST_STATE.LOADING ?
+        // state.fetchState === REQUEST_STATE.LOADING ?
+        loading ?
           <Fragment>
             <Skeleton width="450" height="300" />
             <Skeleton width="450" height="300" />
@@ -91,7 +90,19 @@ export const Index = memo(() => {
           </Fragment>
           :
           <Wrap p={{ base: 4, md: 10 }}>
-            {state.recipeList.map((item, index) =>
+            {recipes.map((recipe) =>(
+              <WrapItem key={recipe.id} mx="auto">
+                <RecipeCard
+                  id={recipe.id}
+                  imageUrl={"image_url" ? "image_url" : NoImage}
+                  title={recipe.title}
+                  time_required={recipe.time_required}
+                  food={recipe.food}
+                  created_at={recipe.created_at}
+                />
+              </WrapItem>
+            ))}
+            {/* {state.recipeList.map((item, index) =>
               <WrapItem key={index.id} mx="auto">
                 <RecipeCard
                   id={item.id}
@@ -102,7 +113,7 @@ export const Index = memo(() => {
                   created_at={item.created_at}
                 />
               </WrapItem>
-            )}
+            )} */}
           </Wrap>
       }
 

@@ -26,14 +26,14 @@ export const RecipeCard = memo((props) => {
           m="auto"
         />
         <Text fontSize="lg" fontWeight="bold">
-          {item.title}
+          {title}
         </Text>
         <Text fontSize="sm" color="gray">
-          {`${item.time_required}分`}
+          {`${time_required}分`}
         </Text>
-        <Text fontSize="sm" color="gray">{`食材：${item.food}`}</Text>
-        <Text fontSize="sm" color="gray">{`レシピ作成日${moment(item.created_at).format('YYYY-MM-DD')}`}</Text>
-        <time>{`レシピ作成日${moment(item.created_at).format('YYYY-MM-DD')}`}</time>
+        <Text fontSize="sm" color="gray">{`食材：${food}`}</Text>
+        <Text fontSize="sm" color="gray">{`レシピ作成日${moment(created_at).format('YYYY-MM-DD')}`}</Text>
+        <time>{`レシピ作成日${moment(created_at).format('YYYY-MM-DD')}`}</time>
       </Stack>
     </Box>
 
