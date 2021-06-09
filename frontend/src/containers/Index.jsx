@@ -1,11 +1,11 @@
-import React, { Fragment, useReducer, useEffect, memo } from 'react';
+import React, { Fragment, useReducer, useEffect, memo, useCallback } from 'react';
 import {
   useDisclosure,
   Wrap,
   WrapItem,
-  Skeleton
+  Skeleton,
+  Text,
 } from "@chakra-ui/react";
-import styled from 'styled-components';
 
 // components
 //api
@@ -17,8 +17,8 @@ import NoImage from '../images/no-image.png'
 
 import { RecipeCard } from "../organism/RecipeCard";
 // import { useAllUsers } from "../../../hooks/useAllUsers";
-// // import { UserDetailModal } from "../../organisms/modal/UserDetailModal";
-// import { useSelectUser } from "../../../hooks/useSelectUser";
+import { RecipeModal } from "../organism/RecipeModal";
+import { useSelectRecipe } from "../hooks/useSelectRecipe";
 // import { useLoginUser } from "../../../hooks/providers/useLoginUserProvider";
 
 // reducers
@@ -31,12 +31,6 @@ import {
 import { REQUEST_STATE } from '../constants';
 
 
-const Title = styled.h2`
-  margin:100px auto;
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:3px;
-`
 
 export const Index = memo(() => {
 
@@ -44,7 +38,7 @@ export const Index = memo(() => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const { getUsers, loading, users } = useAllUsers();
-  // const { onSelectUser, selectedUser } = useSelectUser();
+  const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
   // const { loginUser } = useLoginUser();
 
   // useEffect(() => getUsers(), [getUsers]);
@@ -58,30 +52,21 @@ export const Index = memo(() => {
 
   const [state, dispatch] = useReducer(recipeReducer, initialState);
 
-  // useEffect(() => {
-  //   dispatch({ type: ActionTypes.FETCHING });
-  //   getRecipe()
-  //     .then((data) =>
-  //       dispatch({
-  //         type: ActionTypes.FETCH_SUCCESS,
-  //         payload: {
-  //           recipeList: data.recipes,
-  //           // image_url: data.methods,
-  //         }
-  //       })
-  //     )
-  // }, [])
   useEffect(() => getRecipe(), {
   }, [])
 
+  const onClickRecipe = useCallback((id) => {
+    onSelectRecipe({ id, recipes,onOpen })
+  }, [recipes,onSelectRecipe,onOpen]);
+  // console.log(selectedRecipe)
+  // console.log(recipes)
 
   return (
     <>
       <Header />
-      <Title>index</Title>
-
+      <Text fontSize={{ base: "24px", md: "28px" }} mt={24} textAlign={['center']}>投稿レシピ一覧
+        </Text>
       {
-        // state.fetchState === REQUEST_STATE.LOADING ?
         loading ?
           <Fragment>
             <Skeleton width="450" height="300" />
@@ -90,7 +75,7 @@ export const Index = memo(() => {
           </Fragment>
           :
           <Wrap p={{ base: 4, md: 10 }}>
-            {recipes.map((recipe) =>(
+            {recipes.map((recipe) => (
               <WrapItem key={recipe.id} mx="auto">
                 <RecipeCard
                   id={recipe.id}
@@ -99,24 +84,14 @@ export const Index = memo(() => {
                   time_required={recipe.time_required}
                   food={recipe.food}
                   created_at={recipe.created_at}
+                  process={recipe.process}
+                  onClick={onClickRecipe}
                 />
               </WrapItem>
             ))}
-            {/* {state.recipeList.map((item, index) =>
-              <WrapItem key={index.id} mx="auto">
-                <RecipeCard
-                  id={item.id}
-                  imageUrl={"image_url" ? "image_url" : NoImage}
-                  title={item.title}
-                  time_required={item.time_required}
-                  food={item.food}
-                  created_at={item.created_at}
-                />
-              </WrapItem>
-            )} */}
           </Wrap>
       }
-
+      <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} />
     </>
   );
 })
