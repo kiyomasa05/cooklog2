@@ -5,6 +5,7 @@ import axios from 'axios';
 import { post } from '../urls/index'
 
 
+// 要変更
 //部品
 import { Header } from '../organism/Header/Header'
 import { Footer } from '../component/Footer'
@@ -88,7 +89,7 @@ const Time_Input = styled(Input)`
 export default function Post(props) {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [image, setImage] = useState({ data: "", name: "" })
-  
+
   const handleImageSelect = (e) => {
     const reader = new FileReader()
     const files = (e.target).files
@@ -101,7 +102,7 @@ export default function Post(props) {
       }
       reader.readAsDataURL(files[0])
     }
-    
+
   }
 
   const onSubmit = (data) => {

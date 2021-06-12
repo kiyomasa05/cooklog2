@@ -10,8 +10,8 @@ import {
 // components
 //api
 import { useGetRecipe } from '../hooks/useGetRecipe'
-import { Header } from '../organism/Header/Header'
-//画像
+// import { Header } from '../organism/Header/Header'
+// //画像
 import NoImage from '../images/no-image.png'
 
 
@@ -19,7 +19,7 @@ import { RecipeCard } from "../organism/RecipeCard";
 // import { useAllUsers } from "../../../hooks/useAllUsers";
 import { RecipeModal } from "../organism/RecipeModal";
 import { useSelectRecipe } from "../hooks/useSelectRecipe";
-// import { useLoginUser } from "../../../hooks/providers/useLoginUserProvider";
+import { useLoginUser } from "../hooks/useLoginUser";
 
 // reducers
 import {
@@ -35,20 +35,11 @@ import { REQUEST_STATE } from '../constants';
 export const Index = memo(() => {
 
   const { getRecipe, recipes, loading } = useGetRecipe();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const { getUsers, loading, users } = useAllUsers();
   const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
-  // const { loginUser } = useLoginUser();
+  const { loginUser } = useLoginUser();
 
-  // useEffect(() => getUsers(), [getUsers]);
-
-  // const onClickUser = useCallback(
-  //   (id) => {
-  //     onSelectUser({ id, users, onOpen });
-  //   },
-  //   [users, onSelectUser, onOpen]
-  // );
 
   const [state, dispatch] = useReducer(recipeReducer, initialState);
 
@@ -56,14 +47,15 @@ export const Index = memo(() => {
   }, [])
 
   const onClickRecipe = useCallback((id) => {
-    onSelectRecipe({ id, recipes,onOpen })
-  }, [recipes,onSelectRecipe,onOpen]);
+    onSelectRecipe({ id, recipes, onOpen })
+  }, [recipes, onSelectRecipe, onOpen]);
   // console.log(selectedRecipe)
   // console.log(recipes)
+  // console.log(loginUser);
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Text fontSize={{ base: "24px", md: "28px" }} mt={24} textAlign={['center']}>投稿レシピ一覧
         </Text>
       {

@@ -34,7 +34,7 @@ const Regist = styled.div`
 `
 
 const RegistBtn = styled(BaseBtn)`
-  width:60%;
+  width:50vw;
   height:65px;
   font-size:1.5rem;
   margin-top:24px;
