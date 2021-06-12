@@ -4,7 +4,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 import { useMessage } from "./useMessege";
-import { useLoginUser } from "../hooks/providers/useLoginUserProvider";
+import { useLoginUser } from "./useLoginUser"
 
 import { loginURL } from '../urls/index'
 
@@ -14,25 +14,25 @@ export const useAuth = () => {
   const { setLoginUser } = useLoginUser();
 
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({})
-  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
+  // const [user, setUser] = useState({})
+  // const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
 
-  const handleLogin = useCallback((data) => {
-    setLoggedInStatus("ログイン中")
-    setUser(data.user)
-    // ログインステータスを変更する関数
-  }, [user])
+  // const handleLogin = useCallback((data) => {
+  //   setLoggedInStatus("ログイン中")
+  //   setUser(data.user)
+  //   // ログインステータスを変更する関数
+  // }, [user])
 
-  const handleLogout = useCallback(() => {
-    setLoggedInStatus("未ログイン")
-    setUser({})
-    // 実行後、ステータスとユーザーを空にする
-  }, [user])
+  // const handleLogout = useCallback(() => {
+  //   setLoggedInStatus("未ログイン")
+  //   setUser({})
+  //   // 実行後、ステータスとユーザーを空にする
+  // }, [user])
 
-  const handleSuccessfulAuth = useCallback((data) => {
-    handleLogin(data)
-    // handleLogin関数をここで再利用する
-  }, [])
+  // const handleSuccessfulAuth = useCallback((data) => {
+  //   handleLogin(data)
+  //   // handleLogin関数をここで再利用する
+  // }, [])
 
   const login = useCallback((data) => {
     setLoading(true);
@@ -47,16 +47,11 @@ export const useAuth = () => {
       { withCredentials: true }
     ).then(response => {
       if (response.data.logged_in) {
-        handleSuccessfulAuth(response.data);
+        // contextにログインユーザーの情報を保存
+        setLoginUser(response.data)
+        // handleSuccessfulAuth(response.data);
         showMessage({ title: "ログインしました", status: "success" });
-        // history.push("/mypage");
-        history.push({
-          pathname: '/mypage',
-          state: {
-            status: loggedInStatus,
-            user: user,
-          }
-        });
+        history.push("/mypage");
         // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する
       }
     }).catch((error) => {
@@ -64,7 +59,7 @@ export const useAuth = () => {
       showMessage({ title: "ユーザーが見つかりません", status: "error" });
       setLoading(false);
     })
-  }, []);
+  }, [history, showMessage, setLoginUser]);
   //   axios
   //     .get(`https://jsonplaceholder.typicode.com/users/${id}`)
   //     .then(async res => {

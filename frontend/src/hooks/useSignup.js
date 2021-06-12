@@ -4,7 +4,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 import { useMessage } from "./useMessege";
-import { useLoginUser } from "./providers/useLoginUserProvider";
+import { useLoginUser } from "./useLoginUser"
 
 import { signupURL } from '../urls/index'
 
