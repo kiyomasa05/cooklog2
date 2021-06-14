@@ -14,6 +14,8 @@ export const useAuth = () => {
   const { setLoginUser } = useLoginUser();
 
   const [loading, setLoading] = useState(false);
+
+  // ステータスもhooksで管理する？
   // const [user, setUser] = useState({})
   // const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
 
@@ -54,32 +56,16 @@ export const useAuth = () => {
         history.push("/mypage");
         // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する
       }
-    }).catch((error) => {
-      console.log("registration error", error)
-      showMessage({ title: "ユーザーが見つかりません", status: "error" });
+      // 認証できなかった時のエラー
+      else if (response.data.status === 401) {
+        showMessage({ title: `${response.data.errors}`, status: "error" });
+      }
+      // うまくpostできなかった時のエラー
+    }).catch((e) => {
+      showMessage({ title: "認証できませんでした。再度リロードなどを行いやり直して下さい", status: "error" });
       setLoading(false);
     })
   }, [history, showMessage, setLoginUser]);
-  //   axios
-  //     .get(`https://jsonplaceholder.typicode.com/users/${id}`)
-  //     .then(async res => {
-  //       if (res.data) {
-  //         // contextにログインユーザーの情報を保存
-  //         // サンプル的にidが10のユーザーを管理者としてみる
-  //         const isAdmin = res.data.id === 10 ? true : false;
-  //         setLoginUser({ ...res.data, isAdmin });
-  //         showMessage({ title: "ログインしました", status: "success" });
-  //         history.push("/home");
-  //       } else {
-  //         showMessage({ title: "ユーザーが見つかりません", status: "error" });
-  //         setLoading(false);
-  //       }
-  //     })
-  //     .catch(() => {
-  //       showMessage({ title: "ユーザーが見つかりません", status: "error" });
-  //       setLoading(false);
-  //     });
-  // }, []);
 
   return { login, loading };
 };

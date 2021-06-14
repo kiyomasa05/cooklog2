@@ -1,4 +1,4 @@
-import Mypage from "../containers/Mypage"
+import { Mypage } from "../containers/Mypage"
 import Post from "../containers/Post"
 import { Page404 } from "../containers/404";
 

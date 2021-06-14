@@ -7,7 +7,7 @@ import { HomeRoutes } from "./HomeRoutes"
 import { MypageRoutes } from "./MypageRoutes"
 import { LoginUserProvider } from '../hooks/providers/LoginUserProvider'
 
-// mapに最初の要素がない？
+
 export const Router = () => {
   return (
     <Switch>

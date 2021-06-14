@@ -28,9 +28,8 @@ const SSubmit = styled.input`
 }
 `
 
-export const Login = memo((props) => {
+export const Login = memo(() => {
   const { login } = useAuth();
-  const { handleSuccessfulAuth } = props;
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = (data) => {

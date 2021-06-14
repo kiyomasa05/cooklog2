@@ -1,10 +1,11 @@
 import React, {
   createContext,
-  useContext,
   useState
 } from "react";
 
 export const LoginUserContext = createContext({});
+
+// 追加したい。userのログイン状態を保持する機能useeffect利用
 
 // ログインユーザー情報を保持するcontext
 export const LoginUserProvider = (props) => {
@@ -18,5 +19,4 @@ export const LoginUserProvider = (props) => {
   );
 };
 
-// export const useLoginUser = () =>
-//   useContext(LoginUserContext);
+

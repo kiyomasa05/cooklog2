@@ -12,7 +12,7 @@ module Api
                 logged_in: true, 
                 user: @user }
           else
-              render json: { status: 401, errors: ['認証に失敗しました。', '正しいメールアドレス・パスワードを入力し直すか、新規登録を行ってください。'] }
+              render json: { status: 401, errors: ['正しいメールアドレス・パスワードを入力して下さい' ] }
           end
       end
 
@@ -22,7 +22,6 @@ module Api
       end
 
       def logged_in?
-        # binding.pry
           if  @current_user
               render json: { logged_in: true, user: @current_user }
           else
