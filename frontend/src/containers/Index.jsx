@@ -68,7 +68,8 @@ export const Index = memo(() => {
           :
           <Wrap p={{ base: 4, md: 10 }}>
             {recipes.map((recipe) => (
-              <WrapItem key={recipe.id} mx="auto">
+              <WrapItem key={recipe.id} mx="auto" overflow="hidden"
+                m={0}>
                 <RecipeCard
                   id={recipe.id}
                   imageUrl={"image_url" ? "image_url" : NoImage}

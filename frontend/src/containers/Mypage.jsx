@@ -1,23 +1,47 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import { Text, Wrap, Image, WrapItem, Box, Spacer } from "@chakra-ui/react"
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, Redirect } from "react-router-dom";
+import { Text, Wrap, Image, WrapItem, Box, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue } from "@chakra-ui/react"
 
 
 //部品
 import { Container } from '../component/wrapper/Login_Wrapper'
 import { useLoginUser } from "../hooks/useLoginUser";
 
+import { useGetRecipe } from '../hooks/useGetRecipe'
+import NoImage from '../images/no-image.png'
+import { RecipeCard } from "../organism/RecipeCard";
+import { RecipeModal } from "../organism/RecipeModal";
+import { useSelectRecipe } from "../hooks/useSelectRecipe";
+
 export const Mypage = () => {
-  const { loginUser } = useLoginUser();
-  // console.log(loginUser)
+  const { loginUser, checked } = useLoginUser();
+  // console.log(loginUser, checked)
+  const { getRecipe, recipes, loading } = useGetRecipe();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
+
+  useEffect(() => getRecipe(), {
+  }, [])
+
+  const onClickRecipe = useCallback((id) => {
+    onSelectRecipe({ id, recipes, onOpen })
+  }, [recipes, onSelectRecipe, onOpen]);
+
+  // タブ背景色の定義
+  const colors = useColorModeValue(
+    ["red.50", "blue.50"],
+    ["red.900", "blue.900"],
+  )
+  const [tabIndex, setTabIndex] = useState(0)
+  const bg = colors[tabIndex]
+
   return (
     <div>
-
       {/* 後でカード化 */}
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
         <Text mb={2}>ユーザー名
-        {/* {`${loginUser.user.name}さん`} */}
+          {/* {`${loginUser.user.name}さん`} */}
         </Text>
         <Wrap justify="space-around">
           <WrapItem>
@@ -31,7 +55,7 @@ export const Mypage = () => {
             <Wrap>
               <WrapItem>
                 投稿
-                {/* {`${loginUser.recipe.length}`} */}
+                  {/* {`${loginUser.recipe.length}`} */}
               </WrapItem>
               <WrapItem>
                 お気に入り
@@ -40,20 +64,49 @@ export const Mypage = () => {
           </WrapItem>
         </Wrap>
       </Box>
-      <Container>
+      {/* <Container> */}
+      <Tabs isFitted variant="enclosed" onChange={(index) => setTabIndex(index)} bg={bg}>
+        <TabList mb="1em">
+          <Tab>投稿レシピ</Tab>
+          <Tab>お気に入りレシピ</Tab>
+        </TabList>
+        <TabPanels>
+          {/* 投稿レシピ */}
+          <TabPanel>
+            <Wrap p={{ base: 2, md: 5 }}>
+              {recipes.map((recipe) => (
+                <WrapItem
+                  key={recipe.id}
+                  mx="auto"
+                  overflow="hidden"
+                  m={0}
+                >
+                  <RecipeCard
 
-        マイページ
-          <h2>ログイン状態:
-          {/* {`${loginUser.logged_in}`} */}
-        </h2>
-        <h2>ユーザー:
-        {/* {`${loginUser.user.name}`} */}
-          さん
-        </h2>
-        <Link to="/mypage/post">
-          料理投稿
-          </Link>
-      </Container>
+                    id={recipe.id}
+                    imageUrl={"image_url" ? "image_url" : NoImage}
+                    title={recipe.title}
+                    // time_required={recipe.time_required}
+                    // food={recipe.food}
+                    // created_at={recipe.created_at}
+                    // process={recipe.process}
+                    onClick={onClickRecipe}
+                  />
+                </WrapItem>
+              ))}
+            </Wrap>
+
+            <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} />
+          </TabPanel>
+          <TabPanel>
+            <p>two!</p>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+      {/* </Container> */}
     </div>
   );
 }
+
+
+

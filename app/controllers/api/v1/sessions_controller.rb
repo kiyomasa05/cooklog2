@@ -25,7 +25,7 @@ module Api
           if  @current_user
               render json: { logged_in: true, user: @current_user }
           else
-              render json: { logged_in: false, message: 'ユーザーが存在しません' }
+              render json: { logged_in: false, errors: 'ユーザーが存在しません,ログインし直して下さい' }
           end
       end
 

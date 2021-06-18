@@ -25,9 +25,4 @@ export const HomeRoutes = [
     exact: false,
     children: <Index />
   },
-  {
-    path: "*",
-    exact: false,
-    children: <Page404 />
-  },
 ];

@@ -13,9 +13,7 @@ class ApplicationController < ActionController::API
   # 一時cookiesは自動的に暗号化
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-    #session[:user_id]が入っていない。
-    #@current_useがnilだからおかしくなっている。
+    @current_user ||= User.find(id:session[:user_id]) if session[:user_id]
   end
 
   def fake_load
