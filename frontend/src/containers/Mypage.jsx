@@ -4,8 +4,8 @@ import { Text, Wrap, Image, WrapItem, Box, Tabs, TabList, TabPanels, Tab, TabPan
 
 
 //部品
-import { Container } from '../component/wrapper/Login_Wrapper'
 import { useLoginUser } from "../hooks/useLoginUser";
+import { useAuthCheck } from "../hooks/useAuthCheck";
 
 import { useGetRecipe } from '../hooks/useGetRecipe'
 import NoImage from '../images/no-image.png'
@@ -14,11 +14,14 @@ import { RecipeModal } from "../organism/RecipeModal";
 import { useSelectRecipe } from "../hooks/useSelectRecipe";
 
 export const Mypage = () => {
-  const { loginUser, checked } = useLoginUser();
-  // console.log(loginUser, checked)
+  const { loginUser } = useLoginUser();
   const { getRecipe, recipes, loading } = useGetRecipe();
+  const { CheckAuth } = useAuthCheck();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
+
+  useEffect(() => CheckAuth(), {
+  }, [])
 
   useEffect(() => getRecipe(), {
   }, [])
@@ -34,6 +37,8 @@ export const Mypage = () => {
   )
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
+
+  console.log(loginUser);
 
   return (
     <div>

@@ -47,7 +47,6 @@ export const LoginUserProvider = (props) => {
 
   return (
     <CheckLoginContext.Provider value={{ loginUser, setLoginUser, checked }}>
-
       {children}
     </CheckLoginContext.Provider>
   );
