@@ -4,16 +4,21 @@ class ApplicationController < ActionController::API
   skip_before_action :verify_authenticity_token, raise: false
   # Railsが認証トークンを使用しないように
 
-  helper_method :login!, :current_user
+  helper_method :login, :current_user
 
-  def login!
-    session[:user_id] = @user.id
+  def login(user)
+    session[:user_id] = user.id
   end
 
   # 一時cookiesは自動的に暗号化
 
   def current_user
-    @current_user ||= User.find(id:session[:user_id]) if session[:user_id]
+    if session[:user_id]
+
+      # @current_user ||= User.find(id: session[:user_id])
+      # session[:user_id]自体が消えている。入れようがない
+      @current_user ||= User.find(session[:user_id])
+    end
   end
 
   def fake_load

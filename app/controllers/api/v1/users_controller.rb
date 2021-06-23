@@ -5,7 +5,7 @@ module Api
         @user=User.new(registrations_params)
         
         if @user.save
-          login!
+          login @user
           render json: {
             status: :created,
             logged_in: true,

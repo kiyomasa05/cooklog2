@@ -3,16 +3,16 @@ module Api
     class SessionsController < ApplicationController
       before_action :current_user, only: [:logged_in?]
 
-      def login
+      def create
           @user = User.find_by(email: session_params[:email])
 
           if @user && @user.authenticate(session_params[:password])
-              login!
+              login @user
               render json: { 
                 logged_in: true, 
                 user: @user }
           else
-              render json: { status: 401, errors: ['正しいメールアドレス・パスワードを入力して下さい' ] }
+              render json: { status: 401, errors: ['正しいメールアドレス・パスワードを入力して下さい' ] ,user: @user ,session:session{user_id}}
           end
       end
 
@@ -22,7 +22,9 @@ module Api
       end
 
       def logged_in?
+        # binding.pry
           if  @current_user
+            
               render json: { logged_in: true, user: @current_user }
           else
               render json: { logged_in: false, errors: 'ユーザーが存在しません,ログインし直して下さい' }

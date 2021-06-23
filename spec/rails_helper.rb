@@ -1,15 +1,15 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
-ENV['RAILS_ENV'] ||= 'test'
+require "spec_helper"
+ENV["RAILS_ENV"] ||= "test"
 # require File.expand_path('../config/environment', __FILE__)#エラーが出るためコメントアウト
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'rspec/rails'
+require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
 
-require 'capybara/rspec' 
+require "capybara/rspec"
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f } 
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -23,7 +23,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].sort.each { |f| require f }
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -64,10 +64,24 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
-  config.include FactoryBot::Syntax::Methods  
+  config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :request
   # config.include Devise::Test::IntegrationHelpers, type: :system
   config.include LoginHelpers
   config.include JsonApiHelpers
+  # テストケース共通の事前処理
+  config.before(:each) do
 
+    # let(:rspec_session) で指定された値を セッションの初期値とします
+    session = defined?(rspec_session) ? rspec_session : {}
+
+    # destroyメソッドを実行してもエラーにならないようにします（必要であれば）
+    session.class_eval { def destroy; nil; end }
+
+    # 追記 実行後のセッションを取得できるようにする
+    config.add_setting(:session, :default => session)
+
+    # 変更 sessionメソッドをRSpec.configuration.sessionで上書き
+    allow_any_instance_of(ActionDispatch::Request).to receive(:session).and_return(RSpec.configuration.session)
+  end
 end
