@@ -15,27 +15,6 @@ export const useAuth = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // ステータスもhooksで管理する？
-  // const [user, setUser] = useState({})
-  // const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
-
-  // const handleLogin = useCallback((data) => {
-  //   setLoggedInStatus("ログイン中")
-  //   setUser(data.user)
-  //   // ログインステータスを変更する関数
-  // }, [user])
-
-  // const handleLogout = useCallback(() => {
-  //   setLoggedInStatus("未ログイン")
-  //   setUser({})
-  //   // 実行後、ステータスとユーザーを空にする
-  // }, [user])
-
-  // const handleSuccessfulAuth = useCallback((data) => {
-  //   handleLogin(data)
-  //   // handleLogin関数をここで再利用する
-  // }, [])
-
   const login = useCallback((data) => {
     setLoading(true);
     //ローディングアイコンをtrueに

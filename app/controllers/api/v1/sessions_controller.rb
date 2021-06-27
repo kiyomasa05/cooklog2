@@ -8,6 +8,7 @@ module Api
 
           if @user && @user.authenticate(session_params[:password])
               login @user
+              # binding.pry
               render json: { 
                 logged_in: true, 
                 user: @user }
@@ -24,7 +25,6 @@ module Api
       def logged_in?
         # binding.pry
           if  @current_user
-            
               render json: { logged_in: true, user: @current_user }
           else
               render json: { logged_in: false, errors: 'ユーザーが存在しません,ログインし直して下さい' }
