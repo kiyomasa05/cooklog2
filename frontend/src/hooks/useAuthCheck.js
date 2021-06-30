@@ -15,7 +15,7 @@ export const useAuthCheck = () => {
 
   const CheckAuth = useCallback(() => {
     axios
-      .get(logged_inURL,{ withCredentials: true })
+      .get(logged_inURL, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in === true) {
           setLoginUser(response.data.user)
@@ -24,7 +24,7 @@ export const useAuthCheck = () => {
         // 認証できなかった時のエラー
         else if (response.data.logged_in === false) {
           showMessage({ title: `${response.data.errors}`, status: "error" });
-          // history.push("/login");
+          history.push("/login");
           console.log(response.data.session)
           console.log(response.data.user)
         }

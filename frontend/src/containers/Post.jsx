@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 
 import { usePostRecipe } from '../hooks/usePostRecipe';
-
+import { useLoginUser } from "../hooks/useLoginUser";
 
 const Title = styled.h2`
   margin:100px auto;
@@ -81,8 +81,9 @@ const Time_Input = styled(Input)`
 
 `
 
-export default function Post(props) {
+export const Post = () => {
   const { postRecipe } = usePostRecipe
+  const { loginUser } = useLoginUser();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [image, setImage] = useState({ data: "", name: "" })
 
@@ -113,7 +114,6 @@ export default function Post(props) {
 
   return (
     <>
-
       <Title>post</Title>
 
       <Container>

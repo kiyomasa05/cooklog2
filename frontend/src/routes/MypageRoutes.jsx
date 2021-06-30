@@ -1,5 +1,5 @@
 import { Mypage } from "../containers/Mypage"
-import Post from "../containers/Post"
+import { Post } from "../containers/Post"
 import { Page404 } from "../containers/404";
 
 export const MypageRoutes = [
@@ -10,7 +10,7 @@ export const MypageRoutes = [
   },
   {
     path: "/post",
-    exact: false,
+    exact: true,
     children: <Post />
   },
   {

@@ -27,10 +27,10 @@ module Cooklog
     config.generators do |g|
       #g.assets false          # CSS, JavaScriptファイルは生成しない
       g.test_framework :rspec,
-      controller_specs: false,
-      view_specs: false,
-      helper_specs: false,
-      routing_specs: false
+                       controller_specs: false,
+                       view_specs: false,
+                       helper_specs: false,
+                       routing_specs: false
     end
     # Configuration for the application, engines, and railties goes here.
     #
@@ -44,6 +44,11 @@ module Cooklog
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-    config.time_zone = 'Tokyo' 
+    # config.api_only = false
+    # Added middleware manually.
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
+    config.time_zone = "Tokyo"
   end
 end
