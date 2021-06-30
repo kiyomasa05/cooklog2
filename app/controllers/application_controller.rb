@@ -15,9 +15,9 @@ class ApplicationController < ActionController::API
     if session[:user_id]
       # @current_user ||= User.find(id: session[:user_id])
       # session[:user_id]自体が消えている。入れようがない
+      #cookieがうまく行ってない模様
       @current_user ||= User.find_by(id: session[:user_id])
     end
-    # binding.pry
   end
 
   def fake_load

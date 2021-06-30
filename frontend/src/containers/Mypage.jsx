@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Link, Redirect } from "react-router-dom";
 import { Text, Wrap, Image, WrapItem, Box, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue } from "@chakra-ui/react"
 
 
@@ -16,12 +15,14 @@ import { useSelectRecipe } from "../hooks/useSelectRecipe";
 export const Mypage = () => {
   const { loginUser } = useLoginUser();
   const { getRecipe, recipes, loading } = useGetRecipe();
-  const { CheckAuth } = useAuthCheck();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
 
-  useEffect(() => CheckAuth(), {
-  }, [])
+  const { CheckAuth } = useAuthCheck();
+
+  useEffect(() => {
+    CheckAuth()
+  },[])
 
   useEffect(() => getRecipe(), {
   }, [])
@@ -45,8 +46,8 @@ export const Mypage = () => {
       {/* 後でカード化 */}
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
-        <Text mb={2}>ユーザー名
-          {/* {`${loginUser.user.name}さん`} */}
+        <Text mb={2}>
+          {/* {`${b.user.name}   さん`} */}
         </Text>
         <Wrap justify="space-around">
           <WrapItem>

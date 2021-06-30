@@ -23,6 +23,9 @@ module Api
       end
 
       def logged_in?
+        # if session[:user_id]
+        #   @current_user ||= User.find_by(id: session[:user_id])
+        # end
         # binding.pry
           if  @current_user
               render json: { logged_in: true, user: @current_user }
@@ -35,6 +38,13 @@ module Api
 
           def session_params
               params.require(:user).permit(:email, :password)
+          end
+
+          def current_user
+            if session[:user_id]
+              @current_user ||= User.find_by(id: session[:user_id])
+            end
+            #  binding.pry
           end
     end
   end

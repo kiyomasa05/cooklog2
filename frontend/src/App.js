@@ -9,6 +9,7 @@ import { Router } from "./routes/Router"
 import { useAuthCheck } from "./hooks/useAuthCheck"
 
 export default function App() {
+  
 
   return (
     <ChakraProvider theme={theme}>

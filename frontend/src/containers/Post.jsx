@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { post } from '../urls/index'
 
+import { usePostRecipe } from '../hooks/usePostRecipe';
 
-// 要変更
-//部品
-import { Header } from '../organism/Header/Header'
-import { Footer } from '../component/Footer'
 
 const Title = styled.h2`
   margin:100px auto;
@@ -87,8 +82,11 @@ const Time_Input = styled(Input)`
 `
 
 export default function Post(props) {
+  const { postRecipe } = usePostRecipe
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [image, setImage] = useState({ data: "", name: "" })
+
+
 
   const handleImageSelect = (e) => {
     const reader = new FileReader()
@@ -106,24 +104,7 @@ export default function Post(props) {
   }
 
   const onSubmit = (data) => {
-    axios.post(post,
-      {
-        recipe: {
-          user_id: props.user.id,
-          title: data.title,
-          time_required: data.time_required,
-          food: data.food,
-          process: data.process,
-          image
-        }
-      }
-    ).then(response => {
-      if (response.data.created) {
-        props.history("/index");
-      }
-    }).catch(error => {
-      alert(error)
-    })
+    postRecipe(data);
   }
   // ここにログインユーザーのidをセットでpostする必要がある
   // まずはpostできるようにする　デザインは後　写真のアップロードも必要
@@ -132,10 +113,8 @@ export default function Post(props) {
 
   return (
     <>
-      <Header />
+
       <Title>post</Title>
-      <h2>ログイン状態: {props.loggedInStatus}</h2>
-      <h2>ユーザー: {props.user.name}さん</h2>
 
       <Container>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -169,7 +148,6 @@ export default function Post(props) {
           <Submit type="submit" value="レシピ登録" />
         </form>
       </Container>
-      <Footer />
     </>
   );
 }
