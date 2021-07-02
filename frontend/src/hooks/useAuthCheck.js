@@ -17,21 +17,20 @@ export const useAuthCheck = () => {
     axios
       .get(logged_inURL, { withCredentials: true })
       .then(response => {
-        if (response.data.logged_in === true) {
-          setLoginUser(response.data.user)
+        if (response.data.logged_in) {
+          setLoginUser(response.data)
           console.log(response.data)
         }
         // 認証できなかった時のエラー
         else if (response.data.logged_in === false) {
           showMessage({ title: `${response.data.errors}`, status: "error" });
           history.push("/login");
-          console.log(response.data.session)
-          console.log(response.data.user)
         }
-        // うまくpostできなかった時のエラー
+        // うまくgetできなかった時のエラー
       }).catch((e) => {
-        showMessage({ title: "再度送信して下さい", status: "error" });
+        showMessage({ title: "認証が確認できません", status: "error" });
       })
-  }, []);
+  }, [history, showMessage, setLoginUser]);
+
   return { CheckAuth };
 }

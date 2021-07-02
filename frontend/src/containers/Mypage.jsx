@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { Text, Wrap, Image, WrapItem, Box, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue } from "@chakra-ui/react"
 
 
@@ -12,7 +12,7 @@ import { RecipeCard } from "../organism/RecipeCard";
 import { RecipeModal } from "../organism/RecipeModal";
 import { useSelectRecipe } from "../hooks/useSelectRecipe";
 
-export const Mypage = () => {
+export const Mypage = memo(() => {
   const { loginUser } = useLoginUser();
   const { getRecipe, recipes, loading } = useGetRecipe();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -22,9 +22,10 @@ export const Mypage = () => {
 
   useEffect(() => {
     CheckAuth()
-  }, [])
+  },[])
 
-  useEffect(() => getRecipe(), {
+  useEffect(() => {
+    getRecipe()
   }, [])
 
   const onClickRecipe = useCallback((id) => {
@@ -39,7 +40,7 @@ export const Mypage = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
 
-  console.log(loginUser);
+  // console.log(loginUser);
 
   return (
     <div>
@@ -47,7 +48,7 @@ export const Mypage = () => {
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
         <Text pl={2} mb={2}>
-          {/* {`${loginUser.name}   さん`} */}
+          {`${loginUser.user.name}   さん`}
           {/* リロードするとloginUser.nameが見つからないとでる */}
         </Text>
         <Wrap justify="space-around">
@@ -79,7 +80,7 @@ export const Mypage = () => {
         <TabPanels>
           {/* 投稿レシピ */}
           <TabPanel>
-            <Wrap p={{ base: 2, md: 5 }}>
+            <Wrap p={{ base: 2, md: 3 }}>
               {recipes.map((recipe) => (
                 <WrapItem
                   key={recipe.id}
@@ -111,7 +112,7 @@ export const Mypage = () => {
       </Tabs>
     </div>
   );
-}
+})
 
 
 
