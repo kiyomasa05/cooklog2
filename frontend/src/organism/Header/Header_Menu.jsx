@@ -6,17 +6,20 @@ import { useHistory } from "react-router-dom";
 
 import { MenuIconButton } from '../../atom/btn/MenuIconButton'
 import { MenuDrawer } from '../../molcules/MenuDrawer'
-
+import { useLoginUser } from '../../hooks/useLoginUser'
+import { Fragment } from "react";
 
 export const HeaderMenu = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef()
   const history = useHistory();
+  const { loginUser } = useLoginUser();
 
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
+  console.log(loginUser)
   return (
     <>
       <Flex
@@ -37,10 +40,21 @@ export const HeaderMenu = memo(() => {
           flexGrow={2}
           display={{ base: "none", md: "flex" }}>
           <Box pr={4}>
-            <Link onClick={onClickSignup}>新規登録</Link>
+            {/* もしログインしていれば mypageで起きていることと同じ事象。loginUserのデータを使おうとすると、エラー起きる*/}
+            {/* {loginUser.logged_in ?
+              <Fragment>
+                <Link mr={4} onClick={onClickSignup}>レシピ投稿</Link>
+                <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
+                <Link mr={4} onClick={onClickIndex}>ログアウト</Link>
+              </Fragment>
+              :
+              <Fragment>
+                <Link mr={4} onClick={onClickSignup}>新規登録</Link>
+                <Link mr={4} onClick={onClickLogin}>ログイン</Link>
+                <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
+              </Fragment>
+            } */}
           </Box>
-          <Link onClick={onClickLogin}>ログイン</Link>
-          <Link onClick={onClickIndex}>投稿一覧</Link>
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />
       </Flex>
