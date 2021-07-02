@@ -22,7 +22,7 @@ export const Mypage = () => {
 
   useEffect(() => {
     CheckAuth()
-  },[])
+  }, [])
 
   useEffect(() => getRecipe(), {
   }, [])
@@ -46,8 +46,9 @@ export const Mypage = () => {
       {/* 後でカード化 */}
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
-        <Text mb={2}>
-          {/* {`${b.user.name}   さん`} */}
+        <Text pl={2} mb={2}>
+          {/* {`${loginUser.name}   さん`} */}
+          {/* リロードするとloginUser.nameが見つからないとでる */}
         </Text>
         <Wrap justify="space-around">
           <WrapItem>
@@ -70,7 +71,6 @@ export const Mypage = () => {
           </WrapItem>
         </Wrap>
       </Box>
-      {/* <Container> */}
       <Tabs isFitted variant="enclosed" onChange={(index) => setTabIndex(index)} bg={bg}>
         <TabList mb="1em">
           <Tab>投稿レシピ</Tab>
@@ -109,7 +109,6 @@ export const Mypage = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      {/* </Container> */}
     </div>
   );
 }
