@@ -22,7 +22,7 @@ export const Mypage = () => {
 
   useEffect(() => {
     CheckAuth()
-  }, [])
+  },[])
 
   useEffect(() => getRecipe(), {
   }, [])
@@ -47,7 +47,8 @@ export const Mypage = () => {
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
         <Text pl={2} mb={2}>
-          {/* {`${loginUser.name}   さん`} */}
+          {`${loginUser.user.name}   さん`}
+          {/* {`${loginUser}   さん`} */}
           {/* リロードするとloginUser.nameが見つからないとでる */}
         </Text>
         <Wrap justify="space-around">

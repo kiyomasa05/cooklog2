@@ -19,11 +19,12 @@ export const useAuthCheck = () => {
       .get(logged_inURL, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in === true) {
-          setLoginUser(response.data)
-          console.log(response.data)
+          setLoginUser(response.data.user)
+          console.log(response.data.user)
         }
         // 認証できなかった時のエラー
         else if (response.data.logged_in === false) {
+          setLoginUser({})
           showMessage({ title: `${response.data.errors}`, status: "error" });
           history.push("/login");
         }
@@ -31,6 +32,6 @@ export const useAuthCheck = () => {
       }).catch((e) => {
         showMessage({ title: "再度送信して下さい", status: "error" });
       })
-  }, []);
+  }, [history, showMessage, setLoginUser]);
   return { CheckAuth };
 }
