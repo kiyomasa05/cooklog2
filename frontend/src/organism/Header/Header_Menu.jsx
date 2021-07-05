@@ -21,6 +21,7 @@ export const HeaderMenu = memo(() => {
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
   const onClickLogout = useCallback(() => history.push("/logout"), [history]);
   const onClickPost = useCallback(() => history.push("/mypage/post"), [history]);
+  const onClickMypage = useCallback(() => history.push("/mypage"), [history]);
 
   return (
     <>
@@ -44,6 +45,7 @@ export const HeaderMenu = memo(() => {
           <Box pr={4}>
             {loginUser ?
               <Fragment>
+                <Link mr={4} onClick={onClickMypage}>マイページ</Link>
                 <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>
                 <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
                 <Link mr={4} onClick={onClickLogout}>ログアウト</Link>
@@ -69,7 +71,7 @@ export const HeaderMenu = memo(() => {
         onClickIndex={onClickIndex}
         onClickLogout={onClickLogout}
         onClickPost={onClickPost}
-        // onClickIndex={onClickIndex}
+        onClickMypage={onClickMypage}
       />
     </>
   )

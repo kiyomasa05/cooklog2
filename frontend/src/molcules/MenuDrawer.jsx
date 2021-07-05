@@ -15,7 +15,7 @@ import { Fragment } from "react";
 export const MenuDrawer = memo((props) => {
   const { isOpen, onClose, btnRef,
     onClickHome, onClickSignup, onClickLogin,
-    onClickIndex, onClickLogout, onClickPost } = props;
+    onClickIndex, onClickLogout, onClickPost,onClickMypage } = props;
   const { loginUser } = useLoginUser();
   return (
     <Drawer
@@ -33,6 +33,7 @@ export const MenuDrawer = memo((props) => {
             {loginUser ?
               <Fragment>
                 <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
+                <Button onClick={onClickMypage} onClose={onClose} w="100%">マイページ</Button>
                 <Button onClick={onClickPost} onClose={onClose} w="100%">レシピ投稿</Button>
                 <Button onClick={onClickIndex} onClose={onClose} w="100%">投稿一覧</Button>
                 <Button onClick={onClickLogout} onClose={onClose} w="100%">ログアウト</Button>
