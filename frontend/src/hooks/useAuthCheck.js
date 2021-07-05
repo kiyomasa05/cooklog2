@@ -5,13 +5,14 @@ import { useHistory } from "react-router-dom";
 
 import { useMessage } from "./useMessege";
 import { useLoginUser } from "./useLoginUser"
+
 import { logged_inURL } from '../urls/index'
 
 export const useAuthCheck = () => {
   const { setLoginUser } = useLoginUser();
   const history = useHistory();
   const { showMessage } = useMessage();
-
+  // console.log()
 
   const CheckAuth = useCallback(() => {
     axios
@@ -19,10 +20,10 @@ export const useAuthCheck = () => {
       .then(response => {
         if (response.data.logged_in) {
           setLoginUser(response.data)
-          console.log(response.data)
         }
         // 認証できなかった時のエラー
         else if (response.data.logged_in === false) {
+          setLoginUser({})
           showMessage({ title: `${response.data.errors}`, status: "error" });
           history.push("/login");
         }
@@ -31,6 +32,5 @@ export const useAuthCheck = () => {
         showMessage({ title: "認証が確認できません", status: "error" });
       })
   }, [history, showMessage, setLoginUser]);
-
   return { CheckAuth };
 }

@@ -30,7 +30,6 @@ export const useAuth = () => {
       if (response.data.logged_in) {
         // contextにログインユーザーの情報を保存
         setLoginUser(response.data)
-        // handleSuccessfulAuth(response.data);
         showMessage({ title: "ログインしました", status: "success" });
         history.push("/mypage");
         // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する

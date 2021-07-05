@@ -9,8 +9,14 @@ import {
   Button
 } from "@chakra-ui/react"
 
+import { useLoginUser } from '../hooks/useLoginUser'
+import { Fragment } from "react";
+
 export const MenuDrawer = memo((props) => {
-  const { isOpen, onClose, btnRef,onClickHome, onClickSignup,onClickLogin,onClickIndex} = props;
+  const { isOpen, onClose, btnRef,
+    onClickHome, onClickSignup, onClickLogin,
+    onClickIndex, onClickLogout, onClickPost } = props;
+  const { loginUser } = useLoginUser();
   return (
     <Drawer
       isOpen={isOpen}
@@ -24,10 +30,21 @@ export const MenuDrawer = memo((props) => {
           <DrawerCloseButton onClick={onClose} />
           <DrawerHeader align="center">メニュー</DrawerHeader>
           <DrawerBody p={0} bg="grey.100">
-            <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
-            <Button onClick={onClickSignup} onClose={onClose} w="100%">新規登録</Button>
-            <Button onClick={onClickLogin} onClose={onClose} w="100%">ログイン</Button>
-            <Button onClick={onClickIndex} onClose={onClose} w="100%">投稿一覧</Button>
+            {loginUser ?
+              <Fragment>
+                <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
+                <Button onClick={onClickPost} onClose={onClose} w="100%">レシピ投稿</Button>
+                <Button onClick={onClickIndex} onClose={onClose} w="100%">投稿一覧</Button>
+                <Button onClick={onClickLogout} onClose={onClose} w="100%">ログアウト</Button>
+              </Fragment>
+              :
+              <Fragment>
+                <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
+                <Button onClick={onClickSignup} onClose={onClose} w="100%">新規登録</Button>
+                <Button onClick={onClickLogin} onClose={onClose} w="100%">ログイン</Button>
+                <Button onClick={onClickIndex} onClose={onClose} w="100%">投稿一覧</Button>
+              </Fragment>
+            }
           </DrawerBody>
         </DrawerContent>
       </DrawerOverlay>
