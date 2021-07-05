@@ -20,7 +20,6 @@ export const useAuthCheck = () => {
       .then(response => {
         if (response.data.logged_in === true) {
           setLoginUser(response.data.user)
-          console.log(response.data.user)
         }
         // 認証できなかった時のエラー
         else if (response.data.logged_in === false) {

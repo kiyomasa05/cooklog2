@@ -22,7 +22,7 @@ export const Mypage = () => {
 
   useEffect(() => {
     CheckAuth()
-  },[])
+  }, [])
 
   useEffect(() => getRecipe(), {
   }, [])
@@ -39,7 +39,7 @@ export const Mypage = () => {
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
 
-  console.log(loginUser);
+  console.log(loginUser.name);
 
   return (
     <div>
@@ -47,9 +47,7 @@ export const Mypage = () => {
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
         <Text pl={2} mb={2}>
-          {`${loginUser.user.name}   さん`}
-          {/* {`${loginUser}   さん`} */}
-          {/* リロードするとloginUser.nameが見つからないとでる */}
+          {`${loginUser.name}   さん`}
         </Text>
         <Wrap justify="space-around">
           <WrapItem>

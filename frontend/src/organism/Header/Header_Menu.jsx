@@ -19,7 +19,7 @@ export const HeaderMenu = memo(() => {
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
-  console.log(loginUser)
+
   return (
     <>
       <Flex
@@ -40,8 +40,7 @@ export const HeaderMenu = memo(() => {
           flexGrow={2}
           display={{ base: "none", md: "flex" }}>
           <Box pr={4}>
-            {/* もしログインしていれば mypageで起きていることと同じ事象。loginUserのデータを使おうとすると、エラー起きる*/}
-            {/* {loginUser.logged_in ?
+            {loginUser?
               <Fragment>
                 <Link mr={4} onClick={onClickSignup}>レシピ投稿</Link>
                 <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
@@ -53,7 +52,7 @@ export const HeaderMenu = memo(() => {
                 <Link mr={4} onClick={onClickLogin}>ログイン</Link>
                 <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
               </Fragment>
-            } */}
+            }
           </Box>
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />

@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom"
 
 import { Header } from "../organism/Header/Header"
@@ -6,18 +6,10 @@ import { Page404 } from "../containers/404"
 import { HomeRoutes } from "./HomeRoutes"
 import { MypageRoutes } from "./MypageRoutes"
 import { LoginUserProvider } from '../hooks/providers/LoginUserProvider'
-import { useAuthCheck } from "../hooks/useAuthCheck"
-import { useLoginUser } from "../hooks/useLoginUser"
 
 
 export const Router = () => {
-  const { CheckAuth } = useAuthCheck();
-  const { loginUser } = useLoginUser();
-  
-  useEffect(() => {
-    CheckAuth()
-  })
-  
+
   return (
     <Switch>
       <LoginUserProvider>
