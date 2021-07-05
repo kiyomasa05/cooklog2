@@ -19,6 +19,8 @@ export const HeaderMenu = memo(() => {
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
+  const onClickLogout = useCallback(() => history.push("/logout"), [history]);
+  const onClickPost = useCallback(() => history.push("/mypage/post"), [history]);
 
   return (
     <>
@@ -40,11 +42,11 @@ export const HeaderMenu = memo(() => {
           flexGrow={2}
           display={{ base: "none", md: "flex" }}>
           <Box pr={4}>
-            {loginUser?
+            {loginUser ?
               <Fragment>
-                <Link mr={4} onClick={onClickSignup}>レシピ投稿</Link>
+                <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>
                 <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
-                <Link mr={4} onClick={onClickIndex}>ログアウト</Link>
+                <Link mr={4} onClick={onClickLogout}>ログアウト</Link>
               </Fragment>
               :
               <Fragment>
@@ -57,7 +59,18 @@ export const HeaderMenu = memo(() => {
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />
       </Flex>
-      <MenuDrawer onClose={onClose} isOpen={isOpen} btnRef={btnRef} onClickHome={onClickHome} onClickSignup={onClickSignup} onClickLogin={onClickLogin} onClickIndex={onClickIndex} />
+      <MenuDrawer
+        onClose={onClose}
+        isOpen={isOpen}
+        btnRef={btnRef}
+        onClickHome={onClickHome}
+        onClickSignup={onClickSignup}
+        onClickLogin={onClickLogin}
+        onClickIndex={onClickIndex}
+        onClickLogout={onClickLogout}
+        onClickPost={onClickPost}
+        // onClickIndex={onClickIndex}
+      />
     </>
   )
 });
