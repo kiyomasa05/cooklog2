@@ -7,21 +7,23 @@ import { useHistory } from "react-router-dom";
 import { MenuIconButton } from '../../atom/btn/MenuIconButton'
 import { MenuDrawer } from '../../molcules/MenuDrawer'
 import { useLoginUser } from '../../hooks/useLoginUser'
+import { useLogout } from '../../hooks/useLogout'
 import { Fragment } from "react";
 
 export const HeaderMenu = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef()
   const history = useHistory();
+  const { logout } = useLogout();
   const { loginUser } = useLoginUser();
 
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
-  const onClickLogout = useCallback(() => history.push("/logout"), [history]);
   const onClickPost = useCallback(() => history.push("/mypage/post"), [history]);
   const onClickMypage = useCallback(() => history.push("/mypage"), [history]);
+  const onClickLogout = useCallback(() => logout(), []);
 
   return (
     <>
