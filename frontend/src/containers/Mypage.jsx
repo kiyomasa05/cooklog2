@@ -39,6 +39,7 @@ export const Mypage = memo(() => {
   )
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
+  console.log(loginUser)
 
   return (
     <div>
@@ -46,7 +47,7 @@ export const Mypage = memo(() => {
       <Box mt={78} p={2} mx={2}
         boxShadow="inner" rounded="md" bg="white">
         <Text pl={2} mb={2}>
-          {/* {`${loginUser.user.name}   さん`} */}
+          {`${loginUser.user.name}   さん`}
         </Text>
         <Wrap justify="space-around">
           <WrapItem>

@@ -45,7 +45,7 @@ export const HeaderMenu = memo(() => {
           flexGrow={2}
           display={{ base: "none", md: "flex" }}>
           <Box pr={4}>
-            {loginUser ?
+            {loginUser.logged_in ?
               <Fragment>
                 <Link mr={4} onClick={onClickMypage}>マイページ</Link>
                 <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>

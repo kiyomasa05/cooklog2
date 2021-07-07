@@ -30,7 +30,7 @@ export const MenuDrawer = memo((props) => {
           <DrawerCloseButton onClick={onClose} />
           <DrawerHeader align="center">メニュー</DrawerHeader>
           <DrawerBody p={0} bg="grey.100">
-            {loginUser ?
+            {loginUser.logged_in ?
               <Fragment>
                 <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
                 <Button onClick={onClickMypage} onClose={onClose} w="100%">マイページ</Button>

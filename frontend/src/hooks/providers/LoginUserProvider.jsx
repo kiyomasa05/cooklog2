@@ -3,13 +3,14 @@ import React, {
   useState
 } from "react";
 
-const initial_user = [
+const initial_user = 
   {
-    name: "bbbbb",
-    id: "1",
-    email:""
+    user: {
+      name: "notExist",
+      id: "1",
+      email: ""
+    }
   }
-]
 
 export const LoginUserContext = createContext({});
 
