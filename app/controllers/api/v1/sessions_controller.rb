@@ -18,7 +18,7 @@ module Api
 
       def logout
           reset_session
-          render json: { status: 200, logged_out: true }
+          render json: { status: 200, logged_in: false }
       end
 
       def logged_in?

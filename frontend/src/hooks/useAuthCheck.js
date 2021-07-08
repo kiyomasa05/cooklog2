@@ -23,7 +23,7 @@ export const useAuthCheck = () => {
         }
         // 認証できなかった時のエラー
         else if (response.data.logged_in === false) {
-          setLoginUser({})
+          setLoginUser({logged_in: false })
           showMessage({ title: `${response.data.errors}`, status: "error" });
           history.push("/login");
         }

@@ -3,14 +3,15 @@ import React, {
   useState
 } from "react";
 
-const initial_user = 
-  {
-    user: {
-      name: "notExist",
-      id: "1",
-      email: ""
-    }
-  }
+const initial_user =
+{
+  user: {
+    name: "notExist",
+    id: "1",
+    email: ""
+  },
+  logged_in: false
+}
 
 export const LoginUserContext = createContext({});
 
@@ -25,5 +26,6 @@ export const LoginUserProvider = (props) => {
     </LoginUserContext.Provider>
   );
 };
+//loginUserの値が変わった場合、loginUserを使用しているコンポーネントは全て再レンダリングされるので注意
 
 

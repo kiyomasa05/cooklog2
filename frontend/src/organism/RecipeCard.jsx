@@ -4,7 +4,7 @@ import { Box, Image, Stack, Text, Wrap } from "@chakra-ui/react";
 import NoImage from '../images/no-image.png'
 import moment from 'moment/moment'
 
-// まだ反映させない
+
 export const RecipeCard = memo((props) => {
   const { id, imageUrl, title, time_required, food, created_at, onClick } = props;
   return (

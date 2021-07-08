@@ -17,10 +17,10 @@ export const useLogout = () => {
     axios.delete(logoutURL,
       { withCredentials: true }
     ).then(response => {
-      setLoginUser({})
+      setLoginUser({ logged_in: false })
       showMessage({ title: "ログアウトしました", status: "success" });
       history.push("/login");
-      // うまくpostできなかった時のエラー
+      
     }).catch((e) => {
       showMessage({ title: "ログアウトできませんでした。再度ボタンを押してください", status: "error" });
     })
