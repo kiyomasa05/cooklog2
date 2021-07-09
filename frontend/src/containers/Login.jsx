@@ -5,10 +5,6 @@ import styled from "styled-components"
 import { useForm } from 'react-hook-form';
 import { useAuth } from "../hooks/useAuth";
 
-//部品
-import { Header } from '../organism/Header/Header'
-// import { fetchLogin } from '../apis/login';
-
 
 const SSubmit = styled.input`
   width: 100%;
@@ -38,7 +34,6 @@ export const Login = memo(() => {
   const Pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   return (
     <>
-      <Header />
       <Flex alignItems="center" justifyContent="center" height="100vh">
         <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
           <Heading as="h1" size="lg" textAlign="center">

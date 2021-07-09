@@ -21,7 +21,7 @@ export const usePostRecipe = () => {
     axios.post(post,
       {
         recipe: {
-          user_id: loginUser.id,
+          user_id: loginUser.user.id,
           title: data.title,
           time_required: data.time_required,
           food: data.food,
@@ -32,10 +32,10 @@ export const usePostRecipe = () => {
       , { withCredentials: true }
     ).then(response => {
       if (response.data.created) {
-        showMessage({ title: "投稿しました", status: "success" });
+        showMessage({ title: "投稿に成功しました", status: "success" });
         history.push("/index");
       }
-      else if (response.data.status === 401) {
+      else if (response.data.status === 500) {
         showMessage({ title: `${response.data.errors}`, status: "error" });
       }
     }).catch(e => {

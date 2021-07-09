@@ -1,93 +1,51 @@
-import React, { useState } from 'react';
+import React, { memo, useState, useEffect } from 'react';
+import {
+  Flex, Box, Divider, Heading, Input, Textarea, Stack, Text, Image,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+} from "@chakra-ui/react";
 import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
 
+import { useForm } from 'react-hook-form';
 import { usePostRecipe } from '../hooks/usePostRecipe';
 import { useLoginUser } from "../hooks/useLoginUser";
+import { useAuthCheck } from "../hooks/useAuthCheck";
 
-const Title = styled.h2`
-  margin:100px auto;
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:3px;
-`
 
-const Container = styled.div`
-  margin:20px auto;
-  width:95%;
-  max-width:95%;
-  background:#FFE4E1
-`
-
-const Input = styled.input`
-  width: 80%;
+const SSubmit = styled.input`
+  width: 100%;
   max-width: 100%;
-  font-size:20px;
-  border: 1px solid grey;
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
-  border-radius: 0.1rem;
-  background: darken(#f9f9f9, 10%);
-  color: darken(#f9f9f9, 50%);
-`
-
-const Textarea = styled.textarea`
-  width: 80%;
-  max-width: 100%;
-  font-size:20px;
-  border: 1px solid grey;
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
-  border-radius: 0.1rem;
-  background: darken(#f9f9f9, 10%);
-  color: darken(#f9f9f9, 50%);
-`
-
-
-const Submit = styled.input`
-  width: 70%;
-  max-width: 100%;
-  font-size:20px;
+  font-size:16px;
   font-weight:bold;
   border: none;
   margin: 3rem 0;
   padding: 0.5rem 1rem;
   border-radius: 0.3rem;
-  background: #79EE69;
-  color: darken(#f9f9f9, 50%);
-  box-shadow:2px 2px grey;
+  background: #68D391;
+  color: #2D3748;
   transition: .4s;
   &:hover {
-    background: #3CC12A;
+    opacity:0.8;
     color: #FFF;
 }
 `
-const Block = styled.div`
-
-`
-const Label = styled.label`
-  font-size:20px;
-  font-weight:bold;
-  margin:20px;
-`
-
-const Time_Label = styled(Label)`
-  font-size:20px;
-  margin:50px;
-`
-const Time_Input = styled(Input)`
-  width: 15%;
-  font-size:20px;
-
-`
 
 export const Post = () => {
-  const { postRecipe } = usePostRecipe
+  const { postRecipe } = usePostRecipe();
   const { loginUser } = useLoginUser();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [image, setImage] = useState({ data: "", name: "" })
-
-
+  const { CheckAuth } = useAuthCheck();
+  useEffect(() => {
+    CheckAuth()
+  }, [])
 
   const handleImageSelect = (e) => {
     const reader = new FileReader()
@@ -111,43 +69,63 @@ export const Post = () => {
   // まずはpostできるようにする　デザインは後　写真のアップロードも必要
   //バックエンドでルーティングとアクションも必要
 
+  const [time_required, setTime_required] = useState(0)
+  const handleChange = (time_required) => setTime_required(time_required)
 
   return (
     <>
-      <Title>post</Title>
+      <Flex mt="80px" alignItems="center" justifyContent="center" >
+        <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
+          <Heading as="h1" size="lg" textAlign="center">
+            レシピ投稿
+        </Heading>
+          <Divider my={4} />
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* 要バリデート作成＆反映 */}
+            <Stack>
+              <Input variant="flushed" radii="1rem" placeholder="タイトル(20文字まで)" {...register("title", { required: true, maxLength: 20 })} />
+              {errors.title && <p>"正しく入力してください"</p>}
+            </Stack>
+            <Stack>
+              <Image src="gibbresh.png" fallbackSrc="https://via.placeholder.com/150" />
+            </Stack>
+            <Stack>
+              {/* usestateを利用してプレビューの表示可能 */}
+              <Input type="file" placeholder="画像アップロード" name="image" accept="image/png,image/jpeg" onChange={handleImageSelect} />
+              {/* {errors.image && <p>"正しく入力してください"</p>} */}
+            </Stack>
 
-      <Container>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {/* 要バリデート作成＆反映 */}
-          <Block>
-            <Label>タイトル</Label>
-            <Input type="text" placeholder="タイトル" {...register("title", { required: true, maxLength: 80 })} />
-            {errors.title && <p>"正しく入力してください"</p>}
-          </Block>
-          <Block>
-            <Time_Label>所要時間</Time_Label>
-            <Time_Input type="number" placeholder="所要時間" {...register("time_required", { required: true, })} />
-            {errors.time_required && <p>"正しく入力してください"</p>}
-          </Block>
-          <Block>
-            <Label>材料</Label>
-            <Textarea type="text" placeholder="材料" {...register("food", { required: true, minLength: 4 })} />
-            {errors.food && <p>"正しく入力してください"</p>}
-
-          </Block>
-          <Block>
-            <Label>手順</Label>
-            <Textarea type="text" placeholder="手順" {...register("process", { required: true, })} />
-            {errors.process && <p>"正しく入力してください"</p>}
-          </Block>
-          <Block>
-            {/* usestateを利用してプレビューの表示可能 */}
-            <Input type="file" placeholder="画像アップロード" name="image" accept="image/png,image/jpeg" onChange={handleImageSelect} />
-            {/* {errors.image && <p>"正しく入力してください"</p>} */}
-          </Block>
-          <Submit type="submit" value="レシピ登録" />
-        </form>
-      </Container>
+            <Stack mt={3}>
+              <Text color="gray.500">材料</Text>
+              <Textarea placeholder="材料" {...register("food", { required: true, minLength: 4 })} />
+              {errors.food && <p>"正しく入力してください"</p>}
+            </Stack>
+            <Stack mt={3}>
+              <Text color="gray.500">手順</Text>
+              <Textarea placeholder="手順" {...register("process", { required: true, })} />
+              {errors.process && <p>"正しく入力してください"</p>}
+            </Stack>
+            <Text color="gray.500">所要時間</Text>
+            {/* {...register("time_required", { required: true, })} */}
+            <Flex>
+              <NumberInput maxW="100px" mr="2rem" value={time_required} onChange={handleChange} >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              <Slider flex="1" focusThumbOnChange={false} value={time_required} onChange={handleChange} >
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb fontSize="sm" boxSize="32px" children={time_required} />
+              </Slider>
+            </Flex>
+            <SSubmit type="submit" value="レシピ登録" />
+          </form>
+        </Box>
+      </Flex>
     </>
   );
 }
