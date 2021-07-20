@@ -26,7 +26,7 @@ export const usePostRecipe = () => {
           time_required: data.time_required,
           food: data.food,
           process: data.process,
-          // image:image
+          // image
         }
       }
       , { withCredentials: true }
@@ -45,37 +45,3 @@ export const usePostRecipe = () => {
   }, [history, showMessage]);
   return { postRecipe, loading };
 };
-
-
-
-    //ローディングアイコンをtrueに
-//     axios.post(loginURL,
-//       {
-//         user: {
-//           email: data.email,
-//           password: data.password,
-//         }
-//       },
-//       { withCredentials: true }
-//     ).then(response => {
-//       if (response.data.logged_in) {
-//         // contextにログインユーザーの情報を保存
-//         setLoginUser(response.data)
-//         // handleSuccessfulAuth(response.data);
-//         showMessage({ title: "ログインしました", status: "success" });
-//         history.push("/mypage");
-//         // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する
-//       }
-//       // 認証できなかった時のエラー
-//       else if (response.data.status === 401) {
-//         showMessage({ title: `${response.data.errors}`, status: "error" });
-//       }
-//       // うまくpostできなかった時のエラー
-//     }).catch((e) => {
-//       showMessage({ title: "認証できませんでした。再度リロードなどを行いやり直して下さい", status: "error" });
-//       setLoading(false);
-//     })
-//   }, [history, showMessage, setLoginUser]);
-
-//   return { login, loading };
-// };

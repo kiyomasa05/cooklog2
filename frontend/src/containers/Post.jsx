@@ -1,6 +1,6 @@
 import React, { memo, useState, useEffect } from 'react';
 import {
-  Flex, Box, Divider, Heading, Input, Textarea, Stack, Text, Image,
+  Flex, Box, Divider, Heading, Input, Textarea, Stack, Image, Button, Center,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -10,45 +10,46 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
 } from "@chakra-ui/react";
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 import { usePostRecipe } from '../hooks/usePostRecipe';
 import { useLoginUser } from "../hooks/useLoginUser";
 import { useAuthCheck } from "../hooks/useAuthCheck";
 
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
-const SSubmit = styled.input`
-  width: 100%;
-  max-width: 100%;
-  font-size:16px;
-  font-weight:bold;
-  border: none;
-  margin: 3rem 0;
-  padding: 0.5rem 1rem;
-  border-radius: 0.3rem;
-  background: #68D391;
-  color: #2D3748;
-  transition: .4s;
-  &:hover {
-    opacity:0.8;
-    color: #FFF;
-}
-`
+import { useMessage } from "../hooks/useMessege";
+
 
 export const Post = () => {
   const { postRecipe } = usePostRecipe();
   const { loginUser } = useLoginUser();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const history = useHistory();
+  const { showMessage } = useMessage();
+
+  //api送信state
+  const [title, setTitle] = useState()
+  const [food, setFood] = useState()
+  const [process, setProcess] = useState()
+  const [time_required, setTime_required] = useState(0)
   const [image, setImage] = useState({ data: "", name: "" })
-  const { CheckAuth } = useAuthCheck();
-  useEffect(() => {
-    CheckAuth()
-  }, [])
+
+  // const { CheckAuth } = useAuthCheck();
+  // useEffect(() => {
+  //   CheckAuth()
+  // }, [])
+
 
   const handleImageSelect = (e) => {
     const reader = new FileReader()
+    //画像をbase64にエンコード
     const files = (e.target).files
     if (files) {
       reader.onload = () => {
@@ -58,18 +59,44 @@ export const Post = () => {
         })
       }
       reader.readAsDataURL(files[0])
+      //onsubmitするとURLパラメータになる
     }
-
   }
 
-  const onSubmit = (data) => {
-    postRecipe(data);
-  }
-  // ここにログインユーザーのidをセットでpostする必要がある
-  // まずはpostできるようにする　デザインは後　写真のアップロードも必要
-  //バックエンドでルーティングとアクションも必要
+  const onSubmit = (event) => {
+    console.log("イベント発火")
+    // なぜ送られる時と送られない時がある？
+    // →Buttonにしたら解消した
+    //axiosで飛んでない
+    axios.post("http://localhost:3000/api/v1/recipes",
+      {
+        recipe: {
+          user_id: loginUser.user.id,
+          title: title,
+          time_required: time_required,
+          food: food,
+          process: process,
+          image:
+          {
+            data: image.data,
+            name: image.name
+          }
+        }
+      }
+      , { withCredentials: true }
+    ).then(response => {
+      if (response.data.created) {
+        showMessage({ title: "投稿に成功しました", status: "success" });
+        history.push("/index");
+      }
+      else if (response.data.status === 500) {
+        showMessage({ title: `${response.data.errors}`, status: "error" });
+      }
+    }).catch(e => {
+      showMessage({ title: "投稿できませんでした", status: "error" });
+    })
+  };
 
-  const [time_required, setTime_required] = useState(0)
   const handleChange = (time_required) => setTime_required(time_required)
 
   return (
@@ -80,35 +107,31 @@ export const Post = () => {
             レシピ投稿
         </Heading>
           <Divider my={4} />
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* 要バリデート作成＆反映 */}
+          <FormControl>
             <Stack>
-              <Input variant="flushed" radii="1rem" placeholder="タイトル(20文字まで)" {...register("title", { required: true, maxLength: 20 })} />
-              {errors.title && <p>"正しく入力してください"</p>}
+              <FormControl>
+                <Input variant="flushed" radii="1rem" placeholder="タイトル(20文字まで)" value={title} onChange={e => setTitle(e.target.value)} />
+              </FormControl>
             </Stack>
             <Stack>
-              <Image src="gibbresh.png" fallbackSrc="https://via.placeholder.com/150" />
+              <FormLabel color="gray.500" htmlFor="image" mt="4" mb="-2" >レシピ写真</FormLabel>
+              <Image src={!image.data ? "gibbresh.png" : image.data} fallbackSrc="https://via.placeholder.com/150" />
             </Stack>
             <Stack>
-              {/* usestateを利用してプレビューの表示可能 */}
               <Input type="file" placeholder="画像アップロード" name="image" accept="image/png,image/jpeg" onChange={handleImageSelect} />
-              {/* {errors.image && <p>"正しく入力してください"</p>} */}
             </Stack>
 
             <Stack mt={3}>
-              <Text color="gray.500">材料</Text>
-              <Textarea placeholder="材料" {...register("food", { required: true, minLength: 4 })} />
-              {errors.food && <p>"正しく入力してください"</p>}
+              <FormLabel color="gray.500" htmlFor="food" mb="-2">材料</FormLabel>
+              <Textarea id="food" placeholder="材料" value={food} onChange={e => setFood(e.target.value)} />
             </Stack>
             <Stack mt={3}>
-              <Text color="gray.500">手順</Text>
-              <Textarea placeholder="手順" {...register("process", { required: true, })} />
-              {errors.process && <p>"正しく入力してください"</p>}
+              <FormLabel color="gray.500" htmlFor="process" mb="-2">手順</FormLabel>
+              <Textarea id="process" placeholder="手順" value={process} onChange={e => setProcess(e.target.value)} />
             </Stack>
-            <Text color="gray.500">所要時間</Text>
-            {/* {...register("time_required", { required: true, })} */}
+            <FormLabel color="gray.500" htmlFor="time_required" mt="2" mb="0">所要時間</FormLabel>
             <Flex>
-              <NumberInput maxW="100px" mr="2rem" value={time_required} onChange={handleChange} >
+              <NumberInput maxW="100px" mr="2rem" id="time_required" value={time_required} value={time_required} onChange={handleChange} >
                 <NumberInputField />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
@@ -122,8 +145,19 @@ export const Post = () => {
                 <SliderThumb fontSize="sm" boxSize="32px" children={time_required} />
               </Slider>
             </Flex>
-            <SSubmit type="submit" value="レシピ登録" />
-          </form>
+            <Center>
+              <Button
+                mt={4}
+                colorScheme="teal"
+                width="75%"
+                // isLoading={isSubmitting}
+                type="submit"
+                onClick={onSubmit}
+              >
+                レシピ登録
+          </Button>
+            </Center>
+          </FormControl>
         </Box>
       </Flex>
     </>
