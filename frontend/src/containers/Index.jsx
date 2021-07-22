@@ -3,8 +3,9 @@ import {
   useDisclosure,
   Wrap,
   WrapItem,
-  Skeleton,
   Text,
+  Spinner,
+  Center
 } from "@chakra-ui/react";
 
 // components
@@ -28,8 +29,6 @@ import {
   recipeReducer,
 } from '../reducer/recipes';
 
-import { REQUEST_STATE } from '../constants';
-
 
 
 export const Index = memo(() => {
@@ -50,7 +49,7 @@ export const Index = memo(() => {
     onSelectRecipe({ id, recipes, onOpen })
   }, [recipes, onSelectRecipe, onOpen]);
   // console.log(selectedRecipe)
-  // console.log(recipes)
+  console.log(recipes)
   // console.log(loginUser);
 
   return (
@@ -61,18 +60,25 @@ export const Index = memo(() => {
       {
         loading ?
           <Fragment>
-            <Skeleton width="450" height="300" />
-            <Skeleton width="450" height="300" />
-            <Skeleton width="450" height="300" />
+            <Center>
+              <Spinner
+                thickness="6px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+                mt="90px"
+              />
+            </Center>
+
           </Fragment>
           :
           <Wrap p={{ base: 4, md: 10 }}>
             {recipes.map((recipe) => (
-              <WrapItem key={recipe.id} mx="auto" overflow="hidden"
-                m={0}>
+              <WrapItem key={recipe.id} mx="auto"  overflow="hidden" textAlign="center">
                 <RecipeCard
                   id={recipe.id}
-                  imageUrl={"image_url" ? "image_url" : NoImage}
+                  imageUrl={recipe.image_url ? recipe.image_url : NoImage}
                   title={recipe.title}
                   time_required={recipe.time_required}
                   food={recipe.food}

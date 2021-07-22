@@ -1,4 +1,4 @@
-import {  useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 
 import { index } from '../urls/index'
@@ -15,7 +15,7 @@ export const useGetRecipe = () => {
     axios
       .get(index)
       .then(response => {
-        setRecipes(response.data.recipes)
+        setRecipes(response.data)
       })
       .catch(() => {
         showMessage({ title: "レシピの取得に失敗しました", status: "error" })
@@ -24,5 +24,5 @@ export const useGetRecipe = () => {
         setLoading(false);
       });
   }, []);
-  return { getRecipe, loading, recipes };
+  return { getRecipe, loading, recipes};
 }

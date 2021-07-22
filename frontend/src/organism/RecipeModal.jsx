@@ -17,7 +17,7 @@ import moment from 'moment/moment'
 import NoImage from '../images/no-image.png'
 
 export const RecipeModal = memo((props) => {
-  const { isOpen, onClose, onClick, recipes } = props;
+  const { isOpen, onClose, onClick, recipes  } = props;
   return (
 
     <Modal
@@ -35,7 +35,7 @@ export const RecipeModal = memo((props) => {
           <Image
             borderRadius="md"
             boxSize="260px"
-            src={NoImage}
+            src={recipes?.image_url ? `${recipes?.image_url}` : NoImage}
             m="auto"
           />
           <Stack>
