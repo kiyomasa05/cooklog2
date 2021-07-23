@@ -39,7 +39,6 @@ export const Mypage = memo(() => {
   )
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
-  console.log(loginUser)
 
   return (
     <div>
@@ -92,14 +91,13 @@ export const Mypage = memo(() => {
                   m={0}
                 >
                   <RecipeCard
-
                     id={recipe.id}
-                    imageUrl={"image_url" ? "image_url" : NoImage}
+                    imageUrl={recipe.image_url ? recipe.image_url : NoImage}
                     title={recipe.title}
-                    // time_required={recipe.time_required}
-                    // food={recipe.food}
-                    // created_at={recipe.created_at}
-                    // process={recipe.process}
+                    time_required={recipe.time_required}
+                    food={recipe.food}
+                    created_at={recipe.created_at}
+                    process={recipe.process}
                     onClick={onClickRecipe}
                   />
                 </WrapItem>

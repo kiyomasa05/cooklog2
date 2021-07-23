@@ -3,7 +3,6 @@ import {
   useDisclosure,
   Wrap,
   WrapItem,
-  Text,
   Spinner,
   Center,
   Heading
@@ -37,9 +36,6 @@ export const Index = memo(() => {
   // const { getUsers, loading, users } = useAllUsers();
   const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
   const { loginUser } = useLoginUser();
-
-
-  const [state, dispatch] = useReducer(recipeReducer, initialState);
 
   const { CheckAuth } = useAuthCheck();
 
