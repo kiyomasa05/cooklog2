@@ -1,5 +1,8 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
-import { Text, Wrap, Image, WrapItem, Box, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue } from "@chakra-ui/react"
+import {
+  Text, Wrap, Image, WrapItem, Box, Button, Center,
+  Grid, GridItem, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue
+} from "@chakra-ui/react"
 
 
 //部品
@@ -40,40 +43,59 @@ export const Mypage = memo(() => {
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
 
+  // console.log(recipes)
+  // console.log(loginUser.user.id)
+
+  // マイレシピオブジェクトの中にrecipeの全部からuseridが一致する物を取り出し、格納する
+  // 格納後、map配列で表示する
+  const MyRecipes = recipes.filter(function (value) {
+    return value.user_id === loginUser.user.id
+  });
+
   return (
-    <div>
-      {/* 後でカード化 */}
-      <Box mt={78} p={2} mx={2}
-        boxShadow="inner" rounded="md" bg="white">
-        <Text pl={2} mb={2}>
+    <>
+      <Grid
+        h="200px"
+        templateRows="repeat(6)"
+        templateColumns="repeat(5)"
+        gap={1}
+        mx="auto"
+        mt={78}
+      >
+        <GridItem rowSpan={1} colSpan={6} ml={2} pb="-2" fontSize="lg">
           {loginUser.logged_in ?
             `${loginUser.user.name}   さん`
-            /* ログアウトするとエラー発生 */
+
             :
-            <p>検索中</p>
+            <Text> 検索中 </Text>
           }
-        </Text>
-        <Wrap justify="space-around">
-          <WrapItem>
-            <Image
-              borderRadius="full"
-              boxSize="80px"
-              src="https://source.unsplash.com/random"
-            />
-          </WrapItem>
-          <WrapItem >
-            <Wrap>
-              <WrapItem>
-                投稿
-                  {/* {`${loginUser.recipe.length}`} */}
-              </WrapItem>
-              <WrapItem>
-                お気に入り
-              </WrapItem>
-            </Wrap>
-          </WrapItem>
-        </Wrap>
-      </Box>
+        </GridItem>
+        <GridItem rowSpan={3} colSpan={2} mx="auto" display="flex" justifyContent="center" alignItems="center">
+          <Image
+            borderRadius="full"
+            boxSize="100px"
+            src="https://source.unsplash.com/random"
+
+          />
+
+        </GridItem>
+        <GridItem rowSpan={1} colSpan={2} textAlign="center" display="flex" justifyContent="center" alignItems="center">
+          投稿レシピ
+        </GridItem>
+        <GridItem rowSpan={1} colSpan={2} display="flex" justifyContent="center" alignItems="center" >
+          お気に入り
+        </GridItem>
+        <GridItem rowSpan={1} colSpan={2} display="flex" justifyContent="center" alignItems="center" fontSize="2xl">
+          {`${MyRecipes.length}`}
+        </GridItem>
+        <GridItem rowSpan={1} colSpan={2} display="flex" justifyContent="center" alignItems="center" fontSize="2xl">
+          {`${MyRecipes.length}`}
+        </GridItem>
+        <GridItem rowSpan={1} colSpan={6} >
+          <Button w="100%" h="90%">編集</Button>
+        </GridItem>
+      </Grid>
+
       <Tabs isFitted variant="enclosed" onChange={(index) => setTabIndex(index)} bg={bg}>
         <TabList mb="1em">
           <Tab>投稿レシピ</Tab>
@@ -83,7 +105,7 @@ export const Mypage = memo(() => {
           {/* 投稿レシピ */}
           <TabPanel>
             <Wrap p={{ base: 2, md: 3 }}>
-              {recipes.map((recipe) => (
+              {MyRecipes.map((recipe) => (
                 <WrapItem
                   key={recipe.id}
                   mx="auto"
@@ -111,7 +133,7 @@ export const Mypage = memo(() => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </div>
+    </>
   );
 })
 
