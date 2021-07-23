@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import {
   Flex, Box, Divider, Heading, Input, Textarea, Stack, Image, Button, Center,
   NumberInput,
@@ -33,6 +33,7 @@ export const Post = () => {
   const { loginUser } = useLoginUser();
   const history = useHistory();
   const { showMessage } = useMessage();
+  const [loading, setLoading] = useState(false);
 
   //api送信state
   const [title, setTitle] = useState()
@@ -40,11 +41,6 @@ export const Post = () => {
   const [process, setProcess] = useState()
   const [time_required, setTime_required] = useState(0)
   const [image, setImage] = useState({ data: "", name: "" })
-
-  // const { CheckAuth } = useAuthCheck();
-  // useEffect(() => {
-  //   CheckAuth()
-  // }, [])
 
 
   const handleImageSelect = (e) => {
@@ -59,15 +55,11 @@ export const Post = () => {
         })
       }
       reader.readAsDataURL(files[0])
-      //onsubmitするとURLパラメータになる
     }
   }
 
-  const onSubmit = (event) => {
-    console.log("イベント発火")
-    // なぜ送られる時と送られない時がある？
-    // →Buttonにしたら解消した
-    //axiosで飛んでない
+  const onSubmit =(event) => {
+    setLoading(true)
     axios.post("http://localhost:3000/api/v1/recipes",
       {
         recipe: {
@@ -85,16 +77,21 @@ export const Post = () => {
       }
       , { withCredentials: true }
     ).then(response => {
-      if (response.data.status = "created") {
+      if (response.data.status === "created") {
         showMessage({ title: "投稿に成功しました", status: "success" });
+        setLoading(false);
         history.push("/index");
       }
       else if (response.data.status === 422) {
         showMessage({ title: `${response.data.errors}`, status: "error" });
+        setLoading(false);
       }
-    }).catch(e => {
+    }).catch(() => {
       showMessage({ title: "投稿できませんでした", status: "error" });
-    })
+      setLoading(false);
+    }).finally(() => {
+      setLoading(false);
+    });
   };
 
   const handleChange = (time_required) => setTime_required(time_required)
@@ -151,7 +148,7 @@ export const Post = () => {
                 mt={4}
                 colorScheme="teal"
                 width="75%"
-                // isLoading={isSubmitting}
+                isLoading={loading}
                 type="submit"
                 onClick={onSubmit}
               >

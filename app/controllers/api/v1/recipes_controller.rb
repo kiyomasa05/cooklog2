@@ -23,23 +23,16 @@ module Api
           render json: {
             status: 422, #(500)
             errors: @recipe.errors.full_messages,
-          # '登録に失敗しました。再度ログインしなおしてからご登録ください'
           }
         end
       end
 
       def index
         @recipes = Recipe.order(created_at: :desc)
-        # image_path = Rails.application.routes.url_helpers.rails_representation_url(@recipe.image.variant({}), only_path: true)
-        # render json: {
-        #   status: :OK,
-        #   recipes: @recipes,
-        #   methods: [:image_url],
-        # }
+        
         render json: 
           @recipes,
           methods: [:image_url]
-        
       end
 
       private

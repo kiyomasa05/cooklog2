@@ -5,19 +5,18 @@ import {
   WrapItem,
   Text,
   Spinner,
-  Center
+  Center,
+  Heading
 } from "@chakra-ui/react";
 
 // components
 //api
-import { useGetRecipe } from '../hooks/useGetRecipe'
-// import { Header } from '../organism/Header/Header'
-// //画像
 import NoImage from '../images/no-image.png'
 
 
+import { useGetRecipe } from '../hooks/useGetRecipe'
 import { RecipeCard } from "../organism/RecipeCard";
-// import { useAllUsers } from "../../../hooks/useAllUsers";
+import { useAuthCheck } from "../hooks/useAuthCheck";
 import { RecipeModal } from "../organism/RecipeModal";
 import { useSelectRecipe } from "../hooks/useSelectRecipe";
 import { useLoginUser } from "../hooks/useLoginUser";
@@ -42,21 +41,24 @@ export const Index = memo(() => {
 
   const [state, dispatch] = useReducer(recipeReducer, initialState);
 
+  const { CheckAuth } = useAuthCheck();
+
+  useEffect(() => {
+    CheckAuth()
+  }, [])
+
   useEffect(() => getRecipe(), {
   }, [])
 
   const onClickRecipe = useCallback((id) => {
     onSelectRecipe({ id, recipes, onOpen })
   }, [recipes, onSelectRecipe, onOpen]);
-  // console.log(selectedRecipe)
-  console.log(recipes)
-  // console.log(loginUser);
+
 
   return (
     <>
-      {/* <Header /> */}
-      <Text fontSize={{ base: "24px", md: "28px" }} mt={24} textAlign={['center']}>投稿レシピ一覧
-        </Text>
+      <Heading as="h2" size="lg" mt={24} textAlign={['center']}>投稿レシピ一覧</Heading>
+      
       {
         loading ?
           <Fragment>
@@ -75,7 +77,7 @@ export const Index = memo(() => {
           :
           <Wrap p={{ base: 4, md: 10 }}>
             {recipes.map((recipe) => (
-              <WrapItem key={recipe.id} mx="auto"  overflow="hidden" textAlign="center">
+              <WrapItem key={recipe.id} mx="auto" overflow="hidden" textAlign="center">
                 <RecipeCard
                   id={recipe.id}
                   imageUrl={recipe.image_url ? recipe.image_url : NoImage}
