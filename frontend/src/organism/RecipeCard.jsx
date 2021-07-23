@@ -9,8 +9,8 @@ export const RecipeCard = memo((props) => {
   const { id, imageUrl, title, time_required, food, created_at, onClick } = props;
   return (
     <Box
-      w={{ base: "200px", md: "300px" }}
-      h={{ base: "200px", md: "300px" }}
+      w={{ base: "170px", md: "300px" }}
+      h={{ base: "180px", md: "300px" }}
       bg="white"
       borderRadius="10px"
       shadow="md"
@@ -22,7 +22,7 @@ export const RecipeCard = memo((props) => {
       <Stack textAlign="center">
         <Image
           borderRadius="md"
-          boxSize={{ base: "120px", md: "180px" }}
+          boxSize={{ base: "110px", md: "180px" }}
           src={imageUrl}
           m="auto"
         />
@@ -39,6 +39,5 @@ export const RecipeCard = memo((props) => {
         {/* <Text fontSize={{ base: "xs", md: "sm" }} color="gray" maxW="280px" overflow="hidden" m="0" textOverflow="ellipsis" whiteSpace="nowrap">{`食材：${food}`}</Text> */}
       </Stack>
     </Box>
-
   )
 })

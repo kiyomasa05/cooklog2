@@ -64,9 +64,7 @@ export const Mypage = memo(() => {
       >
         <GridItem rowSpan={1} colSpan={6} ml={2} pb="-2" fontSize="lg">
           {loginUser.logged_in ?
-            `${loginUser.user.name}   さん`
-
-            :
+            `${loginUser.user.name}   さん` :
             <Text> 検索中 </Text>
           }
         </GridItem>
@@ -75,9 +73,7 @@ export const Mypage = memo(() => {
             borderRadius="full"
             boxSize="100px"
             src="https://source.unsplash.com/random"
-
           />
-
         </GridItem>
         <GridItem rowSpan={1} colSpan={2} textAlign="center" display="flex" justifyContent="center" alignItems="center">
           投稿レシピ
@@ -103,15 +99,15 @@ export const Mypage = memo(() => {
         </TabList>
         <TabPanels>
           {/* 投稿レシピ */}
-          <TabPanel>
-            <Wrap p={{ base: 2, md: 3 }}>
+          <TabPanel p={0}>
+            <Wrap
+              mx="auto"
+            >
               {MyRecipes.map((recipe) => (
                 <WrapItem
                   key={recipe.id}
-                  mx="auto"
                   overflow="hidden"
-                  m={0}
-                >
+                  m={0}>
                   <RecipeCard
                     id={recipe.id}
                     imageUrl={recipe.image_url ? recipe.image_url : NoImage}
