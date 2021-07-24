@@ -28,11 +28,10 @@ export const useAuth = () => {
       { withCredentials: true }
     ).then(response => {
       if (response.data.logged_in) {
-        // contextにログインユーザーの情報を保存
         setLoginUser(response.data)
         showMessage({ title: "ログインしました", status: "success" });
-        history.push("/mypage");
-        // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する
+        const user_id = response.data.user.id
+        history.push(`/users/${user_id}`);
       }
       // 認証できなかった時のエラー
       else if (response.data.status === 401) {

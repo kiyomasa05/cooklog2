@@ -31,7 +31,7 @@ export const Router = () => {
         />
         {/* 次回/mypage/のルートを追記 */}
         <Route
-          path="/mypage"
+          path="/users"
           render={({ match: { url } }) => (
             <Switch>
               {MypageRoutes.map((route) => (

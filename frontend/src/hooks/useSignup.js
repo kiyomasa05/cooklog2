@@ -51,7 +51,8 @@ export const useSignup = () => {
       if (response.data.status === 'created') {
         setLoginUser(response.data)
         showMessage({ title: "新規登録しました", status: "success" });
-        history.push("/mypage");
+        const user_id = response.data.user.id
+        history.push(`/users/${user_id}`);
       }
       // 登録できなかった時のエラー
       else if (response.data.status === 500) {

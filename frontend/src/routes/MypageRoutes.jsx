@@ -1,17 +1,17 @@
 import { Mypage } from "../containers/Mypage"
-import { Post } from "../containers/Post"
 import { Page404 } from "../containers/404";
+import { UserEdit} from "../containers/UserEdit"
 
 export const MypageRoutes = [
   {
-    path: "/",
+    path: "/:id",
     exact: true,
     children: <Mypage />
   },
   {
-    path: "/post",
-    exact: true,
-    children: <Post />
+    path: "/:id/edit",
+    exact: false,
+    children: <UserEdit />
   },
   {
     path: "*",

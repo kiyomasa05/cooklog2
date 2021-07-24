@@ -2,6 +2,7 @@ import { Home } from "../containers/static_page"
 import { Login } from "../containers/Login"
 import { Signup } from "../containers/Signup"
 import { Index } from "../containers/Index"
+import { Post } from "../containers/Post"
 import { Page404 } from "../containers/404";
 
 export const HomeRoutes = [
@@ -24,5 +25,10 @@ export const HomeRoutes = [
     path: "/index",
     exact: false,
     children: <Index />
+  },
+  {
+    path: "/post",
+    exact: true,
+    children: <Post />
   },
 ];

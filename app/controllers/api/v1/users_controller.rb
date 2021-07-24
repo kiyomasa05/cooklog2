@@ -20,22 +20,22 @@ module Api
         end
       end
 
-      def show
-        @user = User.find(params[:id])
-        if @user
+      def update
+        # @user = User.find(email: registrations_params[:email])
+        @user = User.find(registrations_params[:email])
+        if @user.update(registrations_params)
           render json: {
-          user: @user
-        }
+            status: :updated,
+            user: @user
+          }
         else
           render json: {
-          status: 500,
-          errors: ['user not found']
-        }
+            status: 500,
+            errors: @user.errors.full_messages
+          }
         end
       end
-
-
-
+    
       private
 
         def registrations_params

@@ -3,6 +3,7 @@ import {
   Text, Wrap, Image, WrapItem, Box, Button, Center,
   Grid, GridItem, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue
 } from "@chakra-ui/react"
+import { useHistory ,useParams} from "react-router-dom";
 
 
 //部品
@@ -20,6 +21,8 @@ export const Mypage = memo(() => {
   const { getRecipe, recipes, loading } = useGetRecipe();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
+  const history = useHistory();
+  const {id} = useParams();
 
   const { CheckAuth } = useAuthCheck();
 
@@ -35,6 +38,8 @@ export const Mypage = memo(() => {
     onSelectRecipe({ id, recipes, onOpen })
   }, [recipes, onSelectRecipe, onOpen]);
 
+  const onClickProfileEdit = useCallback(() => history.push(`/users/${id}/edit`), [history]);
+
   // タブ背景色の定義
   const colors = useColorModeValue(
     ["red.50", "blue.50"],
@@ -48,6 +53,7 @@ export const Mypage = memo(() => {
 
   // マイレシピオブジェクトの中にrecipeの全部からuseridが一致する物を取り出し、格納する
   // 格納後、map配列で表示する
+  //ログアウトするとコンパイルエラーとなる
   const MyRecipes = recipes.filter(function (value) {
     return value.user_id === loginUser.user.id
   });
@@ -88,7 +94,7 @@ export const Mypage = memo(() => {
           {`${MyRecipes.length}`}
         </GridItem>
         <GridItem rowSpan={1} colSpan={6} >
-          <Button w="100%" h="90%">編集</Button>
+          <Button w="100%" h="90%" onClick={onClickProfileEdit}>編集</Button>
         </GridItem>
       </Grid>
 
