@@ -10,7 +10,7 @@ import { userEditURL } from '../urls/index'
 
 export const useUserEdit = () => {
   const history = useHistory();
-  const { setLoginUser, loginUser } = useLoginUser();
+  const { setLoginUser } = useLoginUser();
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(false);
  
@@ -30,7 +30,8 @@ export const useUserEdit = () => {
       if (response.data.status === 'updated') {
         setLoginUser(response.data)
         showMessage({ title: "編集しました", status: "success" });
-        history.push("/mypage");
+        const user_id = response.data.user.id
+        history.push(`/users/${user_id}`);
       }
       // 登録できなかった時のエラー
       else if (response.data.status === 500) {

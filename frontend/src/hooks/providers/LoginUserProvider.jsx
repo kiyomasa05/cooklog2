@@ -8,7 +8,7 @@ const initial_user =
   user: {
     name: "notExist",
     id: "1",
-    email: ""
+    email: "sample@sample.com"
   },
   logged_in: false
 }
