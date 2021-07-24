@@ -7,8 +7,8 @@ export const logoutURL = `${DEFAULT_API_LOCALHOST}/logout`
 
 export const root = `${DEFAULT_API_LOCALHOST}/`
 export const signupURL = `${DEFAULT_API_LOCALHOST}/signup`
-// 編集用
-export const userEditURL =  (userId)=> `${DEFAULT_API_LOCALHOST}/${userId}/edit`
+// 編集へ
+export const userEditURL = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}`
 export const mypage = (userId) =>
   `${DEFAULT_API_LOCALHOST}/${userId}`
 export const post = `${DEFAULT_API_LOCALHOST}/recipes`

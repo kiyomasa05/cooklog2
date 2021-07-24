@@ -21,8 +21,8 @@ module Api
       end
 
       def update
-        # @user = User.find(email: registrations_params[:email])
-        @user = User.find(registrations_params[:email])
+        @user = User.find(params[:id])
+        # @user = User.find(registrations_params[:email])
         if @user.update(registrations_params)
           render json: {
             status: :updated,

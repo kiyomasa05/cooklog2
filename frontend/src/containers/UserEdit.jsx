@@ -36,12 +36,10 @@ export const UserEdit = memo((props) => {
   const { id } = useParams();
 
 
-  const onSubmit = ({ match }) => {
-    //   (data,userId) => {
-    //     console.log(data)
-    //     userEdit(data, match.params.userId);
-    //   }
-  }
+  const onSubmit = (data) =>{
+        console.log(data)
+        userEdit(data, id);
+      }
 
   const { CheckAuth } = useAuthCheck();
   useEffect(() => {
