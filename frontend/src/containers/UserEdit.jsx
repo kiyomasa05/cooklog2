@@ -25,7 +25,6 @@ export const UserEdit = memo((props) => {
   const { register, handleSubmit, setValue, formState: { errors,isDirty,isSubmitting} } = useForm({});
 
   const onSubmit = (data) => {
-    console.log(data)
     userEdit(data, id);
   }
   //userの初期値をRHFのsetValueでセット
@@ -46,29 +45,29 @@ export const UserEdit = memo((props) => {
             <Stack spacing={2} py={4} px={5}>
               {/* なまえ */}
               <FormLabel htmlFor="name" fontSize={{ base: "md", md: "md" }}>名前</FormLabel>
-              <Input type="text" placeholder="name"  {...register("name", { required: true, maxLength: 80 })} />
-              {errors.name?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"名前は必須です"</Text>}
-              {errors.name?.type === "maxLength" && <Text fontSize="md" color="red" m={0} p={0}>"名前は80文字以内で入力して下さい"</Text>}
+              <Input type="text" placeholder="name"  {...register("name", { required: true, maxLength: 50 })} />
+              {errors.name?.type === "required" && <Text fontSize="sm" color="red" m={0} p={0}>"名前は必須です"</Text>}
+              {errors.name?.type === "maxLength" && <Text fontSize="sm" color="red" m={0} p={0}>"名前は50文字以内で入力して下さい"</Text>}
               {/* メール */}
               <FormLabel htmlFor="email" fontSize={{ base: "md", md: "md" }}>メール</FormLabel>
               <Input
                 type="text" placeholder="email" {...register("email", { required: true, pattern: Pattern })}
               />
               {errors.email?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"emailは必須です"</Text>}
-              {errors.email?.type === "pattern" && <Text fontSize="md" color="red" m={0} p={0}>"正しく入力して下さい"</Text>}
+              {errors.email?.type === "pattern" && <Text fontSize="sm" color="red" m={0} p={0}>"正しく入力して下さい"</Text>}
               {/* パスワード */}
-              <FormLabel htmlFor="password" fontSize={{ base: "md", md: "md" }}>パスワード（変更する場合）</FormLabel>
+              <FormLabel htmlFor="password" fontSize={{ base: "md", md: "md" }}>パスワード（変更も可能）</FormLabel>
               <Input
                 type="password" placeholder="password"  {...register("password", { required: true, minLength: 4 })}
               />
-              {errors.password?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"パスワードは必須です"</Text>}
-              {errors.password?.type === "minLength" && <Text fontSize="md" color="red" m={0} p={0}>"パスワードは4文字以上で入力して下さい"</Text>}
+              {errors.password?.type === "required" && <Text fontSize="sm" color="red" m={0} p={0}>"パスワードは必須です"</Text>}
+              {errors.password?.type === "minLength" && <Text fontSize="sm" color="red" m={0} p={0}>"パスワードは4文字以上で入力して下さい"</Text>}
               <FormLabel htmlFor="password_cofirmation" fontSize={{ base: "md", md: "md" }}>パスワード（確認用）</FormLabel>
-              <Input type="password" placeholder="password_cofirmation" {...register("password_confirmation", { required: true, })} />
+              <Input type="password" placeholder="password_cofirmation" {...register("password_confirmation", { required: true, minLength: 4 })} />
               {/* react-hook-formで同じならエラーとしたい
             passwordの入力値を保持し、比べて実装予定 */}
-              {errors.password?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"パスワードは必須です"</Text>}
-              {errors.password?.type === "minLength" && <Text fontSize="md" color="red" m={0} p={0}>"パスワードは4文字以上で入力して下さい"</Text>}
+              {errors.password?.type === "required" && <Text fontSize="sm" color="red" m={0} p={0}>"パスワードは必須です"</Text>}
+              {errors.password?.type === "minLength" && <Text fontSize="sm" color="red" m={0} p={0}>"パスワードは4文字以上で入力して下さい"</Text>}
             </Stack>
             <Center>
               <Button

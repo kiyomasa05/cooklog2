@@ -46,9 +46,9 @@ export const Signup = memo(() => {
           <Divider my={4} />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={6} py={4} px={10}>
-              <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 80 })} />
+              <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 50 })} />
               {errors.name?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"名前は必須です"</Text>}
-              {errors.name?.type === "maxLength" && <Text fontSize="md" color="red" m={0} p={0}>"名前は80文字以内で入力して下さい"</Text>}
+              {errors.name?.type === "maxLength" && <Text fontSize="md" color="red" m={0} p={0}>"名前は50文字以内で入力して下さい"</Text>}
               <Input
                 type="text" placeholder="email" {...register("email", { required: true, pattern: Pattern })}
               />

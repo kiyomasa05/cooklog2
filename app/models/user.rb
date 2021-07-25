@@ -8,4 +8,12 @@ class User < ApplicationRecord
                     uniqueness: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 4 }
+# # passwordなしでuserをupdateできるメソッド
+#   def update_without_password(params, *options)
+#     # params.delete(:current_password)
+#     if params[:password].blank? && params[:password_confirmation].blank?
+#       params.delete(:password)
+#       params.delete(:password_confirmation)
+#     end
+#   end
 end

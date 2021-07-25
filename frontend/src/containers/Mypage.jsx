@@ -3,7 +3,7 @@ import {
   Text, Wrap, Image, WrapItem, Box, Button, Center,
   Grid, GridItem, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue
 } from "@chakra-ui/react"
-import { useHistory ,useParams} from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 
 //部品
@@ -22,12 +22,14 @@ export const Mypage = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
   const history = useHistory();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const { CheckAuth } = useAuthCheck();
 
+
+
   useEffect(() => {
-    CheckAuth()
+    CheckAuth();
   }, [])
 
   useEffect(() => {
@@ -48,16 +50,22 @@ export const Mypage = memo(() => {
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
 
-  // console.log(recipes)
-  // console.log(loginUser.user.id)
-
+  // const userId = {
+  //   user: {
+  //     id: 0
+  //   }
+  // }
+  // loginUser ? userId = loginUser.user.id  
+  // userId = loginUser.user.id  || userId
   // マイレシピオブジェクトの中にrecipeの全部からuseridが一致する物を取り出し、格納する
   // 格納後、map配列で表示する
   //ログアウトするとコンパイルエラーとなる
-  const MyRecipes = recipes.filter(function (value) {
-    return value.user_id === loginUser.user.id
+  // if (loginUser.logged_in) {
+  //   userId = loginUser.user.id
+  // }
+  const MyRecipes = recipes.filter(function (recipe) {
+    return recipe.user_id === loginUser.user.id
   });
-
   return (
     <>
       <Grid
@@ -98,17 +106,15 @@ export const Mypage = memo(() => {
         </GridItem>
       </Grid>
 
-      <Tabs isFitted variant="enclosed" onChange={(index) => setTabIndex(index)} bg={bg}>
+      <Tabs isFitted variant="enclosed" onChange={(index) => setTabIndex(index)} bg={bg} >
         <TabList mb="1em">
           <Tab>投稿レシピ</Tab>
           <Tab>お気に入りレシピ</Tab>
         </TabList>
         <TabPanels>
           {/* 投稿レシピ */}
-          <TabPanel p={0}>
-            <Wrap
-              mx="auto"
-            >
+          <TabPanel p={0} >
+            <Wrap>
               {MyRecipes.map((recipe) => (
                 <WrapItem
                   key={recipe.id}

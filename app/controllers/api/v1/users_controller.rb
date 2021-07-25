@@ -23,6 +23,7 @@ module Api
       def update
         @user = User.find(params[:id])
         # @user = User.find(registrations_params[:email])
+        # update_without_password(registrations_params)
         if @user.update(registrations_params)
           render json: {
             status: :updated,
