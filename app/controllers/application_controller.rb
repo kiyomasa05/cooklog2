@@ -13,15 +13,9 @@ class ApplicationController < ActionController::API
 
   def current_user
     if session[:user_id]
-      # @current_user ||= User.find(id: session[:user_id])
-      # session[:user_id]自体が消えている。入れようがない
-      #cookieがうまく行ってない模様
-      @current_user ||= User.find_by(id: session[:user_id])
+      @current_user ||= User.find(id: session[:user_id])
+     
+      # @current_user ||= User.find_by(id: session[:user_id])
     end
-  end
-
-  def fake_load
-    sleep(1)
-    # 1秒だけプログラムの実行を止める
   end
 end
