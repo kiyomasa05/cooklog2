@@ -82,6 +82,7 @@ export const Index = memo(() => {
                   food={recipe.food}
                   created_at={recipe.created_at}
                   process={recipe.process}
+                  loginUser={loginUser}
                   onClick={onClickRecipe}
                 />
               </WrapItem>

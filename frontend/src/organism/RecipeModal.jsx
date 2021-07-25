@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -10,16 +10,36 @@ import {
   Button,
   Stack,
   Text, Wrap,
-  Image
+  Image,
 } from "@chakra-ui/react";
+import { StarIcon, SmallCloseIcon } from '@chakra-ui/icons'
 import moment from 'moment/moment'
 
 import NoImage from '../images/no-image.png'
 
 export const RecipeModal = memo((props) => {
-  const { isOpen, onClose, onClick, recipes  } = props;
-  return (
+  const { isOpen, onClose, onClick, loginUser, recipes } = props;
+  const [favorite, setFavorite] = useState(false)
 
+  const onClickFavo = () => {
+    console.log("いいね")
+    const favo = false
+    setFavorite(favo)
+    // useFavo関数 fvcreate //apiに送る
+  }
+  const onClickFavosol = () => {
+    console.log("いいね解除")
+    const favo = true
+    setFavorite(favo)
+    // useFavo関数 //apiに送る fv delete
+  }
+  // useEffect(() => {
+  //   // favoriteをチェックする関数();
+  // }, [])
+  //stateはお気に入りの状態をどこでもつ？
+  //onclickで関数実行。その関数は別のhooksで保有
+  //状態はとりあえずここでもつか・..
+  return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
@@ -52,11 +72,18 @@ export const RecipeModal = memo((props) => {
           </Stack>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
+          <Button colorScheme="blue" mr={3} onClick={onClose}><SmallCloseIcon mr="2" />
             Close
             </Button>
+          {favorite === true ?
+            <Button leftIcon={<StarIcon color="white" />} colorScheme="blue" color="white" mr={3} onClick={onClickFavo}>
+              お気に入り登録
+            </Button>
+            : <Button leftIcon={<StarIcon />} colorScheme="yellow" mr={3} onClick={onClickFavosol}>
+              お気に入り登録済
+            </Button>}
         </ModalFooter>
       </ModalContent>
-    </Modal>
+    </Modal >
   )
 })

@@ -17,14 +17,16 @@ export const HeaderMenu = memo(() => {
   const { logout } = useLogout();
   const { loginUser } = useLoginUser();
 
+  const userId=loginUser.user.id
+
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
-  const onClickPost = useCallback(() => history.push("/mypage/post"), [history]);
-  const onClickMypage = useCallback(() => history.push("/mypage"), [history]);
+  const onClickPost = useCallback(() => history.push(`/users/${userId}/post`), [history]);
+  const onClickMypage = useCallback(() => history.push(`/users/${userId}`), [history]);
   const onClickLogout = useCallback(() => logout(), []);
-
+  
   return (
     <>
       <Flex
@@ -56,7 +58,6 @@ export const HeaderMenu = memo(() => {
               <Fragment>
                 <Link mr={4} onClick={onClickSignup}>新規登録</Link>
                 <Link mr={4} onClick={onClickLogin}>ログイン</Link>
-                <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
               </Fragment>
             }
           </Box>
