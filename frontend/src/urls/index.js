@@ -9,6 +9,9 @@ export const root = `${DEFAULT_API_LOCALHOST}/`
 export const signupURL = `${DEFAULT_API_LOCALHOST}/signup`
 // 編集へ
 export const userEditURL = (userId) => `${DEFAULT_API_LOCALHOST}/users/${userId}`
+// お気に入りへ//削除も一緒
+export const favoURL = (recipeId) => `${DEFAULT_API_LOCALHOST}/recipes/${recipeId}/favorites`
+
 export const mypage = (userId) =>
   `${DEFAULT_API_LOCALHOST}/${userId}`
 export const post = `${DEFAULT_API_LOCALHOST}/recipes`

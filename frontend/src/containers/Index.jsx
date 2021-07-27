@@ -28,7 +28,6 @@ import {
 } from '../reducer/recipes';
 
 
-
 export const Index = memo(() => {
 
   const { getRecipe, recipes, loading } = useGetRecipe();
@@ -89,7 +88,7 @@ export const Index = memo(() => {
             ))}
           </Wrap>
       }
-      <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} />
+      <RecipeModal recipes={selectedRecipe}  isOpen={isOpen} onClose={onClose} />
     </>
   );
 })
