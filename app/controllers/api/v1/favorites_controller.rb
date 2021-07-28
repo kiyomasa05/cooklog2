@@ -15,16 +15,33 @@ module Api
           }
         else
           render json: {
-                  status: 500,
-                  errors: @favorite.errors.full_messages
-                }
+                   status: 500,
+                   errors: ["登録できませんでした"]
+                  #  errors: @favorite.errors.full_messages
+                  #  バリデーと入れてないから？エラーメッセージがないのでは？
+                 }
         end
       end
 
       # お気に入り削除
       def destroy
-        @favorite = Favorite.find_by(user_id: current_user.id, recipe_id: @recipe.id)
+        #user.idが送られてないよ。ってエラーが出ている気がする
+        #current_userがnilなので探せないらしい
+        # binding.pry
+        user_id = @current_user.id || params[:favorite][:user_id]
+        @favorite = Favorite.find_by(user_id: user_id, recipe_id: @recipe.id)
+        # @favorite = Favorite.find_by(user_id: current_user.id, recipe_id: @recipe.id)
+        # binding.pry
         @favorite.destroy
+        #   render json: {
+        #           status: :delete,
+        #         }
+        # else
+        #   render json: {
+        #           status: 500,
+        #           errors: @favorite.errors.full_messages,
+        #         }
+        #     end
       end
 
       private

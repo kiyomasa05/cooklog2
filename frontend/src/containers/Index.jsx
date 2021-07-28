@@ -53,7 +53,7 @@ export const Index = memo(() => {
   return (
     <>
       <Heading as="h2" size="lg" mt={24} textAlign={['center']}>投稿レシピ一覧</Heading>
-      
+
       {
         loading ?
           <Fragment>
@@ -88,7 +88,7 @@ export const Index = memo(() => {
             ))}
           </Wrap>
       }
-      <RecipeModal recipes={selectedRecipe}  isOpen={isOpen} onClose={onClose} />
+      <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
     </>
   );
 })

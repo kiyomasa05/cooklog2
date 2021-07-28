@@ -19,27 +19,22 @@ import { useFavo,favorite } from "../hooks/useFavo"
 import NoImage from '../images/no-image.png'
 
 export const RecipeModal = memo((props) => {
-  const { isOpen, onClose, recipes } = props;
-  const { callFavorite } = useFavo();
+  const { isOpen, onClose, recipes,loginUser } = props;
+  const { callFavorite,deleteFavorite } = useFavo();
   const [favorite, setFavorite] = useState(false)
 
   const onClickFavo = () => {
     console.log("いいね")
     const favo = true
     setFavorite(favo)
-    callFavorite(recipes.id)
+    callFavorite(recipes.id,loginUser.user.id)
   }
   const onClickFavosol = () => {
     console.log("いいね解除")
     const favo = false
     setFavorite(favo)
+    deleteFavorite(recipes.id,loginUser.user.id)
   }
-  // useEffect(() => {
-  //   // favoriteをチェックする関数();
-  // }, [])
-  //stateはお気に入りの状態をどこでもつ？
-  //onclickで関数実行。その関数は別のhooksで保有
-  //状態はとりあえずここでもつか・..
   return (
     <Modal
       isOpen={isOpen}
