@@ -43,7 +43,13 @@ module Api
         @recipes = @user.recipes
     
         favorites = Favorite.where(user_id: current_user.id).pluck(:recipe_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
-        @favorite_list = Post.find(favorites)     # postsテーブルから、お気に入り登録済みのレコードを取得
+        @favorite_list = Recipe.find(favorites)     # Recipeテーブルから、お気に入り登録済みのレコードを取得
+        # render json:{
+        #   favo_recipe:@favorite_list
+        # }
+        render json: 
+          @favorite_list,
+          methods: [:image_url]
       end
     
       private

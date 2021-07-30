@@ -14,26 +14,27 @@ import {
 } from "@chakra-ui/react";
 import { StarIcon, SmallCloseIcon } from '@chakra-ui/icons'
 import moment from 'moment/moment'
-import { useFavo,favorite } from "../hooks/useFavo"
+import { useFavo, favorite } from "../hooks/useFavo"
 
 import NoImage from '../images/no-image.png'
 
 export const RecipeModal = memo((props) => {
-  const { isOpen, onClose, recipes,loginUser } = props;
-  const { callFavorite,deleteFavorite } = useFavo();
+  const { isOpen, onClose, recipes, loginUser } = props;
+  const { callFavorite, deleteFavorite } = useFavo();
   const [favorite, setFavorite] = useState(false)
 
+  //falseがお気に入り状態でない　trueがお気に入り状態
   const onClickFavo = () => {
     console.log("いいね")
     const favo = true
     setFavorite(favo)
-    callFavorite(recipes.id,loginUser.user.id)
+    callFavorite(recipes.id, loginUser.user.id)
   }
   const onClickFavosol = () => {
     console.log("いいね解除")
     const favo = false
     setFavorite(favo)
-    deleteFavorite(recipes.id,loginUser.user.id)
+    deleteFavorite(recipes.id, loginUser.user.id)
   }
   return (
     <Modal
@@ -68,17 +69,22 @@ export const RecipeModal = memo((props) => {
           </Stack>
         </ModalBody>
         <ModalFooter>
+          {/* loginしているuser_idと違うレシピだけお気に入りボタン表示 logoutするとここがコンパイルエラーになる*/}
+          {
+            loginUser.user.id !== recipes?.user_id ?
+              (favorite === false ?
+                (<Button leftIcon={<StarIcon color="white" />} colorScheme="blue" color="white" mr={3} onClick={onClickFavo}>
+                  お気に入り登録
+                </Button>)
+                :
+                (<Button leftIcon={<StarIcon />} colorScheme="yellow" mr={3} onClick={onClickFavosol}>
+                  お気に入り登録済
+                </Button>)
+              ) : (<div></div>)
+          }
           <Button colorScheme="blue" mr={3} onClick={onClose}><SmallCloseIcon mr="2" />
             Close
-            </Button>
-          {favorite === true ?
-            <Button leftIcon={<StarIcon />} colorScheme="yellow" mr={3} onClick={onClickFavosol}>
-              お気に入り登録済
           </Button>
-            :
-            <Button leftIcon={<StarIcon color="white" />} colorScheme="blue" color="white" mr={3} onClick={onClickFavo}>
-              お気に入り登録
-        </Button>}
         </ModalFooter>
       </ModalContent>
     </Modal >

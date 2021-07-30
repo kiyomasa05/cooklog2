@@ -9,7 +9,7 @@ export const RecipeCard = memo((props) => {
   const { id, imageUrl, title, time_required, food, created_at, onClick } = props;
   return (
     <Box
-      w={{ base: "170px", md: "300px" }}
+      w={{ base: "160px", md: "300px" }}
       h={{ base: "180px", md: "300px" }}
       bg="white"
       borderRadius="10px"

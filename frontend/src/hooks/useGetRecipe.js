@@ -24,5 +24,5 @@ export const useGetRecipe = () => {
         setLoading(false);
       });
   }, []);
-  return { getRecipe, loading, recipes};
+  return { getRecipe, loading, recipes };
 }
