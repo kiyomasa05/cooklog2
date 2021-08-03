@@ -1,20 +1,37 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
-import { favoURL } from '../urls/index'
+//部品
 import { useMessage } from './useMessege'
 import { useLoginUser } from "../hooks/useLoginUser"
-import { useGetFavo } from '../hooks/useGetFavo';
+// import { useGetFavo } from '../hooks/useGetFavo';
+
+//url
+import { favoURL,setFavoURL } from '../urls/index'
+
 
 export const useFavo = () => {
   const { showMessage } = useMessage();
   const { loginUser } = useLoginUser();
   const [favorite, setFavorite] = useState(false);
-  const { getFavoRecipe, FavoRecipes } = useGetFavo();
+  // const { getFavoRecipe, FavoRecipes } = useGetFavo();
 
-  useEffect(() => {
-    getFavoRecipe(loginUser.user.id)
-  }, [])
+  // // useEffect(() => {
+  // //   getFavoRecipe(loginUser.user.id)
+  // // }, [])
+
+  const initialFavoState = useCallback((recipe) => {
+    //targetRecipeオブジェクトそのものを受け取る
+    axios
+      .get(setFavoURL(`${recipe?.id}`),
+        { withCredentials: true })
+      .then(response => {
+        setFavorite(response.data)//favoriteのtrueかfalseが入る
+      })
+      .catch((e) => {
+        showMessage({ title: `${e.errors}`, status: "error" })
+      })
+  }, [showMessage])
 
   const callFavorite = useCallback((recipe_id, loginUserId) => {
     axios.post(favoURL(recipe_id),
@@ -74,6 +91,6 @@ export const useFavo = () => {
   }, [showMessage]);
 
 
-  return { callFavorite, deleteFavorite, favorite };
+  return { callFavorite, deleteFavorite, initialFavoState, favorite };
   //favoliteを親コンポでも使いたいセットした値を返したい
 };

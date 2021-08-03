@@ -9,7 +9,6 @@ export const useSelectRecipe = () => {
   const { showMessage } = useMessage();
 
   const [selectedRecipe, setSelectedRecipe] = useState();
-  const [favorite, setFavorite] = useState(false);
 
   const onSelectRecipe = useCallback((props) => {
     const { id, recipes, onOpen } = props;
@@ -23,16 +22,7 @@ export const useSelectRecipe = () => {
       setSelectedRecipe(targetRecipe);
       onOpen();
     }
-    axios
-      .get(setFavoURL(targetRecipe.id),
-        { withCredentials: true })
-      //targetRecipeのidとuser_idをparamsに含める 
-      .then(response => {
-        setFavorite(response.data)//favoriteのtrueかfalseが入る
-      })
-      .catch((e) => {
-        showMessage({ title: `${e.errors}`, status: "error" })
-      })
-  }, []);
-  return { onSelectRecipe, selectedRecipe, favorite };
+  } , [])
+
+  return { onSelectRecipe, selectedRecipe };
 };

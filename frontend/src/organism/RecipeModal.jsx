@@ -1,4 +1,4 @@
-import { memo, useEffect,useState } from "react";
+import { memo, useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -19,27 +19,29 @@ import { useFavo } from "../hooks/useFavo"
 import NoImage from '../images/no-image.png'
 
 export const RecipeModal = memo((props) => {
-  const { isOpen, onClose, recipes, loginUser, favorite } = props;
+  const { isOpen, onClose, recipes, loginUser } = props;
 
-  const [favorite, setFavorite] = useState();
-  //こっちは初期値のfavoはtrueかfalse
-  const { callFavorite, deleteFavorite } = useFavo();
-  //こっちは更新時のfavo
-  
-  //falseがお気に入り状態でない trueがお気に入り状態
+  // console.log(recipes);
+
+  const { callFavorite, deleteFavorite, initialFavoState, favorite } = useFavo();
+  //iniFavo,favorite追加 
+
+  //モーダルレンダーと同時に実行,targetRecipeが変わるたびに実行
+  useEffect(() => {
+    initialFavoState(recipes)
+  }, [recipes])
+
+  //お気に入り登録機能
   const onClickFavo = () => {
     console.log("いいね")
-    // const favo = true
-    // // setFavorite(favo)
     callFavorite(recipes.id, loginUser.user.id)
-    // setFavorite(favorite);
   }
+  //お気に入り解除機能
   const onClickFavosol = () => {
     console.log("いいね解除")
-    // const favo = false
-    // setFavorite(favo)
     deleteFavorite(recipes.id, loginUser.user.id)
   }
+
   return (
     <Modal
       isOpen={isOpen}

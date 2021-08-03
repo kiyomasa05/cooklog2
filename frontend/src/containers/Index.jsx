@@ -33,7 +33,7 @@ export const Index = memo(() => {
   const { getRecipe, recipes, loading } = useGetRecipe();
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const { getUsers, loading, users } = useAllUsers();
-  const { onSelectRecipe, selectedRecipe,favorite } = useSelectRecipe();
+  const { onSelectRecipe, selectedRecipe } = useSelectRecipe();
   const { loginUser } = useLoginUser();
 
   const { CheckAuth } = useAuthCheck();
@@ -49,7 +49,7 @@ export const Index = memo(() => {
     onSelectRecipe({ id, recipes, onOpen })
     //ここにfavo情報を取りに行く関数をセットする
     //onselectrecipeは引数3つを受け取ってrecipesの中から引数idと一致するrecipeIdを返す　それをmodalにselected recipeとして返す
-  }, [recipes, onSelectRecipe, onOpen,favorite]);
+  }, [recipes, onSelectRecipe, onOpen]);
 
 
   return (
@@ -90,7 +90,7 @@ export const Index = memo(() => {
             ))}
           </Wrap>
       }
-      <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} favorite={favorite} />
+      <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
     </>
   );
 })
