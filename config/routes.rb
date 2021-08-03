@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post "/login", to: "sessions#create"
       get "/logged_in", to: "sessions#logged_in?"
       delete "/logout", to: "sessions#logout"
+      get "/recipes/:recipe_id/setFavo", to: "favorites#favorite?"
 
       resources :users do
         get :favorites, on: :collection

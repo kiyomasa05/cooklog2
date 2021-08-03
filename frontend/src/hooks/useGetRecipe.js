@@ -16,6 +16,7 @@ export const useGetRecipe = () => {
       .get(index)
       .then(response => {
         setRecipes(response.data)
+        console.log(response.data)
       })
       .catch(() => {
         showMessage({ title: "レシピの取得に失敗しました", status: "error" })

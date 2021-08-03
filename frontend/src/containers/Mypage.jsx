@@ -70,12 +70,7 @@ export const Mypage = memo(() => {
   const MyRecipes = recipes.filter(function (recipe) {
     return recipe.user_id === loginUser.user.id
   });
-  //お気に入りロジック
-  // 1apiからloginuserと同じfavoriteモデルにidが紐付いているレシピidを取得する　これが一番簡単そう
-  //2apiからfavoriteモデルのallを取得して、reactでloginuserのidとfavoriteのuserが一致しているidのレシピidを取得
-  //それをrecipesから抜き出す（ちょっと回りくどいのとmypageが重くなりそう）
-  //recipe取得に誰がどのpostにお気に入りしているかの情報を受け取り、userと同じidのレシピのみ表示する(filter)
-  //api showにリクエストして、お気に入りを取得する　showではそのユーザーのお気に入りレシピを取得する
+  //お気に入りレシピが一つもない場合は、お気に入りしたレシピが表示されますと表示したい
 
   return (
     <>
@@ -148,24 +143,27 @@ export const Mypage = memo(() => {
           </TabPanel>
           <TabPanel>
             {/* お気に入りレシピ */}
+            <p>お気に入りしたレシピが表示されます</p>
             <Wrap>
-              {FavoRecipes.map((recipe) => (
-                <WrapItem
-                  key={recipe.id}
-                  overflow="hidden"
-                  m={0}>
-                  <RecipeCard
-                    id={recipe.id}
-                    imageUrl={recipe.image_url ? recipe.image_url : NoImage}
-                    title={recipe.title}
-                    time_required={recipe.time_required}
-                    food={recipe.food}
-                    created_at={recipe.created_at}
-                    process={recipe.process}
-                    onClick={onClickRecipe}
-                  />
-                </WrapItem>
-              ))}
+              {
+                FavoRecipes.map((recipe) => (
+                  <WrapItem
+                    key={recipe.id}
+                    overflow="hidden"
+                    m={0}>
+                    <RecipeCard
+                      id={recipe.id}
+                      imageUrl={recipe.image_url ? recipe.image_url : NoImage}
+                      title={recipe.title}
+                      time_required={recipe.time_required}
+                      food={recipe.food}
+                      created_at={recipe.created_at}
+                      process={recipe.process}
+                      onClick={onClickRecipe}
+                    />
+                  </WrapItem>
+                ))
+              }
             </Wrap>
             <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
           </TabPanel>

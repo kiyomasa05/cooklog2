@@ -15,11 +15,11 @@ module Api
           }
         else
           render json: {
-                   status: 500,
-                   errors: ["登録できませんでした"]
+                  status: 500,
+                  errors: ["登録できませんでした"]
                   #  errors: @favorite.errors.full_messages
                   #  バリデーと入れてないから？エラーメッセージがないのでは？
-                 }
+                }
         end
       end
 
@@ -28,14 +28,17 @@ module Api
         #user.idが送られてないよ。ってエラーが出ている気がする
         #current_userがnilなので探せないらしい
         # binding.pry
-        user_id = @current_user.id || params[:favorite][:user_id]
-        @favorite = Favorite.find_by(user_id: user_id, recipe_id: @recipe.id)
+        # user_id = @current_user.id || params[:favorite][:user_id]
+        # @favorite = Favorite.find_by(user_id: user_id, recipe_id: @recipe.id)
+        @recipe = Recipe.find(params[:recipe_id])
+        current_user.favorites.find_by(recipe_id: @recipe.id).destroy
+        # favoriteというメソッドないよ
         # @favorite = Favorite.find_by(user_id: current_user.id, recipe_id: @recipe.id)
         # binding.pry
-        @favorite.destroy
-        #   render json: {
-        #           status: :delete,
-        #         }
+        # @favorite.destroy
+          render json: {
+                  status: :delete,
+                }
         # else
         #   render json: {
         #           status: 500,
@@ -43,9 +46,16 @@ module Api
         #         }
         #     end
       end
+      
+
+      def favorite?
+        # binding.pry
+        favorite=!Favorite.find_by(user_id: @current_user.id, recipe_id: @recipe.id).nil?
+        render json: favorite
+        #trueかfalseが返るようになった
+      end
 
       private
-
       def set_recipe
         @recipe = Recipe.find(params[:recipe_id])
       end
