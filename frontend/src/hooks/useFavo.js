@@ -7,7 +7,7 @@ import { useLoginUser } from "../hooks/useLoginUser"
 // import { useGetFavo } from '../hooks/useGetFavo';
 
 //url
-import { favoURL,setFavoURL } from '../urls/index'
+import { favoURL, setFavoURL } from '../urls/index'
 
 
 export const useFavo = () => {
@@ -58,28 +58,18 @@ export const useFavo = () => {
   }, [showMessage]);
 
   const deleteFavorite = useCallback((recipe_id, loginUserId) => {
-    axios.request({
-      method: 'DELETE',
-      url: favoURL(recipe_id),
-      data:
-      {
+    axios.delete(favoURL(recipe_id), {
+      data: {
         user_id: loginUserId,
         recipe_id: recipe_id
       }
-    },
-      // axios.delete(favoURL(recipe_id),{
-      //     data:
-      //     {
-      //       user_id: loginUserId,
-      //       recipe_id: recipe_id
-      //     }
-      //   },
-      { withCredentials: true }
+    }, { withCredentials: true }
     ).then(response => {
-      if (response.data) {
+      if (response.data.status==="delete") {
         showMessage({ title: "お気に入り解除しました", status: "success" });
         setFavorite(false)
       }
+      //今基本的には上だけ。rails でif文使ってないから
       // 認証できなかった時のエラー
       else if (response.data.status === 500) {
         showMessage({ title: `${response.data.errors}`, status: "error" });
@@ -92,5 +82,4 @@ export const useFavo = () => {
 
 
   return { callFavorite, deleteFavorite, initialFavoState, favorite };
-  //favoliteを親コンポでも使いたいセットした値を返したい
 };

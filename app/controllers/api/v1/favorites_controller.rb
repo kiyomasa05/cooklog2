@@ -2,8 +2,7 @@ module Api
   module V1
     class FavoritesController < ApplicationController
       before_action :set_recipe
-      before_action :current_user
-
+      before_action :current_user 
       # お気に入り登録
       def create
         if @recipe.user_id != current_user.id # 投稿者本人以外に限定
@@ -25,34 +24,19 @@ module Api
 
       # お気に入り削除
       def destroy
-        #user.idが送られてないよ。ってエラーが出ている気がする
-        #current_userがnilなので探せないらしい
-        # binding.pry
-        # user_id = @current_user.id || params[:favorite][:user_id]
-        # @favorite = Favorite.find_by(user_id: user_id, recipe_id: @recipe.id)
-        @recipe = Recipe.find(params[:recipe_id])
-        current_user.favorites.find_by(recipe_id: @recipe.id).destroy
-        # favoriteというメソッドないよ
-        # @favorite = Favorite.find_by(user_id: current_user.id, recipe_id: @recipe.id)
-        # binding.pry
-        # @favorite.destroy
+        @user=User.find(params[:user_id])
+        @favorite = Favorite.find_by(user_id: @user.id, recipe_id: @recipe.id)
+        
+        @favorite.destroy
           render json: {
                   status: :delete,
                 }
-        # else
-        #   render json: {
-        #           status: 500,
-        #           errors: @favorite.errors.full_messages,
-        #         }
-        #     end
       end
       
-
       def favorite?
-        # binding.pry
         favorite=!Favorite.find_by(user_id: @current_user.id, recipe_id: @recipe.id).nil?
         render json: favorite
-        #trueかfalseが返るようになった
+        #trueかfalseが返るように
       end
 
       private
