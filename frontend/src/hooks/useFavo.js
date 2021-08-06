@@ -29,7 +29,7 @@ export const useFavo = () => {
         setFavorite(response.data)//favoriteのtrueかfalseが入る
       })
       .catch((e) => {
-        showMessage({ title: `${e.errors}`, status: "error" })
+        // showMessage({ title: `${e.errors.fullmessage}`, status: "error" })
       })
   }, [showMessage])
 

@@ -21,10 +21,7 @@ import NoImage from '../images/no-image.png'
 export const RecipeModal = memo((props) => {
   const { isOpen, onClose, recipes, loginUser } = props;
 
-  // console.log(recipes);
-
   const { callFavorite, deleteFavorite, initialFavoState, favorite } = useFavo();
-  //iniFavo,favorite追加 
 
   //モーダルレンダーと同時に実行,targetRecipeが変わるたびに実行
   useEffect(() => {
@@ -33,12 +30,10 @@ export const RecipeModal = memo((props) => {
 
   //お気に入り登録機能
   const onClickFavo = () => {
-    console.log("いいね")
     callFavorite(recipes.id, loginUser.user.id)
   }
   //お気に入り解除機能
   const onClickFavosol = () => {
-    console.log("いいね解除")
     deleteFavorite(recipes.id, loginUser.user.id)
   }
 

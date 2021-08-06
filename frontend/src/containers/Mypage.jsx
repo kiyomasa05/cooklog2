@@ -165,6 +165,7 @@ export const Mypage = memo(() => {
                 ))
               }
             </Wrap>
+            {/* modalレンダー際にsetsetfavoが動いてしまい、apiに要求し、エラーになってしまうのは後で要変更 */}
             <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
           </TabPanel>
         </TabPanels>
