@@ -23,6 +23,7 @@ export const HeaderMenu = memo(() => {
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
+  const onClickSearch = useCallback(() => history.push("/search"), [history]);
   const onClickPost = useCallback(() => history.push(`/users/${userId}/post`), [history]);
   const onClickMypage = useCallback(() => history.push(`/users/${userId}`), [history]);
   const onClickLogout = useCallback(() => logout(), []);
@@ -52,6 +53,7 @@ export const HeaderMenu = memo(() => {
                 <Link mr={4} onClick={onClickMypage}>マイページ</Link>
                 <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>
                 <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
+                <Link mr={4} onClick={onClickSearch}>レシピ検索</Link>
                 <Link mr={4} onClick={onClickLogout}>ログアウト</Link>
               </Fragment>
               :
@@ -72,6 +74,7 @@ export const HeaderMenu = memo(() => {
         onClickSignup={onClickSignup}
         onClickLogin={onClickLogin}
         onClickIndex={onClickIndex}
+        onClickSearch={onClickSearch}
         onClickLogout={onClickLogout}
         onClickPost={onClickPost}
         onClickMypage={onClickMypage}
