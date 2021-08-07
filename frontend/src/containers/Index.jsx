@@ -1,11 +1,11 @@
-import React, { Fragment, useReducer, useEffect, memo, useCallback } from 'react';
+import React, { Fragment, useReducer, useEffect, memo, useCallback, useState } from 'react';
 import {
   useDisclosure,
   Wrap,
   WrapItem,
   Spinner,
   Center,
-  Heading
+  Heading,
 } from "@chakra-ui/react";
 
 // components
@@ -19,14 +19,6 @@ import { useAuthCheck } from "../hooks/useAuthCheck";
 import { RecipeModal } from "../organism/RecipeModal";
 import { useSelectRecipe } from "../hooks/useSelectRecipe";
 import { useLoginUser } from "../hooks/useLoginUser";
-
-// reducers
-import {
-  initialState,
-  ActionTypes,
-  recipeReducer,
-} from '../reducer/recipes';
-
 
 export const Index = memo(() => {
 
@@ -43,7 +35,9 @@ export const Index = memo(() => {
   }, [])
 
   useEffect(() => getRecipe(), {
-  }, [])
+  }, [recipes])
+
+  const Allrecipe = recipes;
 
   const onClickRecipe = useCallback((id) => {
     onSelectRecipe({ id, recipes, onOpen })
@@ -51,10 +45,12 @@ export const Index = memo(() => {
     //onselectrecipeは引数3つを受け取ってrecipesの中から引数idと一致するrecipeIdを返す　それをmodalにselected recipeとして返す
   }, [recipes, onSelectRecipe, onOpen]);
 
+  
 
   return (
     <>
       <Heading as="h2" size="lg" mt={24} textAlign={['center']}>投稿レシピ一覧</Heading>
+      
 
       {
         loading ?
