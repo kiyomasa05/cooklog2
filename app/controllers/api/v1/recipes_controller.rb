@@ -29,16 +29,39 @@ module Api
 
       def index
         @recipes = Recipe.order(created_at: :desc)
+        #本当は更新された順に表示したい
+        # @recipes = Recipe.order(updated_at: :desc)
         # @user = User.find(params[:id])
         # favorites = Favorite.where(user_id: current_user.id).pluck(:recipe_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
         # @favorite_list = Recipe.find(favorites)     # Recipeテーブルから、お気に入り登録済みのレコードを取得
-        
-        # ここでfavoももらうのはどうか
-        # render json: @recipes,@favorite_list,
-        #   methods: [:image_url]
-        render json: 
-          @recipes,
+
+        render json: @recipes,
           methods: [:image_url]
+      end
+
+      def update
+        @recipe = Recipe.find(params[:id])
+        if @recipe.valid?
+          if params[:recipe][:image]
+            blob = ActiveStorage::Blob.create_and_upload!(
+              io: StringIO.new(decode(params[:recipe][:image][:data]) + "\n"),
+              filename: params[:recipe][:image][:name],
+            )
+            @recipe.image.purge #一度紐づく画像を削除
+            @recipe.image.attach(blob)
+          end
+          # binding.pry
+          @recipe.update(post_params)
+          render json: {
+            status: :updated,
+            recipe: @recipe,
+          }
+        else
+          render json: {
+            status: 500,
+            errors: @recipe.errors.full_messages,
+          }
+        end
       end
 
       private

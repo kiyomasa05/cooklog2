@@ -153,9 +153,8 @@ export const Mypage = memo(() => {
                 ))
               }
             </Wrap>
-            {selectedRecipe ?
+            {selectedRecipe &&
               <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
-              : <div></div>
             }
           </TabPanel>
         </TabPanels>

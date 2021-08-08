@@ -24,8 +24,7 @@ export const RecipeModal = memo((props) => {
 
   const history = useHistory();
   const { callFavorite, deleteFavorite, initialFavoState, favorite } = useFavo();
-console.log(recipes)
-console.log(recipes?.id)
+
   //モーダルレンダーと同時に実行,targetRecipeが変わるたびに実行
   useEffect(() => {
     initialFavoState(recipes.id)
@@ -41,7 +40,11 @@ console.log(recipes?.id)
   }
 
   const recipeId = recipes?.id
-  const onClickRecipeEdit = useCallback(() => history.push(`/${recipeId}/edit`), [history]);
+  const onClickRecipeEdit = useCallback(() => history.push
+    ({
+      pathname: `/${recipeId}/edit`,
+      state: recipes 
+    }), [history]);
 
   return (
     <Modal

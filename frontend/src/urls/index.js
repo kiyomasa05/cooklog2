@@ -18,3 +18,4 @@ export const mypage = (userId) =>
   `${DEFAULT_API_LOCALHOST}/${userId}`
 export const post = `${DEFAULT_API_LOCALHOST}/recipes`
 export const index = `${DEFAULT_API_LOCALHOST}/recipes`
+export const recipeEditURL = (recipeId) => `${DEFAULT_API_LOCALHOST}/recipes/${recipeId}`
