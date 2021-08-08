@@ -14,16 +14,11 @@ export const useFavo = () => {
   const { showMessage } = useMessage();
   const { loginUser } = useLoginUser();
   const [favorite, setFavorite] = useState(false);
-  // const { getFavoRecipe, FavoRecipes } = useGetFavo();
-
-  // // useEffect(() => {
-  // //   getFavoRecipe(loginUser.user.id)
-  // // }, [])
-
-  const initialFavoState = useCallback((recipe) => {
-    //targetRecipeオブジェクトそのものを受け取る
+  
+  const initialFavoState = useCallback((recipe_id) => {
     axios
-      .get(setFavoURL(`${recipe?.id}`),
+      // .get(setFavoURL(`${recipe?.id}`),
+      .get(setFavoURL(recipe_id),
         { withCredentials: true })
       .then(response => {
         setFavorite(response.data)//favoriteのtrueかfalseが入る
@@ -31,7 +26,7 @@ export const useFavo = () => {
       .catch((e) => {
         // showMessage({ title: `${e.errors.fullmessage}`, status: "error" })
       })
-  }, [showMessage])
+  }, [])
 
   const callFavorite = useCallback((recipe_id, loginUserId) => {
     axios.post(favoURL(recipe_id),

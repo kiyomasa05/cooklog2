@@ -54,19 +54,6 @@ export const Mypage = memo(() => {
   const [tabIndex, setTabIndex] = useState(0)
   const bg = colors[tabIndex]
 
-  // const userId = {
-  //   user: {
-  //     id: 0
-  //   }
-  // }
-  // loginUser ? userId = loginUser.user.id  
-  // userId = loginUser.user.id  || userId
-  // マイレシピオブジェクトの中にrecipeの全部からuseridが一致する物を取り出し、格納する
-  // 格納後、map配列で表示する
-  //ログアウトするとコンパイルエラーとなる
-  // if (loginUser.logged_in) {
-  //   userId = loginUser.user.id
-  // }
   const MyRecipes = recipes.filter(function (recipe) {
     return recipe.user_id === loginUser.user.id
   });
@@ -134,6 +121,7 @@ export const Mypage = memo(() => {
                     food={recipe.food}
                     created_at={recipe.created_at}
                     process={recipe.process}
+                    loginUser={loginUser}
                     onClick={onClickRecipe}
                   />
                 </WrapItem>
@@ -165,8 +153,10 @@ export const Mypage = memo(() => {
                 ))
               }
             </Wrap>
-            {/* modalレンダー際にsetsetfavoが動いてしまい、apiに要求し、エラーになってしまうのは後で要変更 */}
-            <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
+            {selectedRecipe ?
+              <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
+              : <div></div>
+            }
           </TabPanel>
         </TabPanels>
       </Tabs>

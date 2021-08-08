@@ -37,20 +37,17 @@ export const Index = memo(() => {
   useEffect(() => getRecipe(), {
   }, [recipes])
 
-  const Allrecipe = recipes;
 
   const onClickRecipe = useCallback((id) => {
     onSelectRecipe({ id, recipes, onOpen })
-    //ここにfavo情報を取りに行く関数をセットする
     //onselectrecipeは引数3つを受け取ってrecipesの中から引数idと一致するrecipeIdを返す　それをmodalにselected recipeとして返す
   }, [recipes, onSelectRecipe, onOpen]);
 
-  
 
   return (
     <>
       <Heading as="h2" size="lg" mt={24} textAlign={['center']}>投稿レシピ一覧</Heading>
-      
+
 
       {
         loading ?
@@ -86,7 +83,9 @@ export const Index = memo(() => {
             ))}
           </Wrap>
       }
-      <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} />
+      {selectedRecipe ? <RecipeModal recipes={selectedRecipe} isOpen={isOpen} onClose={onClose} loginUser={loginUser} /> : <div></div>
+      }
+
     </>
   );
 })

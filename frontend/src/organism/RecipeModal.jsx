@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useCallback } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -12,20 +12,23 @@ import {
   Text, Wrap,
   Image,
 } from "@chakra-ui/react";
-import { StarIcon, SmallCloseIcon } from '@chakra-ui/icons'
+import { StarIcon, SmallCloseIcon, EditIcon } from '@chakra-ui/icons'
 import moment from 'moment/moment'
-import { useFavo } from "../hooks/useFavo"
+import { useHistory } from "react-router-dom";
 
+import { useFavo } from "../hooks/useFavo"
 import NoImage from '../images/no-image.png'
 
 export const RecipeModal = memo((props) => {
   const { isOpen, onClose, recipes, loginUser } = props;
 
+  const history = useHistory();
   const { callFavorite, deleteFavorite, initialFavoState, favorite } = useFavo();
-
+console.log(recipes)
+console.log(recipes?.id)
   //モーダルレンダーと同時に実行,targetRecipeが変わるたびに実行
   useEffect(() => {
-    initialFavoState(recipes)
+    initialFavoState(recipes.id)
   }, [recipes])
 
   //お気に入り登録機能
@@ -36,6 +39,9 @@ export const RecipeModal = memo((props) => {
   const onClickFavosol = () => {
     deleteFavorite(recipes.id, loginUser.user.id)
   }
+
+  const recipeId = recipes?.id
+  const onClickRecipeEdit = useCallback(() => history.push(`/${recipeId}/edit`), [history]);
 
   return (
     <Modal
@@ -70,17 +76,18 @@ export const RecipeModal = memo((props) => {
           </Stack>
         </ModalBody>
         <ModalFooter>
+          {
+            loginUser.user.id !== recipes?.user_id ?
+              //もしログインユーザーのidとレシピのidが違う場合、何もせず、同じならレシピ編集ボタンを設置
+              <div></div>
+              : <Button leftIcon={<EditIcon color="black" />} colorScheme="gray" color="black" mr={3} onClick={onClickRecipeEdit}>
+                編集
+              </Button>
+          }
           {/* loginしているuser_idと違うレシピだけお気に入りボタン表示 logoutするとここがコンパイルエラーになる*/}
           {
             loginUser.user.id !== recipes?.user_id ?
-              //お気に入り登録してないのに、最初からお気に入り登録済みと表示される→初期値がtrueになっている？→初期値はfalseにした　試し2という投稿はuser5からお気に入りした　再リロードして初期値がtrueでないと変→ならない。
-              //初期値を持ってきてないから　レシピ表示時に取得する必要がある。
-              //そのユーザーにお気に入りされているならファボ解除、されてないならファボ登録
-              //faboのステータス管理の問題　わかるのは、recipe idとuser_idのみだけ
-              //モーダルを開く際、loginのuserのidと選択したrecipeのidに紐ずくfavoがあるかチェックし、なければ、あればで分岐させるか
-              //recipeを取得する際にfavoモデルってもらえないのか？もらえればpropsとして渡してしまえそう
 
-              //もしfavoriteがfalseなら 今はpropsで受け取ったfavorite
               (favorite === false ?
                 (<Button leftIcon={<StarIcon color="white" />} colorScheme="blue" color="white" mr={3} onClick={onClickFavo}>
                   お気に入り登録
@@ -92,7 +99,7 @@ export const RecipeModal = memo((props) => {
               ) : (<div></div>)
           }
           <Button colorScheme="blue" mr={3} onClick={onClose}><SmallCloseIcon mr="2" />
-            Close
+            閉じる
           </Button>
         </ModalFooter>
       </ModalContent>
