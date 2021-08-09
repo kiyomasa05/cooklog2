@@ -14,27 +14,8 @@ export const useSignup = () => {
   const { setLoginUser } = useLoginUser();
 
   const [loading, setLoading] = useState(false);
-  // const [user, setUser] = useState({})
-  // const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
-
-  // const handleLogin = useCallback((data) => {
-  //   setLoggedInStatus("ログイン中")
-  //   setUser(data.user)
-  //   // ログインステータスを変更する関数
-  // }, [user])
-
-  // const handleLogout = useCallback(() => {
-  //   setLoggedInStatus("未ログイン")
-  //   setUser({})
-  //   // 実行後、ステータスとユーザーを空にする
-  // }, [user])
-
-  // const handleSuccessfulAuth = useCallback((data) => {
-  //   handleLogin(data)
-  //   // handleLogin関数をここで再利用する
-  // }, [])
-
-  const signup = useCallback((data) => {
+  
+  const signup = useCallback((data,avatar) => {
     setLoading(true);
     //ローディングアイコンをtrueに
     axios.post(signupURL,
@@ -44,6 +25,11 @@ export const useSignup = () => {
           email: data.email,
           password: data.password,
           password_confirmation: data.password_confirmation,
+          avatar:
+          {
+            data: avatar.data,
+            name: avatar.name
+          }
         }
       },
       { withCredentials: true }
