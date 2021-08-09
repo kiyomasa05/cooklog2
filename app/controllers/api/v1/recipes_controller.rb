@@ -47,7 +47,6 @@ module Api
               io: StringIO.new(decode(params[:recipe][:image][:data]) + "\n"),
               filename: params[:recipe][:image][:name],
             )
-            @recipe.image.purge #一度紐づく画像を削除
             @recipe.image.attach(blob)
           end
           # binding.pry
@@ -55,6 +54,7 @@ module Api
           render json: {
             status: :updated,
             recipe: @recipe,
+            methods: [:image_url]
           }
         else
           render json: {

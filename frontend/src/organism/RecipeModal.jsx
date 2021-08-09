@@ -27,7 +27,7 @@ export const RecipeModal = memo((props) => {
 
   //モーダルレンダーと同時に実行,targetRecipeが変わるたびに実行
   useEffect(() => {
-    initialFavoState(recipes.id)
+    initialFavoState(recipes?.id)
   }, [recipes])
 
   //お気に入り登録機能

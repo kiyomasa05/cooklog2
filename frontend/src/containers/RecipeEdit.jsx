@@ -36,8 +36,6 @@ export const RecipeEdit = memo(() => {
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(false);
 
-  console.log(state)
-
   //api送信state
   const [title, setTitle] = useState(state.title)
   const [food, setFood] = useState(state.food)
