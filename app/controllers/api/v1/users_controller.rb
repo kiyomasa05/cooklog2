@@ -45,7 +45,8 @@ module Api
         @user.update(registrations_params)
           render json: {
             status: :updated,
-            user: @user
+            user: @user,
+            methods: [:avatar_url]
           }
         else
           render json: {
@@ -53,6 +54,12 @@ module Api
             errors: @user.errors.full_messages
           }
         end
+#         既存のuserにavatarを添付するにはavatar.attachを呼び出します。
+
+# user.avatar.attach(params[:avatar])
+# avatar.attached?で特定のuserがavatarを持っているかどうかを調べられます。
+
+# user.avatar.attached?
       end
 
       # お気に入りを見せる

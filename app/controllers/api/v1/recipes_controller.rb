@@ -18,6 +18,7 @@ module Api
                    status: :created,
                    recipe: @recipe,
                    methods: [:image_url],
+                   #method urlは返ってない
                  }
         else
           render json: {
@@ -29,12 +30,13 @@ module Api
 
       def index
         @recipes = Recipe.order(created_at: :desc)
+        # @recipes = Recipe.order(updated_at: :desc)
+        # @recipes = Recipe.order(:updated_at)
         #本当は更新された順に表示したい
         # @recipes = Recipe.order(updated_at: :desc)
         # @user = User.find(params[:id])
         # favorites = Favorite.where(user_id: current_user.id).pluck(:recipe_id)  # ログイン中のユーザーのお気に入りのpost_idカラムを取得
         # @favorite_list = Recipe.find(favorites)     # Recipeテーブルから、お気に入り登録済みのレコードを取得
-
         render json: @recipes,
           methods: [:image_url]
       end

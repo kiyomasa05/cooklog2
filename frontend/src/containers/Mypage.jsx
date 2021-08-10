@@ -1,6 +1,6 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import {
-  Text, Wrap, Image, WrapItem, Box, Button, Center,
+  Text, Wrap, Image, WrapItem, Spinner, Button, Center,
   Grid, GridItem, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue
 } from "@chakra-ui/react"
 import { useHistory, useParams } from "react-router-dom";
@@ -27,7 +27,9 @@ export const Mypage = memo(() => {
   const { id } = useParams();
 
   const { CheckAuth } = useAuthCheck();
-
+  console.log(loginUser)
+  console.log(loginUser.user.avatar_url)
+  console.log(recipes)
   useEffect(() => {
     CheckAuth();
   }, [])
@@ -72,14 +74,23 @@ export const Mypage = memo(() => {
         <GridItem rowSpan={1} colSpan={6} ml={2} pb="-2" fontSize="lg">
           {loginUser.logged_in ?
             `${loginUser.user.name}   さん` :
-            <Text> 検索中 </Text>
+            <Spinner
+                thickness="6px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="md"
+                mt="90px"
+              />
           }
         </GridItem>
         <GridItem rowSpan={3} colSpan={2} mx="auto" display="flex" justifyContent="center" alignItems="center">
           <Image
             borderRadius="full"
             boxSize="100px"
-            src="https://source.unsplash.com/random"
+            // src="https://source.unsplash.com/random"
+            src={!loginUser.user.avatar_url ? "gibbresh.png" : loginUser.user.avatar_url}
+            fallbackSrc="https://via.placeholder.com/250" border="2px" borderColor="gray.200"
           />
         </GridItem>
         <GridItem rowSpan={1} colSpan={2} textAlign="center" display="flex" justifyContent="center" alignItems="center">
