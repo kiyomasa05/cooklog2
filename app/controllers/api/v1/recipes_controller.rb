@@ -55,9 +55,8 @@ module Api
           @recipe.update(post_params)
           render json: {
             status: :updated,
-            recipe: @recipe,
-            methods: [:image_url]
-          }
+            recipe: @recipe
+          },methods: [:image_url]
         else
           render json: {
             status: 500,

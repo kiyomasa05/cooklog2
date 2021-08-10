@@ -18,8 +18,7 @@ module Api
               status: :created,
               logged_in: true,
               user: @user,
-              methods: [:avatar_url],
-            }
+            },methods: [:avatar_url]
             
         else
           render json:{
@@ -34,6 +33,7 @@ module Api
         @user = User.find(params[:id])
         # @user = User.find(registrations_params[:email])
         # update_without_password(registrations_params)
+        # binding.pry
         if @user.valid?
           if params[:user][:avatar]
             blob = ActiveStorage::Blob.create_and_upload!(
@@ -46,19 +46,17 @@ module Api
           render json: {
             status: :updated,
             user: @user,
-            methods: [:avatar_url]
-          }
+          },methods: [:avatar_url]
         else
           render json: {
             status: 500,
             errors: @user.errors.full_messages
           }
+          # binding.pry
         end
 #         既存のuserにavatarを添付するにはavatar.attachを呼び出します。
-
 # user.avatar.attach(params[:avatar])
 # avatar.attached?で特定のuserがavatarを持っているかどうかを調べられます。
-
 # user.avatar.attached?
       end
 

@@ -11,8 +11,7 @@ module Api
               render json: { 
                 logged_in: true, 
                 user: @user ,
-                # methods: [:avatar_url],
-              }
+              } ,methods: [:avatar_url]
           else
               render json: { status: 401, errors: ['正しいメールアドレス・パスワードを入力して下さい' ] ,user: @user ,session:session{user_id}}
           end

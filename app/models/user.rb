@@ -11,19 +11,12 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
   has_secure_password
-  validates :password, presence: true, length: { minimum: 4 }
+  validates :password, presence: true, length: { minimum: 4 },allow_nil: true
   validates :avatar,   content_type: { in: %w[image/jpeg image/gif image/png],
     message: "must be a valid image format" },
 size:         { less_than: 5.megabytes,
     message: "should be less than 5MB" }
-  # # passwordなしでuserをupdateできるメソッド
-  #   def update_without_password(params, *options)
-  #     # params.delete(:current_password)
-  #     if params[:password].blank? && params[:password_confirmation].blank?
-  #       params.delete(:password)
-  #       params.delete(:password_confirmation)
-  #     end
-  #   end
+    
   def display_image
     user.avatar.variant(resize_to_limit: [500, 500])
   end
