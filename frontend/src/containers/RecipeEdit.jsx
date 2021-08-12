@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState } from 'react';
 import {
   Flex, Box, Divider, Heading, Input, Textarea, Stack, Image, Button, Center,
   NumberInput,
@@ -15,20 +15,21 @@ import {
   FormErrorMessage,
   FormHelperText,
 } from "@chakra-ui/react";
-// import styled from 'styled-components';
+import { useHistory, useLocation } from "react-router-dom"
 
+// できればuseformでいきたい
 // import { useForm } from 'react-hook-form';
 import { usePostRecipe } from '../hooks/usePostRecipe';
 import { useLoginUser } from "../hooks/useLoginUser";
 import { useAuthCheck } from "../hooks/useAuthCheck";
 
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 
 import { useMessage } from "../hooks/useMessege";
+import { recipeEditURL } from "../urls/index"
 
-
-export const Post = () => {
+export const RecipeEdit = memo(() => {
+  const { state } = useLocation();
   const { postRecipe } = usePostRecipe();
   const { loginUser } = useLoginUser();
   const history = useHistory();
@@ -36,12 +37,14 @@ export const Post = () => {
   const [loading, setLoading] = useState(false);
 
   //api送信state
-  const [title, setTitle] = useState()
-  const [food, setFood] = useState()
-  const [process, setProcess] = useState()
-  const [time_required, setTime_required] = useState(0)
-  const [image, setImage] = useState({ data: "", name: "" })
-
+  const [title, setTitle] = useState(state.title)
+  const [food, setFood] = useState(state.food)
+  const [process, setProcess] = useState(state.process)
+  const [time_required, setTime_required] = useState(state.time_required)
+  // const [image, setImage] = useState({ data: "", name: "" })
+  const [image, setImage] = useState({ data: state.image_url, name: state.title })
+  //name
+  // 変えなかった場合、空文字になってしまう 一旦仮置き
 
   const handleImageSelect = (e) => {
     const reader = new FileReader()
@@ -58,9 +61,10 @@ export const Post = () => {
     }
   }
 
-  const onSubmit =(event) => {
+  const onSubmit = (event) => {
     setLoading(true)
-    axios.post("http://localhost:3000/api/v1/recipes",
+    // url送信先 patch recipeEditURL
+    axios.patch(recipeEditURL(state.id),
       {
         recipe: {
           user_id: loginUser.user.id,
@@ -77,8 +81,8 @@ export const Post = () => {
       }
       , { withCredentials: true }
     ).then(response => {
-      if (response.data.status === "created") {
-        showMessage({ title: "投稿に成功しました", status: "success" });
+      if (response.data.status === "updated") {
+        showMessage({ title: "編集に成功しました", status: "success" });
         setLoading(false);
         history.push("/index");
       }
@@ -87,7 +91,7 @@ export const Post = () => {
         setLoading(false);
       }
     }).catch(() => {
-      showMessage({ title: "投稿できませんでした", status: "error" });
+      showMessage({ title: "編集できませんでした", status: "error" });
       setLoading(false);
     }).finally(() => {
       setLoading(false);
@@ -101,8 +105,8 @@ export const Post = () => {
       <Flex mt="80px" alignItems="center" justifyContent="center" >
         <Box bg="white" w={{ base: "sm", md: "2xl" }} p={4} borderRadius="md" shadow="md">
           <Heading as="h1" size="lg" textAlign="center">
-            レシピ投稿
-        </Heading>
+            レシピ編集
+          </Heading>
           <Divider my={4} />
           <FormControl>
             <Stack>
@@ -153,11 +157,11 @@ export const Post = () => {
                 onClick={onSubmit}
               >
                 レシピ登録
-          </Button>
+              </Button>
             </Center>
           </FormControl>
         </Box>
       </Flex>
     </>
   );
-}
+});

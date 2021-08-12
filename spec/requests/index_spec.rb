@@ -11,7 +11,7 @@ RSpec.describe "Index", type: :request do
       context 'ユーザーデータが見つからない場合' do
         it 'エラーメッセージを返す' do
           post login_url,params:{user:{email: 'sample@sample.com', password: '1234'}}
-          expect(json['errors']).to eq(['認証に失敗しました。', '正しいメールアドレス・パスワードを入力し直すか、新規登録を行ってください。'])
+          expect(json['errors']).to eq(['正しいメールアドレス・パスワードを入力して下さい' ])
           expect(json['status']).to eq(401)
         end
       end

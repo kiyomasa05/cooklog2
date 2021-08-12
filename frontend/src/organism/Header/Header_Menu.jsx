@@ -6,17 +6,28 @@ import { useHistory } from "react-router-dom";
 
 import { MenuIconButton } from '../../atom/btn/MenuIconButton'
 import { MenuDrawer } from '../../molcules/MenuDrawer'
-
+import { useLoginUser } from '../../hooks/useLoginUser'
+import { useLogout } from '../../hooks/useLogout'
+import { Fragment } from "react";
 
 export const HeaderMenu = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef()
   const history = useHistory();
+  const { logout } = useLogout();
+  const { loginUser } = useLoginUser();
+
+  const userId=loginUser.user.id
 
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   const onClickIndex = useCallback(() => history.push("/index"), [history]);
+  const onClickSearch = useCallback(() => history.push("/search"), [history]);
+  const onClickPost = useCallback(() => history.push(`/users/${userId}/post`), [history]);
+  const onClickMypage = useCallback(() => history.push(`/users/${userId}`), [history]);
+  const onClickLogout = useCallback(() => logout(), []);
+  
   return (
     <>
       <Flex
@@ -37,14 +48,37 @@ export const HeaderMenu = memo(() => {
           flexGrow={2}
           display={{ base: "none", md: "flex" }}>
           <Box pr={4}>
-            <Link onClick={onClickSignup}>新規登録</Link>
+            {loginUser.logged_in ?
+              <Fragment>
+                <Link mr={4} onClick={onClickMypage}>マイページ</Link>
+                <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>
+                <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
+                <Link mr={4} onClick={onClickSearch}>レシピ検索</Link>
+                <Link mr={4} onClick={onClickLogout}>ログアウト</Link>
+              </Fragment>
+              :
+              <Fragment>
+                <Link mr={4} onClick={onClickSignup}>新規登録</Link>
+                <Link mr={4} onClick={onClickLogin}>ログイン</Link>
+              </Fragment>
+            }
           </Box>
-          <Link onClick={onClickLogin}>ログイン</Link>
-          <Link onClick={onClickIndex}>投稿一覧</Link>
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />
       </Flex>
-      <MenuDrawer onClose={onClose} isOpen={isOpen} btnRef={btnRef} onClickHome={onClickHome} onClickSignup={onClickSignup} onClickLogin={onClickLogin} onClickIndex={onClickIndex} />
+      <MenuDrawer
+        onClose={onClose}
+        isOpen={isOpen}
+        btnRef={btnRef}
+        onClickHome={onClickHome}
+        onClickSignup={onClickSignup}
+        onClickLogin={onClickLogin}
+        onClickIndex={onClickIndex}
+        onClickSearch={onClickSearch}
+        onClickLogout={onClickLogout}
+        onClickPost={onClickPost}
+        onClickMypage={onClickMypage}
+      />
     </>
   )
 });

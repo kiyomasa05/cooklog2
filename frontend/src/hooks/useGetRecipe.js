@@ -15,7 +15,7 @@ export const useGetRecipe = () => {
     axios
       .get(index)
       .then(response => {
-        setRecipes(response.data.recipes)
+        setRecipes(response.data)
       })
       .catch(() => {
         showMessage({ title: "レシピの取得に失敗しました", status: "error" })

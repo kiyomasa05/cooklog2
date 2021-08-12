@@ -6,43 +6,47 @@ import { useHistory } from "react-router-dom";
 import { useMessage } from "./useMessege";
 import { useLoginUser } from "./useLoginUser"
 
-import { loginURL } from '../urls/index'
+import { userEditURL } from '../urls/index'
 
-export const useAuth = () => {
+export const useUserEdit = () => {
   const history = useHistory();
-  const { showMessage } = useMessage();
   const { setLoginUser } = useLoginUser();
-
+  const { showMessage } = useMessage();
   const [loading, setLoading] = useState(false);
-
-  const login = useCallback((data) => {
+ 
+  const userEdit = useCallback((data,userId,avatar) => {
     setLoading(true);
-    //ローディングアイコンをtrueに
-    axios.post(loginURL,
+    axios.patch(userEditURL(userId),
       {
         user: {
+          name: data.name,
           email: data.email,
           password: data.password,
+          password_confirmation: data.password_confirmation,
+          avatar:
+          {
+            data:avatar.data,
+            name:avatar.name
+          }
         }
       },
       { withCredentials: true }
     ).then(response => {
-      if (response.data.logged_in) {
+      if (response.data.status === 'updated') {
         setLoginUser(response.data)
-        showMessage({ title: "ログインしました", status: "success" });
+        showMessage({ title: "編集しました", status: "success" });
         const user_id = response.data.user.id
         history.push(`/users/${user_id}`);
       }
-      // 認証できなかった時のエラー
-      else if (response.data.status === 401) {
+      // 登録できなかった時のエラー
+      else if (response.data.status === 500) {
         showMessage({ title: `${response.data.errors}`, status: "error" });
       }
-      // うまくpostできなかった時のエラー
-    }).catch((e) => {
-      showMessage({ title: "認証できませんでした。再度リロードなどを行いやり直して下さい", status: "error" });
+    }).catch((error) => {
+      showMessage({ title: "登録できませんでした", status: "error" });
       setLoading(false);
     })
-  }, [history, showMessage, setLoginUser]);
+  }, []);
 
-  return { login, loading };
+  return { userEdit, loading };
 };

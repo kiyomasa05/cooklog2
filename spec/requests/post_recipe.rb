@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Login", type: :request do
-  describe "ログイン機能" do
+RSpec.describe "PostRecipe", type: :request do
+  describe "レシピ投稿機能" do
     before do
       @user = create(:user)
     end

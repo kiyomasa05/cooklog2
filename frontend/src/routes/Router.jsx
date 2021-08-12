@@ -1,14 +1,15 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom"
 
-import { Page404 } from "../containers/404"
 import { Header } from "../organism/Header/Header"
+import { Page404 } from "../containers/404"
 import { HomeRoutes } from "./HomeRoutes"
 import { MypageRoutes } from "./MypageRoutes"
 import { LoginUserProvider } from '../hooks/providers/LoginUserProvider'
 
-// mapに最初の要素がない？
+
 export const Router = () => {
+
   return (
     <Switch>
       <LoginUserProvider>
@@ -30,7 +31,7 @@ export const Router = () => {
         />
         {/* 次回/mypage/のルートを追記 */}
         <Route
-          path="/mypage"
+          path="/users"
           render={({ match: { url } }) => (
             <Switch>
               {MypageRoutes.map((route) => (

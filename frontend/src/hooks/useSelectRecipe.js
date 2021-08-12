@@ -2,8 +2,6 @@ import { useCallback, useState } from "react";
 
 import { useMessage } from "./useMessege";
 
-
-
 // 選択したレシピ情報を特定しモーダルを表示するカスタムフック
 export const useSelectRecipe = () => {
   const { showMessage } = useMessage();
@@ -22,6 +20,7 @@ export const useSelectRecipe = () => {
       setSelectedRecipe(targetRecipe);
       onOpen();
     }
-  }, []);
+  } , [])
+
   return { onSelectRecipe, selectedRecipe };
 };

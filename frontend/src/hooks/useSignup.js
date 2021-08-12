@@ -14,27 +14,8 @@ export const useSignup = () => {
   const { setLoginUser } = useLoginUser();
 
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({})
-  const [loggedInStatus, setLoggedInStatus] = useState("未ログイン")
-
-  const handleLogin = useCallback((data) => {
-    setLoggedInStatus("ログイン中")
-    setUser(data.user)
-    // ログインステータスを変更する関数
-  }, [user])
-
-  const handleLogout = useCallback(() => {
-    setLoggedInStatus("未ログイン")
-    setUser({})
-    // 実行後、ステータスとユーザーを空にする
-  }, [user])
-
-  const handleSuccessfulAuth = useCallback((data) => {
-    handleLogin(data)
-    // handleLogin関数をここで再利用する
-  }, [])
-
-  const signup = useCallback((data) => {
+  
+  const signup = useCallback((data,avatar) => {
     setLoading(true);
     //ローディングアイコンをtrueに
     axios.post(signupURL,
@@ -44,21 +25,24 @@ export const useSignup = () => {
           email: data.email,
           password: data.password,
           password_confirmation: data.password_confirmation,
+          avatar:
+          {
+            data: avatar.data,
+            name: avatar.name
+          }
         }
       },
       { withCredentials: true }
     ).then(response => {
       if (response.data.status === 'created') {
-        handleSuccessfulAuth(response.data);
+        setLoginUser(response.data)
         showMessage({ title: "新規登録しました", status: "success" });
-        history.push({
-          pathname: '/mypage',
-          state: {
-            status: loggedInStatus,
-            user: user,
-          }
-        });
-        // apiを叩き成功したらメソッドが起動し、data(userのデータ)をmypageに渡してページ遷移する
+        const user_id = response.data.user.id
+        history.push(`/users/${user_id}`);
+      }
+      // 登録できなかった時のエラー
+      else if (response.data.status === 500) {
+        showMessage({ title: `${response.data.errors}`, status: "error" });
       }
     }).catch((error) => {
       console.log("registration error", error)
@@ -66,6 +50,6 @@ export const useSignup = () => {
       setLoading(false);
     })
   }, []);
-  
+
   return { signup, loading };
 };

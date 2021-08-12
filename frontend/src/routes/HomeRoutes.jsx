@@ -2,6 +2,8 @@ import { Home } from "../containers/static_page"
 import { Login } from "../containers/Login"
 import { Signup } from "../containers/Signup"
 import { Index } from "../containers/Index"
+import { Search } from "../containers/Search"
+import { RecipeEdit } from "../containers/RecipeEdit"
 import { Page404 } from "../containers/404";
 
 export const HomeRoutes = [
@@ -26,8 +28,13 @@ export const HomeRoutes = [
     children: <Index />
   },
   {
-    path: "*",
+    path: "/search",
     exact: false,
-    children: <Page404 />
+    children: <Search />
   },
+  {
+    path: "/:id/edit",
+    exact: false,
+    children: <RecipeEdit />
+  }
 ];
