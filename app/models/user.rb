@@ -8,13 +8,5 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true
   has_secure_password
-  validates :password, presence: true, length: { minimum: 4 }
-# # passwordなしでuserをupdateできるメソッド
-#   def update_without_password(params, *options)
-#     # params.delete(:current_password)
-#     if params[:password].blank? && params[:password_confirmation].blank?
-#       params.delete(:password)
-#       params.delete(:password_confirmation)
-#     end
-#   end
+  validates :password, presence: true, length: { minimum: 4 },allow_nil: true
 end
