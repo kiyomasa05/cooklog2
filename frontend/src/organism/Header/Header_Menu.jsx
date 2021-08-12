@@ -18,7 +18,7 @@ export const HeaderMenu = memo(() => {
   const { loginUser } = useLoginUser();
 
   const userId=loginUser.user.id
-
+//テストエラー中 loginUserのuserが見つからない
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
   const onClickSignup = useCallback(() => history.push("/signup"), [history]);
