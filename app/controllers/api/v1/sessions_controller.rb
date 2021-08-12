@@ -10,7 +10,8 @@ module Api
               login @user
               render json: { 
                 logged_in: true, 
-                user: @user }
+                user: @user ,
+              } ,methods: [:avatar_url]
           else
               render json: { status: 401, errors: ['正しいメールアドレス・パスワードを入力して下さい' ] ,user: @user ,session:session{user_id}}
           end
@@ -24,7 +25,11 @@ module Api
       def logged_in?
         # binding.pry
           if  @current_user
-              render json: { logged_in: true, user: @current_user }
+              render json: {
+                logged_in: true, 
+                user:@current_user,
+              },methods: [:avatar_url]
+              
           else
               render json: { logged_in: false, errors: 'ユーザーが存在しません,ログインし直して下さい' }
           end

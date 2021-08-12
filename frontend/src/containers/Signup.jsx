@@ -1,5 +1,5 @@
-import React, { memo } from "react";
-import { Box, Divider, Flex, Heading, Input, Stack, Text } from "@chakra-ui/react";
+import React, { memo, useState } from "react";
+import { Box, Divider, Flex, Heading, Input, Stack, Text, Image, FormLabel } from "@chakra-ui/react";
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 
@@ -29,20 +29,36 @@ const SSubmit = styled.input`
 export const Signup = memo(() => {
   const { signup } = useSignup();
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [avatar, setAvatar] = useState({ data: "", name: "" })
 
   const onSubmit = (data) => {
-    signup(data);
+    signup(data,avatar);
+  }
+
+  const handleImageSelect = (e) => {
+    const reader = new FileReader()
+    //画像をbase64にエンコード
+    const files = (e.target).files
+    if (files) {
+      reader.onload = () => {
+        setAvatar({
+          data: reader.result,
+          name: files[0] ? files[0].name : "unknownfile"
+        })
+      }
+      reader.readAsDataURL(files[0])
+    }
   }
 
   const Pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   return (
     <>
       <Header />
-      <Flex alignItems="center" justifyContent="center" height="100vh">
+      <Flex mt="80px" alignItems="center" justifyContent="center">
         <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
           <Heading as="h1" size="lg" textAlign="center">
             新規登録
-        </Heading>
+          </Heading>
           <Divider my={4} />
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={6} py={4} px={10}>
@@ -66,6 +82,16 @@ export const Signup = memo(() => {
             passwordの入力値を保持し、比べて実装予定 */}
               {errors.password?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"パスワードは必須です"</Text>}
               {errors.password?.type === "minLength" && <Text fontSize="md" color="red" m={0} p={0}>"パスワードは4文字以上で入力して下さい"</Text>}
+
+              <Stack>
+                <FormLabel color="gray.500" htmlFor="avatar" mt="4" mb="-2" fontSize={{ base: "sm", md: "md" }}>アバター写真</FormLabel>
+                <Image src={!avatar.data ? "gibbresh.png" : avatar.data} fallbackSrc="https://via.placeholder.com/250" boxSize={{ base: "250px", md: "400px" }} borderRadius="full" textAlign="center" border="2px" borderColor="gray.200"
+                />
+              </Stack>
+              <Stack>
+                <Input type="file" placeholder="画像アップロード" name="avatar" accept="image/png,image/jpeg" onChange={handleImageSelect} />
+              </Stack>
+
               <SSubmit
                 type="submit"
                 value="新規登録"

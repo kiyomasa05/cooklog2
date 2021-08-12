@@ -14,7 +14,7 @@ export const useUserEdit = () => {
   const { showMessage } = useMessage();
   const [loading, setLoading] = useState(false);
  
-  const userEdit = useCallback((data,userId) => {
+  const userEdit = useCallback((data,userId,avatar) => {
     setLoading(true);
     axios.patch(userEditURL(userId),
       {
@@ -23,6 +23,11 @@ export const useUserEdit = () => {
           email: data.email,
           password: data.password,
           password_confirmation: data.password_confirmation,
+          avatar:
+          {
+            data:avatar.data,
+            name:avatar.name
+          }
         }
       },
       { withCredentials: true }

@@ -3,7 +3,8 @@ class Recipe < ApplicationRecord
 
   belongs_to :user, dependent: :destroy,optional: true
   has_many :favorites, dependent: :destroy 
-  default_scope -> { order(created_at: :desc) }
+  default_scope -> { order(updated_at: :desc) }
+  # default_scope -> { order(:updated_at) }
   has_one_attached :image
   
   

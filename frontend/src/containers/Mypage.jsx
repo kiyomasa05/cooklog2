@@ -1,10 +1,9 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import {
-  Text, Wrap, Image, WrapItem, Box, Button, Center,
+  Text, Wrap, Image, WrapItem, Spinner, Button, Center,
   Grid, GridItem, Tabs, TabList, TabPanels, Tab, TabPanel, useDisclosure, useColorModeValue
 } from "@chakra-ui/react"
 import { useHistory, useParams } from "react-router-dom";
-
 
 //部品
 import { useLoginUser } from "../hooks/useLoginUser";
@@ -27,7 +26,7 @@ export const Mypage = memo(() => {
   const { id } = useParams();
 
   const { CheckAuth } = useAuthCheck();
-
+  
   useEffect(() => {
     CheckAuth();
   }, [])
@@ -44,7 +43,8 @@ export const Mypage = memo(() => {
     onSelectRecipe({ id, recipes, onOpen })
   }, [recipes, onSelectRecipe, onOpen]);
 
-  const onClickProfileEdit = useCallback(() => history.push(`/users/${id}/edit`), [history]);
+  const onClickProfileEdit = useCallback(() => history.push
+  (`/users/${id}/edit`), [history]);
 
   // タブ背景色の定義
   const colors = useColorModeValue(
@@ -72,14 +72,23 @@ export const Mypage = memo(() => {
         <GridItem rowSpan={1} colSpan={6} ml={2} pb="-2" fontSize="lg">
           {loginUser.logged_in ?
             `${loginUser.user.name}   さん` :
-            <Text> 検索中 </Text>
+            <Spinner
+                thickness="6px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="md"
+                mt="90px"
+              />
           }
         </GridItem>
         <GridItem rowSpan={3} colSpan={2} mx="auto" display="flex" justifyContent="center" alignItems="center">
           <Image
             borderRadius="full"
             boxSize="100px"
-            src="https://source.unsplash.com/random"
+            // src="https://source.unsplash.com/random"
+            src={!loginUser.user.avatar_url ? "gibbresh.png" : loginUser.user.avatar_url}
+            fallbackSrc="https://via.placeholder.com/250" border="2px" borderColor="gray.200"
           />
         </GridItem>
         <GridItem rowSpan={1} colSpan={2} textAlign="center" display="flex" justifyContent="center" alignItems="center">
@@ -92,7 +101,7 @@ export const Mypage = memo(() => {
           {`${MyRecipes.length}`}
         </GridItem>
         <GridItem rowSpan={1} colSpan={2} display="flex" justifyContent="center" alignItems="center" fontSize="2xl">
-          {`${MyRecipes.length}`}
+          {`${FavoRecipes.length}`}
         </GridItem>
         <GridItem rowSpan={1} colSpan={6} >
           <Button w="100%" h="90%" onClick={onClickProfileEdit}>編集</Button>
