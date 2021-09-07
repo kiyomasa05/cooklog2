@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from "react";
+import React, { memo, useCallback ,Fragment} from "react";
 import {
   Flex, Heading, Text, Box, Link, useDisclosure
 } from "@chakra-ui/react"
@@ -8,7 +8,6 @@ import { MenuIconButton } from '../../atom/btn/MenuIconButton'
 import { MenuDrawer } from '../../molcules/MenuDrawer'
 import { useLoginUser } from '../../hooks/useLoginUser'
 import { useLogout } from '../../hooks/useLogout'
-import { Fragment } from "react";
 
 export const HeaderMenu = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -17,7 +16,8 @@ export const HeaderMenu = memo(() => {
   const { logout } = useLogout();
   const { loginUser } = useLoginUser();
 
-  const userId=loginUser.user.id
+  // const userId=loginUser.user.id
+  const userId = loginUser ? loginUser.user.id : 1;
 //テストエラー中 loginUserのuserが見つからない
   const onClickHome = useCallback(() => history.push("/"), [history]);
   const onClickLogin = useCallback(() => history.push("/login"), [history]);
@@ -48,20 +48,23 @@ export const HeaderMenu = memo(() => {
           flexGrow={2}
           display={{ base: "none", md: "flex" }}>
           <Box pr={4}>
-            {loginUser.logged_in ?
-              <Fragment>
-                <Link mr={4} onClick={onClickMypage}>マイページ</Link>
-                <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>
-                <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
-                <Link mr={4} onClick={onClickSearch}>レシピ検索</Link>
-                <Link mr={4} onClick={onClickLogout}>ログアウト</Link>
-              </Fragment>
-              :
-              <Fragment>
-                <Link mr={4} onClick={onClickSignup}>新規登録</Link>
-                <Link mr={4} onClick={onClickLogin}>ログイン</Link>
-              </Fragment>
-            }
+            {loginUser!==undefined ?
+              (
+                loginUser.logged_in ?
+                  <Fragment>
+                    <Link mr={4} onClick={onClickMypage}>マイページ</Link>
+                    <Link mr={4} onClick={onClickPost}>レシピ投稿</Link>
+                    <Link mr={4} onClick={onClickIndex}>投稿一覧</Link>
+                    <Link mr={4} onClick={onClickSearch}>レシピ検索</Link>
+                    <Link mr={4} onClick={onClickLogout}>ログアウト</Link>
+                    
+                  </Fragment>
+                  :
+                  <Fragment>
+                    <Link mr={4} onClick={onClickSignup}>新規登録</Link>
+                    <Link mr={4} onClick={onClickLogin}>ログイン</Link>
+                  </Fragment>
+               ) : null}
           </Box>
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />

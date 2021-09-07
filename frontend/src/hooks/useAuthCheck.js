@@ -14,8 +14,11 @@ export const useAuthCheck = () => {
   const { showMessage } = useMessage();
   // console.log()
 
-  const CheckAuth = useCallback(() => {
-    axios
+  //asyncもawaitもエラーは起きていない　けどコンパイルエラーは元のまま
+  // const CheckAuth = useCallback( () => {
+  //   axios
+  const CheckAuth = useCallback(async () => {
+    await axios
       .get(logged_inURL, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in) {

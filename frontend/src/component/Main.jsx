@@ -1,7 +1,12 @@
-import React from 'react';
+import React , { memo, useCallback } from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
+
 import MainImg from '../images/TOP.jpg';
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
+import {
+  Link, 
+} from "@chakra-ui/react"
 import { BaseBtn } from '../atom/btn/BaseBtn';
 
 const Wrapper = styled.div`
@@ -50,22 +55,24 @@ const RegistBtn = styled(BaseBtn)`
     box-shadow: 0 2px 0 #668ad8;
 }
 `
-export const Main = () => {
+export const Main = memo(() => {
+  const history = useHistory();
+  const onClickLogin = useCallback(() => history.push("/login"), [history]);
+  const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   return (
     <div>
       <Wrapper>
         <Container>
           <Inside>
-            <h1>お気に入りのレシピを投稿しよう</h1>
+            <p>お気に入りのレシピを投稿しよう</p>
           </Inside>
           <Regist>
-            <Link to="/signup">
-            
+            <Link onClick={onClickSignup}>
               <RegistBtn>
                 新規登録
               </RegistBtn>
             </Link>
-            <Link to="/login">
+            <Link onClick={onClickLogin}>
               <RegistBtn>
                 ログイン
               </RegistBtn>
@@ -75,4 +82,4 @@ export const Main = () => {
       </Wrapper>
     </div>
   );
-}
+})
