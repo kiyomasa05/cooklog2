@@ -58,3 +58,30 @@ describe("button conditionally triggered", () => {
     expect(history.location.pathname).toBe('/login');
   });
 });
+
+
+describe("header menu test", () => {
+  it("Should click header signup  render signup component", () => {
+    const history = createMemoryHistory();
+    render(
+      <Router history={history}>
+      <Home />
+      </Router>
+    )
+    userEvent.click(screen.getByText("ログイン"))
+    expect(history.length).toBe(2);
+    expect(history.location.pathname).toBe('/login');
+  });
+
+  it("Should click header signup button render login component", () => {
+    const history = createMemoryHistory();
+    render(
+      <Router history={history}>
+      <Home />
+      </Router>
+    )
+    userEvent.click(screen.getByText("新規登録"))
+    expect(history.length).toBe(2);
+    expect(history.location.pathname).toBe('/signup');
+  });
+});
