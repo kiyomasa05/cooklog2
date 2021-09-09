@@ -64,7 +64,7 @@ export const HeaderMenu = memo(() => {
                     <Link mr={4} onClick={onClickSignup}>新規登録</Link>
                     <Link mr={4} onClick={onClickLogin}>ログイン</Link>
                   </Fragment>
-               ) : null}
+              ) : null}
           </Box>
         </Flex>
         <MenuIconButton onOpen={onOpen} btnRef={btnRef} />

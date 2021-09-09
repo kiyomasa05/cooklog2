@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 
 import MainImg from '../images/TOP.jpg';
-// import { Link } from 'react-router-dom'
 import {
   Link, 
 } from "@chakra-ui/react"
@@ -27,6 +26,7 @@ const Inside = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  font-size:50px;
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
@@ -39,9 +39,10 @@ const Regist = styled.div`
 `
 
 const RegistBtn = styled(BaseBtn)`
-  width:50vw;
+  width:40vw;
   height:65px;
   font-size:1.5rem;
+  margin:24px auto;
   margin-top:24px;
   border-radius:20px;
   border: solid 3px #668ad8;
