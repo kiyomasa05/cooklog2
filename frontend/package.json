@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.14.1"
+    "@testing-library/jest-dom": "^5.14.1",
+    "msw": "^0.35.0"
   }
 }
