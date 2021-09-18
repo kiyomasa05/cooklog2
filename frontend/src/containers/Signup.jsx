@@ -53,7 +53,6 @@ export const Signup = memo(() => {
   const Pattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
   return (
     <>
-      <Header />
       <Flex mt="80px" alignItems="center" justifyContent="center">
         <Box bg="white" w="sm" p={4} borderRadius="md" shadow="md">
           <Heading as="h1" size="lg" textAlign="center">
@@ -61,7 +60,7 @@ export const Signup = memo(() => {
           </Heading>
           <Divider my={4} />
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={6} py={4} px={10}>
+            <Stack spacing={6} py={4} px={5}>
               <Input type="text" placeholder="name" {...register("name", { required: true, maxLength: 50 })} />
               {errors.name?.type === "required" && <Text fontSize="md" color="red" m={0} p={0}>"名前は必須です"</Text>}
               {errors.name?.type === "maxLength" && <Text fontSize="md" color="red" m={0} p={0}>"名前は50文字以内で入力して下さい"</Text>}
@@ -85,7 +84,7 @@ export const Signup = memo(() => {
 
               <Stack>
                 <FormLabel color="gray.500" htmlFor="avatar" mt="4" mb="-2" fontSize={{ base: "sm", md: "md" }}>アバター写真</FormLabel>
-                <Image src={!avatar.data ? "gibbresh.png" : avatar.data} fallbackSrc="https://via.placeholder.com/250" boxSize={{ base: "250px", md: "400px" }} borderRadius="full" textAlign="center" border="2px" borderColor="gray.200"
+                <Image src={!avatar.data ? "gibbresh.png" : avatar.data} fallbackSrc="https://via.placeholder.com/250" boxSize={{ base: "250px", md: "300px" }} borderRadius="full" textAlign="center" border="2px" borderColor="gray.200"
                 />
               </Stack>
               <Stack>
