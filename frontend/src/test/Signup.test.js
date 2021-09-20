@@ -6,6 +6,7 @@ import { Signup } from "../containers/Signup"
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 
+
 const server = setupServer(
   rest.post("http://localhost:3000/api/v1/signup", (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(
@@ -15,6 +16,9 @@ const server = setupServer(
     ));
   })
 );
+const mockSignin = jest.fn((email, password) => {
+  return Promise.resolve({ email, password });
+});
 
 beforeAll(() => server.listen());
 afterEach(() => {
@@ -32,7 +36,7 @@ describe("Rendering", () => {
     expect(screen.getByPlaceholderText("name")).toBeTruthy();
     expect(screen.getByPlaceholderText("email")).toBeTruthy();
     expect(screen.getByPlaceholderText("password")).toBeTruthy();
-    expect(screen.getByPlaceholderText("password_cofirmation")).toBeTruthy();
+    expect(screen.getByPlaceholderText("password(確認用)")).toBeTruthy();
     expect(screen.getByRole("img")).toBeTruthy();
     expect(screen.getByLabelText("アバター写真")).toBeTruthy();
     expect(screen.getByPlaceholderText("画像アップロード")).toBeTruthy();
@@ -61,7 +65,7 @@ describe("Input form onChange event", () => {
   })
   it("Should update password_confirmation input value correctly", () => {
     render(<Signup />)
-    const inputValue = screen.getByPlaceholderText("password_cofirmation");
+    const inputValue = screen.getByPlaceholderText("password(確認用)");
     userEvent.type(inputValue, "aaaaa");
     expect(inputValue.value).toBe("aaaaa");
   })
@@ -97,7 +101,7 @@ describe("Check for errors before fetch API", () => {
     await expect(screen.findByText("パスワードは必須です")).toBeTruthy();
     await expect(screen.findByText("emailは必須です")).toBeTruthy();
   })
-  it("Should password format error",async() => {
+  it("Should password format error",() => {
     render(<Signup />)
     const inputName = screen.getByPlaceholderText("name");
     const inputPassword = screen.getByPlaceholderText("password");
@@ -106,6 +110,7 @@ describe("Check for errors before fetch API", () => {
     userEvent.type(inputPassword, "123");
     userEvent.type(inputEmail, "aaaa@");
     userEvent.click(screen.getByDisplayValue("新規登録"))
+    expect(mockSignin).not.toBeCalled();
     expect(screen.findByText("名前は50文字以内で入力して下さい")).toBeTruthy();
     expect(screen.findByText("パスワードは4文字以上です")).toBeTruthy();
     expect(screen.findByText("正しく入力して下さい")).toBeTruthy();
