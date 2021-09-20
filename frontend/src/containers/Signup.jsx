@@ -37,7 +37,6 @@ export const Signup = memo(() => {
 
   const handleImageSelect = (e) => {
     const reader = new FileReader()
-    //画像をbase64にエンコード
     const files = (e.target).files
     if (files) {
       reader.onload = () => {
@@ -88,7 +87,7 @@ export const Signup = memo(() => {
                 />
               </Stack>
               <Stack>
-                <Input type="file" placeholder="画像アップロード" name="avatar" accept="image/png,image/jpeg" onChange={handleImageSelect} />
+                <Input type="file" placeholder="画像アップロード" name="avatar"  id="avatar" accept="image/png,image/jpeg" onChange={handleImageSelect} />
               </Stack>
 
               <SSubmit
