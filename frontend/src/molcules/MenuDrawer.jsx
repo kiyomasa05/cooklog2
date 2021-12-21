@@ -30,22 +30,24 @@ export const MenuDrawer = memo((props) => {
           <DrawerCloseButton onClick={onClose} />
           <DrawerHeader align="center">メニュー</DrawerHeader>
           <DrawerBody p={0} bg="grey.100">
-            {loginUser.logged_in ?
-              <Fragment>
-                <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
-                <Button onClick={onClickMypage} onClose={onClose} w="100%">マイページ</Button>
-                <Button onClick={onClickPost} onClose={onClose} w="100%">レシピ投稿</Button>
-                <Button onClick={onClickIndex} onClose={onClose} w="100%">投稿一覧</Button>
-                <Button onClick={onClickSearch} onClose={onClose} w="100%">レシピ検索</Button>
-                <Button onClick={onClickLogout} onClose={onClose} w="100%">ログアウト</Button>
-              </Fragment>
-              :
-              <Fragment>
-                <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
-                <Button onClick={onClickSignup} onClose={onClose} w="100%">新規登録</Button>
-                <Button onClick={onClickLogin} onClose={onClose} w="100%">ログイン</Button>
-              </Fragment>
-            }
+            {loginUser !== undefined ?
+              (
+                loginUser.logged_in ?
+                  <Fragment>
+                    <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
+                    <Button onClick={onClickMypage} onClose={onClose} w="100%">マイページ</Button>
+                    <Button onClick={onClickPost} onClose={onClose} w="100%">レシピ投稿</Button>
+                    <Button onClick={onClickIndex} onClose={onClose} w="100%">投稿一覧</Button>
+                    <Button onClick={onClickSearch} onClose={onClose} w="100%">レシピ検索</Button>
+                    <Button onClick={onClickLogout} onClose={onClose} w="100%">ログアウト</Button>
+                  </Fragment>
+                  :
+                  <Fragment>
+                    <Button onClick={onClickHome} onClose={onClose} w="100%">ホーム</Button>
+                    <Button onClick={onClickSignup} onClose={onClose} w="100%">新規登録</Button>
+                    <Button onClick={onClickLogin} onClose={onClose} w="100%">ログイン</Button>
+                  </Fragment>
+               ) : null}
           </DrawerBody>
         </DrawerContent>
       </DrawerOverlay>

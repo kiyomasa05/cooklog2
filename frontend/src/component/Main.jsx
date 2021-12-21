@@ -1,7 +1,11 @@
-import React from 'react';
+import React , { memo, useCallback } from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
+
 import MainImg from '../images/TOP.jpg';
-import { Link } from 'react-router-dom'
+import {
+  Link, 
+} from "@chakra-ui/react"
 import { BaseBtn } from '../atom/btn/BaseBtn';
 
 const Wrapper = styled.div`
@@ -22,6 +26,7 @@ const Inside = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  font-size:50px;
   -webkit-transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
   transform: translate(-50%,-50%);
@@ -34,9 +39,10 @@ const Regist = styled.div`
 `
 
 const RegistBtn = styled(BaseBtn)`
-  width:50vw;
+  width:40vw;
   height:65px;
   font-size:1.5rem;
+  margin:24px auto;
   margin-top:24px;
   border-radius:20px;
   border: solid 3px #668ad8;
@@ -50,22 +56,24 @@ const RegistBtn = styled(BaseBtn)`
     box-shadow: 0 2px 0 #668ad8;
 }
 `
-export const Main = () => {
+export const Main = memo(() => {
+  const history = useHistory();
+  const onClickLogin = useCallback(() => history.push("/login"), [history]);
+  const onClickSignup = useCallback(() => history.push("/signup"), [history]);
   return (
     <div>
       <Wrapper>
         <Container>
           <Inside>
-            <h1>お気に入りのレシピを投稿しよう</h1>
+            <p>お気に入りのレシピを投稿しよう</p>
           </Inside>
           <Regist>
-            <Link to="/signup">
-            
+            <Link onClick={onClickSignup}>
               <RegistBtn>
                 新規登録
               </RegistBtn>
             </Link>
-            <Link to="/login">
+            <Link onClick={onClickLogin}>
               <RegistBtn>
                 ログイン
               </RegistBtn>
@@ -75,4 +83,4 @@ export const Main = () => {
       </Wrapper>
     </div>
   );
-}
+})
