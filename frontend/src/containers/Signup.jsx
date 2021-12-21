@@ -43,7 +43,7 @@ export const Signup = memo(() => {
     signup(data,avatar);
   }
 
-  const handleImageSelect = (e) => {
+  const handleImageSelect = async(e) => {
     const reader = new FileReader()
     const files = (e.target).files
     if (files) {
@@ -80,8 +80,7 @@ export const Signup = memo(() => {
               
               <Stack>
                 <FormLabel color="gray.500" htmlFor="avatar" mt="4" mb="-2" fontSize={{ base: "sm", md: "md" }}>アバター写真</FormLabel>
-                <Image src={!avatar.data ? "gibbresh.png" : avatar.data} fallbackSrc="https://via.placeholder.com/250" boxSize={{ base: "250px", md: "300px" }} borderRadius="full" textAlign="center" border="2px" borderColor="gray.200"
-                />
+                <Image src={!avatar.data ? "gibbresh.png" : avatar.data} fallbackSrc="https://via.placeholder.com/250" boxSize={{ base: "250px", md: "300px" }} borderRadius="full" textAlign="center" border="2px" borderColor="gray.200"/>
               </Stack>
               <Stack>
                 <Input type="file" placeholder="画像アップロード" name="avatar"  id="avatar" accept="image/png,image/jpeg" onChange={handleImageSelect} />

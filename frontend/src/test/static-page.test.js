@@ -29,7 +29,7 @@ describe("Rendering", () => {
 })
 
 describe("button conditionally triggered", () => {
-  it("Should click Signup button render signup component", () => {
+  it("Should click Signup button render signup component",  () => {
     const history = createMemoryHistory();
     render(
       <Router history={history}>
@@ -40,9 +40,9 @@ describe("button conditionally triggered", () => {
     //onclick関数が呼び出されるかテストしたい
     // const onClickSignup = jest.fn();
     userEvent.click(screen.getAllByRole("button")[1])
-    expect(history.length).toBe(2);
+    expect(  history.length).toBe(2);
     //histrory配列の長さ
-    expect(history.location.pathname).toBe('/signup');
+    expect(  history.location.pathname).toBe('/signup');
   // expect(history.location.pathname).toBe('/login');
     // expect(onClickSignup).toHaveBeenCalled();
   });
@@ -54,14 +54,15 @@ describe("button conditionally triggered", () => {
       </Router>
     )
     userEvent.click(screen.getAllByRole("button")[2])
-    expect(history.length).toBe(2);
-    expect(history.location.pathname).toBe('/login');
+    expect(  history.length).toBe(2);
+    expect(  history.location.pathname).toBe('/login');
   });
 });
 
 
+
 describe("header menu test", () => {
-  it("Should click header signup  render signup component", () => {
+  it("Should click header signup  render signup component",  () => {
     const history = createMemoryHistory();
     render(
       <Router history={history}>
@@ -69,11 +70,11 @@ describe("header menu test", () => {
       </Router>
     )
     userEvent.click(screen.getByText("ログイン"))
-    expect(history.length).toBe(2);
-    expect(history.location.pathname).toBe('/login');
+    expect(  history.length).toBe(2);
+    expect(  history.location.pathname).toBe('/login');
   });
 
-  it("Should click header signup button render login component", () => {
+  it("Should click header signup button render login component",  () => {
     const history = createMemoryHistory();
     render(
       <Router history={history}>
@@ -81,7 +82,9 @@ describe("header menu test", () => {
       </Router>
     )
     userEvent.click(screen.getByText("新規登録"))
-    expect(history.length).toBe(2);
-    expect(history.location.pathname).toBe('/signup');
+    expect(  history.length).toBe(2);
+    expect(  history.location.pathname).toBe('/signup');
   });
 });
+//全テストコードコメントアウト
+//10 / 9ここまではエラー & ワーニングなし

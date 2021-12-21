@@ -15,10 +15,10 @@ export const useSignup = () => {
 
   const [loading, setLoading] = useState(false);
   
-  const signup = useCallback((data,avatar) => {
+  const signup = useCallback(async(data,avatar) => {
     setLoading(true);
     //ローディングアイコンをtrueに
-    axios.post(signupURL,
+    await axios.post(signupURL,
       {
         user: {
           name: data.name,
@@ -45,7 +45,7 @@ export const useSignup = () => {
         showMessage({ title: `${response.data.errors}`, status: "error" });
       }
     }).catch((error) => {
-      console.log("registration error", error)
+      // console.log("registration error", error)
       showMessage({ title: "登録できませんでした", status: "error" });
       setLoading(false);
     })
