@@ -8,11 +8,11 @@ default: &default
 
 development:
   <<: *default
-  database: rails_react_docker_development
+  database: cooklog_development
 
 test:
   <<: *default
-  database: rails_react_docker_test
+  database: cooklog_test
 
 production:
   <<: *default
