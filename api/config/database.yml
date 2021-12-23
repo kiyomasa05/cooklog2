@@ -1,20 +1,26 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: root
+  password: password
+  host: db
 
 development:
-  adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: cooklog_development
-  pool: 5
-  username: kiyomasa
-  password: 51830890
-  host: localhost
+  <<: *default
+  database: rails_react_docker_development
 
 test:
+  <<: *default
+  database: rails_react_docker_test
+
+production:
+  <<: *default
+  database: <%= ENV['DB_DATABASE'] %>
   adapter: mysql2
-  encoding: utf8
-  reconnect: false
-  database: cooklog_test
-  pool: 5
-  username: kiyomasa
-  password: 51830890
-  host: localhost
+  encoding: utf8mb4
+  charset: utf8mb4
+  collation: utf8mb4_general_ci
+  host: <%= ENV['DB_HOST'] %>
+  username: <%= ENV['DB_USERNAME'] %>
+  password: <%= ENV['DB_PASSWORD'] %>
