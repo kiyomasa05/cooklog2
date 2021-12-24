@@ -5,11 +5,9 @@ import {
   WrapItem,
   Center,
   Heading,
+  Input
 } from "@chakra-ui/react";
 
-import { TextField } from "@material-ui/core"
-// components
-//api
 import NoImage from '../images/no-image.png'
 
 import { useGetRecipe } from '../hooks/useGetRecipe'
@@ -78,12 +76,9 @@ export const Search = memo(() => {
       <Heading as="h2" size="lg" mt={24} textAlign={['center']}>レシピ検索（タイトル検索）</Heading>
 
       <Center m={"16"}>
-        <TextField
-          fullWidth
-          id="field"
-          color="secondary"
-          variant="outlined"
-          label="検索キー"
+        <Input
+          placeholder='検索'
+          size='lg'
           onChange={(e) => setKeyword(e.target.value)}
           onClick={() => setShowLists(true)}
         />

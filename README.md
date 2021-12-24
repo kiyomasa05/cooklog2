@@ -1,24 +1,19 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+開発中
 
-Things you may want to cover:
+## local での起動方法
 
-* Ruby version
+作業ディレクトリ(cooklog)で
 
-* System dependencies
+`docker-compose build `を実行し
+`docker-compose up -d`でコンテナを起動
+必要に応じて、`docker-compose logs`でエラーを確認
 
-* Configuration
+イメージを作り直した時は、
+`docker-compose run api rake rails db:create db:migate`
+でデータベースも作成する必要がある
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+コンテナが起動したら
+localhost:3000 で rails のトップページ
+localhost:3001 で react のアプリに接続できる
