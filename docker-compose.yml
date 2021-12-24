@@ -27,7 +27,7 @@ services:
     build: ./frontend
     command: yarn start
     ports:
-      - '3001:3001'
+      - '3001:3000'
     volumes:
       - ./frontend:/cooklog
     depends_on:
