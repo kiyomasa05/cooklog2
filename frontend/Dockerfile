@@ -1,3 +1,3 @@
-FROM node:17.2.0-alpine3.12
+FROM node:16-alpine
 RUN mkdir /cooklog
 WORKDIR /cooklog
