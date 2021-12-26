@@ -8,7 +8,7 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   # ローカル環境
   allow do
-    origins "http://localhost:3001"
+    origins "*"
 
     resource "*",
       headers: :any,
