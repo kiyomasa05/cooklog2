@@ -1,6 +1,6 @@
 FROM ruby:3.0
 
-ENV RAILS_ENV = production
+# ENV RAILS_ENV = production
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
