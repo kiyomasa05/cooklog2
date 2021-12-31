@@ -50,5 +50,6 @@ module Cooklog
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use ActionDispatch::ContentSecurityPolicy::Middleware
     config.time_zone = "Tokyo"
+    config.x.cors_allowed_origins=ENV.fetch('CORS_ALLOWED_ORIGINS','http://localhost3001')
   end
 end
