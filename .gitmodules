@@ -1,0 +1,6 @@
+[submodule "api"]
+	path = api
+	url = git@github.com:kiyomasa05/cooklog-api.git
+[submodule "cooklog-frontend"]
+	path = cooklog-frontend
+	url = git@github.com:kiyomasa05/cooklog-frontend.git
