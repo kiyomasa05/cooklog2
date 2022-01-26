@@ -17,7 +17,7 @@ services:
       args:
         WORKDIR: $WORKDIR
     environment:
-      API_DOMAIN: "localhost:$FRONT_PORT"
+      API_DOMAIN: "http://localhost:$FRONT_PORT"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - ./api:/cooklog
@@ -34,7 +34,7 @@ services:
       args:
         WORKDIR: $WORKDIR
         CONTAINER_PORT: $CONTAINER_PORT
-        REACT_APP_API_URL: "http:localhost:$API_PORT"
+        REACT_APP_API_URL: "http://localhost:$API_PORT"
     command: yarn start
     ports:
       - "$FRONT_PORT:$CONTAINER_PORT"
