@@ -1,9 +1,134 @@
 version: 2.1
 
 # DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
-# executors:
-#   api:
+executors:
+  api:
+    docker:
+      # - image: circleci/ruby:2.5.8-node
+      - image: cimg/ruby:3.1.0
+        environment:
+          RAILS_ENV: test
+          WORKDIR: app
+          CONTAINER_PORT: 3000
+          API_PORT: 3000
+          FRONT_PORT: 3001
+          # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: password
+          # BUNDLE_JOBS: 4
+          # BUNDLE_RETRY: 3
+          # BUNDLE_PATH: vendor/bundle
+          # BUNDLER_VERSION: 2.0.2
+          # GUEST_USER_SIGNIN_EMAIL: guest@example.com
+          # GUEST_USER_SIGNIN_PASSWORD: password
+      - image: circleci/mysql:8.0
+        environment:
+          MYSQL_ROOT_USER: root
+          MYSQL_ROOT_PASSWORD: password
+    working_directory: ~/cooklog/api
+
+commands:
+  install_bundler:
+    description: Bundler install
+    steps:
+      - run: gem install bundler -v 2.0.2
+jobs:
+  fetch_source_code:
+    executor:
+      name: api
+    steps:
+      - checkout
+
+  bundle_dependencies:
+    executor:
+      name: api
+    steps:
+      - install_bundler
+      - run:
+          name: Bundle Install Dependencies
+          working_directory: ~/cooklog/api
+          command: |
+            bundle install
+
+  rspec:
+    executor:
+      name: api
+    steps:
+      - run:
+          name: Watting stand up database
+          working_directory: api
+          command: |
+            dockerize -wait \
+            tcp://127.0.0.1:3306 -timeout 120s
+      # Database setup
+      - run: mv ./api/config/database.yml.ci ./api/config/database.yml
+      - install_bundler
+      - run:
+          command: |
+            bundle install
+          working_directory: ~/cooklog/api
+      - run:
+          name: Testing DB migration
+          working_directory: ~/cooklog/api
+          command: |
+            bundle exec rails db:create db:migrate
+      - run:
+          name: Run rspec
+          command: |
+            bundle exec rails db:create db:migrate
+          working_directory: ~/cooklog/api
+
+# 本番環境デプロイ
+# build_and_push_image_api:
 #     machine:
+#       image: ubuntu-1604:201903-01
+#     steps:
+#       - checkout
+#       - aws-ecr/build-and-push-image:
+#           account-url: AWS_ACCOUNT_URL
+#           repo: "rails_react_docker_api"
+#           region: AWS_REGION
+#           tag: "${CIRCLE_SHA1}"
+#           path: ./api/
+
+#   build_and_push_image_web:
+#     machine:
+#       image: ubuntu-1604:201903-01
+#     steps:
+#       - checkout
+#       - aws-ecr/build-and-push-image:
+#           account-url: AWS_ACCOUNT_URL
+#           repo: "rails_react_docker_web"
+#           region: AWS_REGION
+#           tag: "${CIRCLE_SHA1}"
+#           path: ./nginx/
+workflows:
+  build:
+    jobs:
+      - fetch_source_code
+      - bundle_dependencies:
+          requires:
+            - fetch_source_code
+      - rspec:
+          requires:
+            - bundle_dependencies
+      # - lint:
+      #     requires:
+      #       - fetch_source_code
+      # - build_and_push_image_api:
+      #     requires:
+      #       - rubocop
+      #       - rspec
+      #     filters:
+      #       branches:
+      #         only: master
+      # - build_and_push_image_web:
+      #     requires:
+      #       - rubocop
+      #       - rspec
+      #     filters:
+      #       branches:
+      #         only: master
 #     # docker-composeがインストール済みの仮想マシンをプル
 #       image: circleci/classic:edge
 #       #キャッシュをtrueにしDockerイメージのビルド時間を短縮
@@ -29,76 +154,76 @@ version: 2.1
 #       - run: echo outside the executor
 #1つ以上のjobsマスト
 # jobが1つだけの場合、job名は build でなければならない
-jobs:
-  build:
-    machine:
-      #     # docker-composeがインストール済みの仮想マシンをプル
-      image: circleci/classic:edge
-    environment:
-    #commons
-      WORKDIR: app
-      CONTAINER_PORT: 3000
-      API_PORT: 3000
-      FRONT_PORT: 3001
-      # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: password
-    # executor: api
-    # working_directory: /Users/kiyomasa/environment/cooklog
-    working_directory: ~/repo
-    steps:
-      - checkout
-      #checkout: CI環境上の working_directory の値の場所にGitリポジトリをコピーする
-      - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: "1.29.2"
-          command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
-      #ビルド＆コンテナ起動
-      - run:
-          name: docker-compose up
-          command: |
-            set -x
-            docker-compose up --build -d
-      #一度ストップさせないとうまくいかない
-      - run:
-          name: docker-compose stop
-          command: |
-            set -x
-            docker-compose stop
-      - run:
-          name: docker-compose up
-          command: |
-            set -x
-            docker-compose up -d
-      #rspecのテストを実行
-      - run:
-          name: Rspec
-          command: |
-            docker-compose run api bundle exec rspec
-      - run:
-          name: docker-compose down
-          command: docker-compose down
-# - build
-#     - install Docker
-#     - working_dir  ~/cooklog
-#     - コンテナ起動
-#     - test
-#     - down
-# - depry　①
-#     - working_dir ./api
-#     - run git push heroku master
-# - depry 　②
-#     - working_dir ./frontend
-#     - run git push heroku master
-# workflows:
-#   version: 2
-#   test_and_deploy:
-#     jobs:
-#       - build
-#       - test:
-#           requires:
-#             - build
+# jobs:
+#   build:
+#     machine:
+#       #     # docker-composeがインストール済みの仮想マシンをプル
+#       image: circleci/classic:edge
+#     environment:
+#     #commons
+#       WORKDIR: app
+#       CONTAINER_PORT: 3000
+#       API_PORT: 3000
+#       FRONT_PORT: 3001
+#       # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
+#       MYSQL_ROOT_USER: root
+#       MYSQL_ROOT_PASSWORD: password
+#     # executor: api
+#     # working_directory: /Users/kiyomasa/environment/cooklog
+#     working_directory: ~/repo
+#     steps:
+#       - checkout
+#       #checkout: CI環境上の working_directory の値の場所にGitリポジトリをコピーする
+#       - run:
+#           name: Install Docker Compose
+#           environment:
+#             COMPOSE_VERSION: "1.29.2"
+#           command: |
+#             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+#             chmod +x ~/docker-compose
+#             sudo mv ~/docker-compose /usr/local/bin/docker-compose
+#       #ビルド＆コンテナ起動
+#       - run:
+#           name: docker-compose up
+#           command: |
+#             set -x
+#             docker-compose up --build -d
+#       #一度ストップさせないとうまくいかない
+#       - run:
+#           name: docker-compose stop
+#           command: |
+#             set -x
+#             docker-compose stop
+#       - run:
+#           name: docker-compose up
+#           command: |
+#             set -x
+#             docker-compose up -d
+#       #rspecのテストを実行
+#       - run:
+#           name: Rspec
+#           command: |
+#             docker-compose run api bundle exec rspec
+#       - run:
+#           name: docker-compose down
+#           command: docker-compose down
+# # - build
+# #     - install Docker
+# #     - working_dir  ~/cooklog
+# #     - コンテナ起動
+# #     - test
+# #     - down
+# # - depry　①
+# #     - working_dir ./api
+# #     - run git push heroku master
+# # - depry 　②
+# #     - working_dir ./frontend
+# #     - run git push heroku master
+# # workflows:
+# #   version: 2
+# #   test_and_deploy:
+# #     jobs:
+# #       - build
+# #       - test:
+# #           requires:
+# #             - build
