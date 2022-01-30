@@ -11,7 +11,8 @@ jobs:
       API_PORT: 3000
       FRONT_PORT: 3001
     machine:
-      image: circleci/classic:edge
+      # image: circleci/classic:edge
+      image: cimg/base:edge-20.04
     steps:
       - checkout
       - run:
