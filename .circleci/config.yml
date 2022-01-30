@@ -39,16 +39,16 @@ jobs:
     steps:
       - checkout
 
-  bundle_dependencies:
-    executor:
-      name: api
-    steps:
-      # - install_bundler
-      - run:
-          name: Bundle Install Dependencies
-          working_directory: ~/cooklog/api
-          command: |
-            bundle install
+  # bundle_dependencies:
+  #   executor:
+  #     name: api
+  #   steps:
+  #     # - install_bundler
+  #     - run:
+  #         name: Bundle Install Dependencies
+  #         working_directory: ~/cooklog/api
+  #         command: |
+  #           bundle install
 
   rspec:
     executor:
