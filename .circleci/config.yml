@@ -2,14 +2,14 @@ version: 2.1
 
 # DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
 # executors:
-#   api: 
+#   api:
 #     machine:
 #     # docker-composeがインストール済みの仮想マシンをプル
 #       image: circleci/classic:edge
 #       #キャッシュをtrueにしDockerイメージのビルド時間を短縮
 #       #DOC:https://circleci.com/docs/ja/2.0/docker-layer-caching/
 #       docker_layer_caching: true
-#   frontend: 
+#   frontend:
 #     machine:
 #       image: circleci/classic:edge
 #       docker_layer_caching: true
@@ -31,35 +31,38 @@ version: 2.1
 # jobが1つだけの場合、job名は build でなければならない
 jobs:
   environment:
-      #commons
-        WORKDIR: app
-        CONTAINER_PORT: 3000
-        API_PORT: 3000
-        FRONT_PORT: 3001
-        # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
-        MYSQL_ROOT_USER: root
-        MYSQL_ROOT_PASSWORD: password
+    #commons
+    WORKDIR: app
+    CONTAINER_PORT: 3000
+    API_PORT: 3000
+    FRONT_PORT: 3001
+    # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
+    MYSQL_ROOT_USER: root
+    MYSQL_ROOT_PASSWORD: password
   build:
+    machine:
+      #     # docker-composeがインストール済みの仮想マシンをプル
+      image: circleci/classic:edge
     # executor: api
     # working_directory: /Users/kiyomasa/environment/cooklog
     steps:
       - checkout
-#checkout: CI環境上の working_directory の値の場所にGitリポジトリをコピーする
+      #checkout: CI環境上の working_directory の値の場所にGitリポジトリをコピーする
       - run:
           name: Install Docker Compose
           environment:
-            COMPOSE_VERSION: '2.2.3'
+            COMPOSE_VERSION: "2.2.3"
           command: |
             curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
-#ビルド＆コンテナ起動
+      #ビルド＆コンテナ起動
       - run:
           name: docker-compose up
           command: |
             set -x
             docker-compose up --build -d
-#一度ストップさせないとうまくいかない
+      #一度ストップさせないとうまくいかない
       - run:
           name: docker-compose stop
           command: |
@@ -70,11 +73,11 @@ jobs:
           command: |
             set -x
             docker-compose up -d
-#rspecのテストを実行
+      #rspecのテストを実行
       - run:
           name: Rspec
           command: |
-            docker-compose run api bundle exec rspec 
+            docker-compose run api bundle exec rspec
       - run:
           name: docker-compose down
           command: docker-compose down
