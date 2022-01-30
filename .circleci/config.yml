@@ -10,7 +10,7 @@ jobs:
       CONTAINER_PORT: 3000
       API_PORT: 3000
       FRONT_PORT: 3001
-    machine:
+    docker:
       # image: circleci/classic:edge
       image: cimg/base:2020.01
     steps:
@@ -20,8 +20,8 @@ jobs:
           command: docker-compose build
   # testするjob
   test:
-    machine:
-      image: circleci/classic:edge
+    docker:
+      image: cimg/base:2020.01
     steps:
       - checkout
       - run:
