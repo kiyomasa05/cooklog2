@@ -12,7 +12,7 @@ jobs:
       FRONT_PORT: 3001
     machine:
       # image: circleci/classic:edge
-      image: cimg/base:edge-20.04
+      image: cimg/base:2020.01
     steps:
       - checkout
       - run:
