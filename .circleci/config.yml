@@ -45,7 +45,7 @@ jobs:
     executor:
       name: api
     steps:
-      # - install_bundler
+      - install_bundler
       - run:
           name: Bundle Install Dependencies
           working_directory: ~/cooklog/api
