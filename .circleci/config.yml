@@ -1,0 +1,62 @@
+version: 2.1
+
+#1つ以上のjobsマスト
+# jobが1つだけの場合、job名は build でなければならない。各jobではCI環境設定などを行う
+jobs:
+  build:
+    machine: true
+    working_directory: ~/cooklog
+    steps:
+      - checkout
+#checkout: CI環境上の working_directory の値の場所にGitリポジトリをコピーする
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+#ビルド＆コンテナ起動
+      - run:
+          name: docker-compose up
+          command: |
+            set -x
+            docker-compose up --build -d
+#一度ストップさせないとうまくいかない
+      - run:
+          name: docker-compose stop
+          command: |
+            set -x
+            docker-compose stop
+      - run:
+          name: docker-compose up
+          command: |
+            set -x
+            docker-compose up -d
+#rspecのテストを実行
+      - run:
+          name: Rspec
+          command: |
+            docker-compose run api bundle exec rspec 
+      - run:
+          name: docker-compose down
+          command: docker-compose down
+# - build
+#     - install Docker
+#     - working_dir  ~/cooklog
+#     - コンテナ起動
+#     - test
+#     - down
+# - depry　①
+#     - working_dir ./api
+#     - run git push heroku master
+# - depry 　②
+#     - working_dir ./frontend
+#     - run git push heroku master
+# workflows:
+#   version: 2
+#   test_and_deploy:
+#     jobs:
+#       - build
+#       - test:
+#           requires:
+#             - build
