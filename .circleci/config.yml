@@ -20,7 +20,7 @@ executors:
           BUNDLE_JOBS: 4
           # BUNDLE_RETRY: 3
           # BUNDLE_PATH: vendor/bundle
-          BUNDLER_VERSION: 2.0.2
+          BUNDLER_VERSION: 2.2.3
           # GUEST_USER_SIGNIN_EMAIL: guest@example.com
           # GUEST_USER_SIGNIN_PASSWORD: password
       - image: circleci/mysql:8.0
@@ -33,7 +33,7 @@ commands:
   install_bundler:
     description: Bundler install
     steps:
-      - run: gem install bundler -v 2.0.2
+      - run: gem install bundler -v 2.2.3
 jobs:
   fetch_source_code:
     executor:
