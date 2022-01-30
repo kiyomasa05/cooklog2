@@ -1,136 +1,172 @@
 version: 2.1
 
-# DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
-executors:
-  api:
-    docker:
-      # - image: circleci/ruby:2.5.8-node
-      - image: cimg/ruby:3.1.0
-        environment:
-          RAILS_ENV: test
-          WORKDIR: app
-          CONTAINER_PORT: 3000
-          API_PORT: 3000
-          FRONT_PORT: 3001
-          # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
-          MYSQL_ROOT_USER: root
-          MYSQL_ROOT_PASSWORD: password
-          BUNDLE_RETRY: 3
-          BUNDLE_PATH: vendor/bundle
-          BUNDLE_JOBS: 4
-          # BUNDLE_RETRY: 3
-          # BUNDLE_PATH: vendor/bundle
-          BUNDLER_VERSION: 2.2.3
-          # GUEST_USER_SIGNIN_EMAIL: guest@example.com
-          # GUEST_USER_SIGNIN_PASSWORD: password
-      - image: circleci/mysql:8.0
-        environment:
-          MYSQL_ROOT_USER: root
-          MYSQL_ROOT_PASSWORD: password
-    working_directory: ~/cooklog/api
-
-commands:
-  install_bundler:
-    description: Bundler install
-    steps:
-      - run: gem install bundler -v 2.2.3
+# 書き直すお。
 jobs:
-  fetch_source_code:
-    executor:
-      name: api
+  build:
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
-
-  bundle_dependencies:
-    executor:
-      name: api
+      - run:
+          name: docker-compose build
+          command: docker-compose build
+  # testするjob
+  test:
+    machine:
+      image: circleci/classic:edge
     steps:
-      - install_bundler
+      - checkout
       - run:
-          name: Bundle Install Dependencies
-          working_directory: ~/cooklog/api
-          command: |
-            bundle install
+          name: docker-compose up -d
+          command: docker-compose up -d
+      - run: sleep 30
+      - run:
+          name: docker-compose run api rails db:create RAILS_ENV=test
+          command: docker-compose run api rails db:create RAILS_ENV=test
+      - run:
+          name: docker-compose run api rails db:migrate RAILS_ENV=test
+          command: docker-compose run api rails db:migrate RAILS_ENV=test
+      - run:
+          name: docker-compose run api bundle exec rspec spec
+          command: docker-compose run api bundle exec rspec spec
+      - run:
+          name: docker-compose down
+          command: docker-compose down
 
-  rspec:
-    executor:
-      name: api
-    steps:
-      - run:
-          name: Watting stand up database
-          working_directory: api
-          command: |
-            dockerize -wait \
-            tcp://127.0.0.1:3306 -timeout 120s
-      # Database setup
-      - run: mv ./api/config/database.yml.ci ./api/config/database.yml
-      - install_bundler
-      - run:
-          command: |
-            bundle install
-          working_directory: ~/cooklog/api
-      - run:
-          name: Testing DB migration
-          working_directory: ~/cooklog/api
-          command: |
-            bundle exec rails db:create db:migrate
-      - run:
-          name: Run rspec
-          command: |
-            bundle exec rails db:create db:migrate
-          working_directory: ~/cooklog/api
-
-# 本番環境デプロイ
-# build_and_push_image_api:
-#     machine:
-#       image: ubuntu-1604:201903-01
-#     steps:
-#       - checkout
-#       - aws-ecr/build-and-push-image:
-#           account-url: AWS_ACCOUNT_URL
-#           repo: "rails_react_docker_api"
-#           region: AWS_REGION
-#           tag: "${CIRCLE_SHA1}"
-#           path: ./api/
-
-#   build_and_push_image_web:
-#     machine:
-#       image: ubuntu-1604:201903-01
-#     steps:
-#       - checkout
-#       - aws-ecr/build-and-push-image:
-#           account-url: AWS_ACCOUNT_URL
-#           repo: "rails_react_docker_web"
-#           region: AWS_REGION
-#           tag: "${CIRCLE_SHA1}"
-#           path: ./nginx/
+# 順番を制御するworkflow
 workflows:
-  build:
+  build_and_test_and_deploy:
     jobs:
-      - fetch_source_code
-      - bundle_dependencies:
+      - build
+      - test:
           requires:
-            - fetch_source_code
-      - rspec:
-          requires:
-            - bundle_dependencies
-      # - lint:
-      #     requires:
-      #       - fetch_source_code
-      # - build_and_push_image_api:
-      #     requires:
-      #       - rubocop
-      #       - rspec
-      #     filters:
-      #       branches:
-      #         only: master
-      # - build_and_push_image_web:
-      #     requires:
-      #       - rubocop
-      #       - rspec
-      #     filters:
-      #       branches:
-      #         only: master
+            - build
+
+# DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
+# executors:
+#   api:
+#     docker:
+#       # - image: circleci/ruby:2.5.8-node
+#       - image: cimg/ruby:3.1.0
+#         environment:
+#           RAILS_ENV: test
+#           API_DOMAIN: "http://localhost:$FRONT_PORT"
+#           WORKDIR: app
+#           CONTAINER_PORT: 3000
+#           API_PORT: 3000
+#           FRONT_PORT: 3001
+#           BUNDLE_RETRY: 3
+#           BUNDLE_PATH: vendor/bundle
+#           BUNDLE_JOBS: 4
+#           BUNDLER_VERSION: 2.2.3
+#       - image: circleci/mysql:8.0
+#         environment:
+#           MYSQL_ROOT_USER: root
+#           MYSQL_ROOT_PASSWORD: password
+#     working_directory: ~/cooklog/api
+
+# commands:
+#   install_bundler:
+#     description: Bundler install
+#     steps:
+#       - run: gem install bundler
+# jobs:
+#   fetch_source_code:
+#     executor:
+#       name: api
+#     steps:
+#       - checkout
+
+#   bundle_dependencies:
+#     executor:
+#       name: api
+#     steps:
+#       - install_bundler
+#       - run:
+#           name: Bundle Install Dependencies
+#           working_directory: ~/cooklog/api
+#           command: |
+#             bundle install
+
+#   rspec:
+#     executor:
+#       name: api
+#     steps:
+#       - run:
+#           name: Watting stand up database
+#           working_directory: ~/cooklog/api
+#           command: |
+#             dockerize -wait \
+#             tcp://127.0.0.1:3306 -timeout 120s
+#       # Database setup
+#       # - run: mv ./api/config/database.yml.ci ./api/config/database.yml
+#       - install_bundler
+#       - run:
+#           command: |
+#             bundle install
+#           working_directory: ~/cooklog/api
+#       - run:
+#           name: Testing DB migration
+#           working_directory: ~/cooklog/api
+#           command: |
+#             bundle exec rails db:create db:migrate
+#       - run:
+#           name: Run rspec
+#           command: |
+#             bundle exec rails db:create db:migrate
+#           working_directory: ~/cooklog/api
+
+# # 本番環境デプロイ
+# # build_and_push_image_api:
+# #     machine:
+# #       image: ubuntu-1604:201903-01
+# #     steps:
+# #       - checkout
+# #       - aws-ecr/build-and-push-image:
+# #           account-url: AWS_ACCOUNT_URL
+# #           repo: "rails_react_docker_api"
+# #           region: AWS_REGION
+# #           tag: "${CIRCLE_SHA1}"
+# #           path: ./api/
+
+# #   build_and_push_image_web:
+# #     machine:
+# #       image: ubuntu-1604:201903-01
+# #     steps:
+# #       - checkout
+# #       - aws-ecr/build-and-push-image:
+# #           account-url: AWS_ACCOUNT_URL
+# #           repo: "rails_react_docker_web"
+# #           region: AWS_REGION
+# #           tag: "${CIRCLE_SHA1}"
+# #           path: ./nginx/
+# workflows:
+#   build:
+#     jobs:
+#       - fetch_source_code
+#       - bundle_dependencies:
+#           requires:
+#             - fetch_source_code
+#       - rspec:
+#           requires:
+#             - bundle_dependencies
+#       # - lint:
+#       #     requires:
+#       #       - fetch_source_code
+#       # - build_and_push_image_api:
+#       #     requires:
+#       #       - rubocop
+#       #       - rspec
+#       #     filters:
+#       #       branches:
+#       #         only: master
+#       # - build_and_push_image_web:
+#       #     requires:
+#       #       - rubocop
+#       #       - rspec
+#       #     filters:
+#       #       branches:
+#       #         only: master
 #     # docker-composeがインストール済みの仮想マシンをプル
 #       image: circleci/classic:edge
 #       #キャッシュをtrueにしDockerイメージのビルド時間を短縮
