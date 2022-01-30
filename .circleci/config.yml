@@ -3,6 +3,13 @@ version: 2.1
 # 書き直すお。
 jobs:
   build:
+    environment: 
+      RAILS_ENV: test
+      API_DOMAIN: "http://localhost:$FRONT_PORT"
+      WORKDIR: api
+      CONTAINER_PORT: 3000
+      API_PORT: 3000
+      FRONT_PORT: 3001
     machine:
       image: circleci/classic:edge
     steps:
