@@ -40,7 +40,7 @@ jobs:
         MYSQL_ROOT_USER: root
         MYSQL_ROOT_PASSWORD: password
   build:
-    executor: api
+    # executor: api
     # working_directory: /Users/kiyomasa/environment/cooklog
     steps:
       - checkout
