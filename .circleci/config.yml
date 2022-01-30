@@ -30,21 +30,22 @@ version: 2.1
 #1つ以上のjobsマスト
 # jobが1つだけの場合、job名は build でなければならない
 jobs:
-  environment:
-    #commons
-    WORKDIR: app
-    CONTAINER_PORT: 3000
-    API_PORT: 3000
-    FRONT_PORT: 3001
-    # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
-    MYSQL_ROOT_USER: root
-    MYSQL_ROOT_PASSWORD: password
   build:
     machine:
       #     # docker-composeがインストール済みの仮想マシンをプル
       image: circleci/classic:edge
+    environment:
+    #commons
+      WORKDIR: app
+      CONTAINER_PORT: 3000
+      API_PORT: 3000
+      FRONT_PORT: 3001
+      # db 本来ここで記載すべきではないが、ポートフォリオ なのでここで宣言してしまう
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
     # executor: api
     # working_directory: /Users/kiyomasa/environment/cooklog
+    working_directory: ~/repo
     steps:
       - checkout
       #checkout: CI環境上の working_directory の値の場所にGitリポジトリをコピーする
