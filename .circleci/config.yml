@@ -3,6 +3,8 @@ version: 2.1
 # 書き直すお。
 jobs:
   build:
+    docker:
+      - image: cimg/base:2020.01
     environment: 
       RAILS_ENV: test
       API_DOMAIN: "http://localhost:$FRONT_PORT"
@@ -10,35 +12,44 @@ jobs:
       CONTAINER_PORT: 3000
       API_PORT: 3000
       FRONT_PORT: 3001
-    docker:
-      - image: cimg/base:2020.01
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
     steps:
       - checkout
       - run:
           name: docker-compose build
-          command: docker-compose build
+          command: sudo docker-compose build
   # testするjob
   test:
     docker:
       - image: cimg/base:2020.01
+    environment: 
+      RAILS_ENV: test
+      API_DOMAIN: "http://localhost:$FRONT_PORT"
+      WORKDIR: api
+      CONTAINER_PORT: 3000
+      API_PORT: 3000
+      FRONT_PORT: 3001
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
     steps:
       - checkout
       - run:
           name: docker-compose up -d
-          command: docker-compose up -d
+          command: sudo docker-compose up -d
       # - run: sleep 30
       - run:
           name: docker-compose run api rails db:create RAILS_ENV=test
-          command: docker-compose run api rails db:create RAILS_ENV=test
+          command: sudo docker-compose run api rails db:create RAILS_ENV=test
       - run:
           name: docker-compose run api rails db:migrate RAILS_ENV=test
-          command: docker-compose run api rails db:migrate RAILS_ENV=test
+          command: sudo docker-compose run api rails db:migrate RAILS_ENV=test
       - run:
           name: docker-compose run api bundle exec rspec spec
-          command: docker-compose run api bundle exec rspec spec
+          command: sudo docker-compose run api bundle exec rspec spec
       - run:
           name: docker-compose down
-          command: docker-compose down
+          command: sudo docker-compose down
 
 # 順番を制御するworkflow
 workflows:
