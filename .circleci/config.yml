@@ -4,27 +4,21 @@ jobs:
   build:
     docker:
       - image: cimg/base:2020.01
-        environment:
-          RAILS_ENV: test
-          WORKDIR: ~/cooklog
-          CONTAINER_PORT: 3000
-          API_PORT: 3000
-          FRONT_PORT: 3001
     steps:
       - checkout
       - run:
           name: docker-compose build
           command: sudo docker-compose build
+          environment:
+            RAILS_ENV: test
+            WORKDIR: ~/cooklog
+            CONTAINER_PORT: 3000
+            API_PORT: 3000
+            FRONT_PORT: 3001
   # testするjob
   test:
     docker:
       - image: cimg/base:2020.01
-        environment:
-          RAILS_ENV: test
-          WORKDIR: ~/cooklog
-          CONTAINER_PORT: 3000
-          API_PORT: 3000
-          FRONT_PORT: 3001
     steps:
       - checkout
       - run:
