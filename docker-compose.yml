@@ -16,15 +16,18 @@ services:
     build:
       context: ./api
       args:
-        WORKDIR: $WORKDIR
+        # WORKDIR: $WORKDIR
+        WORKDIR: api
     environment:
-      API_DOMAIN: "http://localhost:$FRONT_PORT"
+      # API_DOMAIN: "http://localhost:$FRONT_PORT"
+      API_DOMAIN: "http://localhost:3001"
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
       - ./api:/cooklog
       - gem_data:/usr/local/bundle
     ports:
-      - "$API_PORT:$CONTAINER_PORT"
+      # - "$API_PORT:$CONTAINER_PORT"
+      - '3000:3000'
     depends_on:
       - db
     stdin_open: true
@@ -33,12 +36,16 @@ services:
     build: 
       context: ./frontend
       args:
-        WORKDIR: $WORKDIR
-        CONTAINER_PORT: $CONTAINER_PORT
-        REACT_APP_API_URL: "http://localhost:$API_PORT"
+        # WORKDIR: $WORKDIR
+        # CONTAINER_PORT: $CONTAINER_PORT
+        # REACT_APP_API_URL: "http://localhost:$API_PORT"
+        WORKDIR: api
+        CONTAINER_PORT: 3000
+        REACT_APP_API_URL: "http://localhost:3000"
     command: yarn start
     ports:
-      - "$FRONT_PORT:$CONTAINER_PORT"
+      # - "$FRONT_PORT:$CONTAINER_PORT"
+      - '3001:3000'
     volumes:
       - ./frontend:/cooklog
     depends_on:
