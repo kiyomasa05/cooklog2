@@ -1,4 +1,5 @@
 version: '3'
+# 3にしないとcircleciに怒られる
 services:
   db:
     image: mysql:8.0

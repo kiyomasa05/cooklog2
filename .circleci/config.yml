@@ -1,6 +1,18 @@
 version: 2.1
 
-# 書き直すお。
+# 順番を制御するworkflow
+workflows:
+  test-env-vars:
+    jobs:
+      - build:
+          context: my_portfolio_context
+  build_and_test_and_deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+            
 jobs:
   build:
     docker:
@@ -41,23 +53,7 @@ jobs:
           name: docker-compose down
           command: sudo docker-compose down
 
-# 順番を制御するworkflow
-workflows:
-  build_and_test_and_deploy:
-    jobs:
-      environment: 
-        RAILS_ENV: test
-        # API_DOMAIN: "http://localhost:$FRONT_PORT"
-        WORKDIR: api
-        CONTAINER_PORT: 3000
-        API_PORT: 3000
-        FRONT_PORT: 3001
-        # MYSQL_ROOT_USER: root
-        # MYSQL_ROOT_PASSWORD: password
-      - build
-      - test:
-          requires:
-            - build
+
 
 # DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
 # executors:
