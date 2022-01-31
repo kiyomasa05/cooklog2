@@ -6,14 +6,14 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     environment: 
-      RAILS_ENV: test
-      API_DOMAIN: "http://localhost:$FRONT_PORT"
-      WORKDIR: api
-      CONTAINER_PORT: 3000
-      API_PORT: 3000
-      FRONT_PORT: 3001
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: password
+      - RAILS_ENV: test
+      # API_DOMAIN: "http://localhost:$FRONT_PORT"
+      - WORKDIR: api
+      - CONTAINER_PORT: 3000
+      - API_PORT: 3000
+      - FRONT_PORT: 3001
+      # MYSQL_ROOT_USER: root
+      # MYSQL_ROOT_PASSWORD: password
     steps:
       - checkout
       - run:
@@ -24,14 +24,14 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     environment: 
-      RAILS_ENV: test
-      API_DOMAIN: "http://localhost:$FRONT_PORT"
-      WORKDIR: api
-      CONTAINER_PORT: 3000
-      API_PORT: 3000
-      FRONT_PORT: 3001
-      MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: password
+      - RAILS_ENV: test
+      # API_DOMAIN: "http://localhost:$FRONT_PORT"
+      - WORKDIR: ~/cooklog
+      - CONTAINER_PORT: 3000
+      - API_PORT: 3000
+      - FRONT_PORT: 3001
+      # MYSQL_ROOT_USER: root
+      # MYSQL_ROOT_PASSWORD: password
     steps:
       - checkout
       - run:
