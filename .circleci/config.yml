@@ -1,19 +1,15 @@
 version: 2.1
 
-# 順番を制御するworkflow
-workflows:
-  build_and_test_and_deploy:
-    jobs:
-      - build:
-          context: my_portfolio_context
-      - test:
-          context: my_portfolio_context
-          requires:
-            - build
 jobs:
   build:
     docker:
       - image: cimg/base:2020.01
+    environment:
+      RAILS_ENV: test
+      WORKDIR: ~/cooklog
+      CONTAINER_PORT: 3000
+      API_PORT: 3000
+      FRONT_PORT: 3001
     steps:
       - checkout
       - run:
@@ -23,14 +19,12 @@ jobs:
   test:
     docker:
       - image: cimg/base:2020.01
-    # environment: 
-    #   RAILS_ENV: test
-    #   WORKDIR: ~/cooklog
-    #   CONTAINER_PORT: 3000
-    #   API_PORT: 3000
-    #   FRONT_PORT: 3001
-      # MYSQL_ROOT_USER: root
-      # MYSQL_ROOT_PASSWORD: password
+    environment:
+      RAILS_ENV: test
+      WORKDIR: ~/cooklog
+      CONTAINER_PORT: 3000
+      API_PORT: 3000
+      FRONT_PORT: 3001
     steps:
       - checkout
       - run:
@@ -50,8 +44,16 @@ jobs:
           name: docker-compose down
           command: sudo docker-compose down
 
-
-
+# 順番を制御するworkflow
+workflows:
+  build_and_test_and_deploy:
+    jobs:
+      - build
+          # context: my_portfolio_context
+      - test:
+          # context: my_portfolio_context
+          requires:
+            - build
 # DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
 # executors:
 #   api:
