@@ -2,17 +2,14 @@ version: 2.1
 
 # 順番を制御するworkflow
 workflows:
-  test-env-vars:
+  build_and_test_and_deploy:
     jobs:
       - build:
           context: my_portfolio_context
-  build_and_test_and_deploy:
-    jobs:
-      - build
       - test:
+          context: my_portfolio_context
           requires:
             - build
-            
 jobs:
   build:
     docker:
