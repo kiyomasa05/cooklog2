@@ -6,21 +6,29 @@ jobs:
       - image: cimg/base:2020.01
     steps:
       - checkout
+      - setup_remote_docker
+      # - run:
+      #     name: login
+      #     command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
       - run:
           name: docker-compose build
-          command: sudo docker-compose build
-          environment:
-            RAILS_ENV: test
-            WORKDIR: ~/cooklog
-            CONTAINER_PORT: 3000
-            API_PORT: 3000
-            FRONT_PORT: 3001
+          # command: |
+          # sudo chown root:$(whoami) /run/docker-temp.sock 
+          # docker-compose build
+          command:  docker-compose build
+        # environment:
+        #     RAILS_ENV: test
+        #     WORKDIR: ~/cooklog
+        #     CONTAINER_PORT: '3000'
+        #     API_PORT: '3000'
+        #     FRONT_PORT: '3001'
   # testするjob
   test:
     docker:
       - image: cimg/base:2020.01
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: docker-compose up -d
           command: sudo docker-compose up -d
