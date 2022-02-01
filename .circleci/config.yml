@@ -1,73 +1,154 @@
 version: 2.1
 
+orbs: 
+  ruby: circleci/ruby@1.4.0
+  # heroku: circleci/heroku@1.2.3
+
 jobs:
   build:
     docker:
-      - image: cimg/base:2020.01
+      - image: cimg/ruby:3.1.0
+  #githubのコードからコピー
+    working_directory: ~/cooklog2/api
     steps:
-      - checkout
-      - setup_remote_docker
-      # - run:
-      #     name: login
-      #     command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-      - run:
-          name: docker-compose build
-          # command: |
-          # sudo chown root:$(whoami) /run/docker-temp.sock 
-          # docker-compose build
-          command:  docker-compose build
-        # environment:
-        #     RAILS_ENV: test
-        #     WORKDIR: ~/cooklog
-        #     CONTAINER_PORT: '3000'
-        #     API_PORT: '3000'
-        #     FRONT_PORT: '3001'
-  # testするjob
+      - checkout:
+          path: ~/cooklog2
+      #bundle install
+      - ruby/install-deps
+
   test:
     docker:
-      - image: cimg/base:2020.01
+      - image: cimg/ruby:3.1.0
+      - image: cimg/mysql:8.0
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: cooklog_test
+          MYSQL_USER: root
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      APP_DATABASE_HOST: "127.0.0.1"
+      RAILS_ENV: test
+    working_directory: ~/cooklog2/api
     steps:
-      - checkout
-      - setup_remote_docker
+      - checkout:
+          path: ~/cooklog2
+      - ruby/install-deps
       - run:
-          name: docker-compose up -d
-          command: sudo docker-compose up -d
-      # - run: sleep 30
-      - run:
-          name: docker-compose run api rails db:create RAILS_ENV=test
-          command: sudo docker-compose run api rails db:create RAILS_ENV=test
-      - run:
-          name: docker-compose run api rails db:migrate RAILS_ENV=test
-          command: sudo docker-compose run api rails db:migrate RAILS_ENV=test
-      - run:
-          name: docker-compose run api bundle exec rspec spec
-          command: sudo docker-compose run api bundle exec rspec spec
-      - run:
-          name: docker-compose down
-          command: sudo docker-compose down
+          name: Database setup
+          command: bundle exec rails db:migrate
+      # - run:
+      #     name: test
+      #     command: bundle exec rake test
+      - ruby/rspec-test
 
-# 順番を制御するworkflow
+  # deploy:
+  #   docker:
+  #     - image: circleci/ruby:2.7
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         version: 19.03.13
+  #     - heroku/install
+  #     - run:
+  #         name: heroku login
+  #         command: heroku container:login
+  #     - run:
+  #         name: push docker image
+  #         command: heroku container:push web -a $HEROKU_APP_NAME
+  #     - run:
+  #         name: release docker image
+  #         command: heroku container:release web -a $HEROKU_APP_NAME
+  #     - run:
+  #         name: database setup
+  #         command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
+
 workflows:
-  build_and_test_and_deploy:
+  version: 2
+  build_test_and_deploy:
     jobs:
       - build
-          # context: my_portfolio_context
       - test:
-          # context: my_portfolio_context
           requires:
             - build
-# DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
-# executors:
-#   api:
+      # - deploy:
+      #     requires:
+      #       - test
+      #     filters:
+      #       branches:
+      #         only: main
+
+#Docker-compose使用ver未決定
+# version: 2.1
+
+# jobs:
+#   build:
 #     docker:
-#       # - image: circleci/ruby:2.5.8-node
-#       - image: cimg/ruby:3.1.0
-#         environment:
-#           RAILS_ENV: test
-#           API_DOMAIN: "http://localhost:$FRONT_PORT"
-#           WORKDIR: app
-#           CONTAINER_PORT: 3000
-#           API_PORT: 3000
+#       - image: cimg/base:2020.01
+#     steps:
+#       - checkout
+#       - setup_remote_docker
+#       # - run:
+#       #     name: login
+#       #     command: echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+#       - run:
+#           name: docker-compose build
+#           # command: |
+#           # sudo chown root:$(whoami) /run/docker-temp.sock 
+#           # docker-compose build
+#           command:  docker-compose build
+#         # environment:
+#         #     RAILS_ENV: test
+#         #     WORKDIR: ~/cooklog
+#         #     CONTAINER_PORT: '3000'
+#         #     API_PORT: '3000'
+#         #     FRONT_PORT: '3001'
+#   # testするjob
+#   test:
+#     docker:
+#       - image: cimg/base:2020.01
+#     steps:
+#       - checkout
+#       - setup_remote_docker
+#       - run:
+#           name: docker-compose up -d
+#           command: sudo docker-compose up -d
+#       # - run: sleep 30
+#       - run:
+#           name: docker-compose run api rails db:create RAILS_ENV=test
+#           command: sudo docker-compose run api rails db:create RAILS_ENV=test
+#       - run:
+#           name: docker-compose run api rails db:migrate RAILS_ENV=test
+#           command: sudo docker-compose run api rails db:migrate RAILS_ENV=test
+#       - run:
+#           name: docker-compose run api bundle exec rspec spec
+#           command: sudo docker-compose run api bundle exec rspec spec
+#       - run:
+#           name: docker-compose down
+#           command: sudo docker-compose down
+
+# # 順番を制御するworkflow
+# workflows:
+#   build_and_test_and_deploy:
+#     jobs:
+#       - build
+#           # context: my_portfolio_context
+#       - test:
+#           # context: my_portfolio_context
+#           requires:
+#             - build
+# # DOC:https://qiita.com/tktcorporation/items/dcb621922cfb6fcb5ebe
+# # executors:
+# #   api:
+# #     docker:
+# #       # - image: circleci/ruby:2.5.8-node
+# #       - image: cimg/ruby:3.1.0
+# #         environment:
+# #           RAILS_ENV: test
+# #           API_DOMAIN: "http://localhost:$FRONT_PORT"
+# #           WORKDIR: app
+# #           CONTAINER_PORT: 3000
+# #           API_PORT: 3000
 #           FRONT_PORT: 3001
 #           BUNDLE_RETRY: 3
 #           BUNDLE_PATH: vendor/bundle
