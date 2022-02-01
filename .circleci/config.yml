@@ -9,10 +9,10 @@ jobs:
     docker:
       - image: cimg/ruby:3.1.0
   #githubのコードからコピー
-    working_directory: ~/cooklog2/api
+    working_directory: ~/cooklog2/api/
     steps:
       - checkout:
-          path: ~/cooklog2
+          path: ~/cooklog2/api
       #bundle install
       - ruby/install-deps
 
@@ -32,7 +32,7 @@ jobs:
     working_directory: ~/cooklog2/api
     steps:
       - checkout:
-          path: ~/cooklog2
+          path: ~/cooklog2/api
       - ruby/install-deps
       - run:
           name: Database setup
