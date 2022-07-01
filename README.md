@@ -2,14 +2,20 @@
 # ポートフォリオ紹介
 
 **制作したアプリケーションはこちら**
+<br>
 https://cooklog-frontend.herokuapp.com/
+
 (herokuなので初回起動は遅めです。開かなければ少し時間をおいてください)
 
 **github**
+<br>
 https://github.com/kiyomasa05/cooklog2
+
 （フロントとバックエンドの親フォルダ）
 
 **Qiita記事**
+<br>
+https://qiita.com/kiyomasa05/items/bfb08e9694ef4fbae5d2
 
 
 Cooklogというアプリで、自分の作ったレシピや、他人の作ったレシピを確認、お気に入り登録できます。
@@ -22,6 +28,7 @@ Cooklogというアプリで、自分の作ったレシピや、他人の作っ�
 とのことなので、UIにこだわり、自作のレシピとお気に入りのレシピが横並びで見れるアプリを作成しました。
 
 レスポンシブ対応もしています
+
 <img width="30%" alt="レスポンシブ" src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/a961974d-5b70-84be-ed63-158fb464aeea.png">
 
 # ポートフォリオに使用した技術
@@ -59,11 +66,14 @@ CI／CD
 ### システム構成図
 
 herokuを利用
+<br>
 
 ![名称未設定ファイル.jpg](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/e82faa2a-53a9-71a2-2245-177f9a4f6217.jpeg)
 
 
 ### ER図
+<br>
+
 ![Untitled Diagram-Page-1.drawio.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/fec33385-5b13-668a-99aa-8498541baaad.png)
 
 #### フロントエンド
@@ -128,7 +138,8 @@ herokuを利用
 
 # 機能紹介
 
-### 機能一覧　
+### 機能一覧
+
 
 | 機能名      | 説明 | 
 |:-----------|:------------|
@@ -139,47 +150,59 @@ herokuを利用
 
 ### 機能詳細
 
-##### トップページ
+### トップページ
 
 ログイン＆新規登録への遷移のみ
 ヘッダーのボタンはログインしているか、していないかで変わるようにしています
 
-<img width="400" alt="トップ" src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/1217bf6b-ffb5-b464-6bb0-258b46f9568b.png">
-<img width="400" alt="トップ" src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/631eb015-17fc-e245-893e-fb95eeafd507.png">
+<img width="400" alt="スクリーンショット 2022-06-26 9 23 26" src="https://user-images.githubusercontent.com/64081231/176798167-ad97f6c0-b389-419d-bde0-a38cdf6c1cf5.png">
+<img width="400" alt="スクリーンショット 2022-06-26 10 09 51" src="https://user-images.githubusercontent.com/64081231/176798174-a92bf6ad-650c-4560-bb34-1f70aa1cf141.png">
 
-##### 新規登録　ログインページ
+### 新規登録　ログインページ
 クライアント側のエラーメッセージはyupとreact-hook-formを使用
 アバター写真も設定可能にしています。
 
 新規登録
+<br>
 ![signup.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/1379d2de-4238-e95f-88ec-5854b309ba3c.gif)
 
 ログイン
+<br>
+
 ![ログイン.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/290609f2-a661-b936-f7be-6f627ff03353.gif)
 
 
-##### ユーザー編集
+### ユーザー編集
 パスワードは任意で変更できるように設定
+<br>
+
 ![useredit.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/ef464abe-56f0-bb67-418e-8104a182a74d.gif)
 
-##### お気に入り登録
+### お気に入り登録
 投稿レシピ一覧から好きなレシピをクリックするとモーダルにて詳細確認可能
 自分が投稿したレシピは編集ボタンが表示され、他人が投稿したレシピにはお気に入り登録ボタンを設置
 お気に入りにするとマイページで確認可能になります。
+<br>
+
 ![favo.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/a336f3d1-d901-4dd3-b67b-8b6d7bdbe69c.gif)
 
-##### レシピ投稿
+### レシピ投稿
 写真と材料、手順、時間などを入力
 時間のUIはスライダーとカウンターを採用
+<br>
+
 ![レシピ投稿.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/ae1a7919-8ddc-8684-d5ae-5720d5a360a7.gif)
 
 
-##### レシピ編集
+### レシピ編集
 （初期値の設定に苦労しました、、）
+<br>
 ![編集.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/2fc68d7a-0787-02eb-8119-586407b559c5.gif)
 
-#####  レシピ検索
+###  レシピ検索
 タイトル検索です。
+<br>
+
 ![検索.gif](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/1037238/242415b5-ad8d-ec16-e7a9-0f496e28408f.gif)
 
 
@@ -199,3 +222,4 @@ herokuを利用
 コンテナが起動したら
 localhost:3000 で rails のトップページ
 localhost:3001 で react のアプリに接続できます
+
